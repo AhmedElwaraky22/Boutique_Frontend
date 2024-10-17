@@ -1,0 +1,799 @@
+<div class="content-wrapper container-xxl p-0 mt-3">
+  <div class="content-body">
+    <!-- User List -->
+    <section class="users-list-wrapper">
+      <!-- users filter start -->
+      <div class="card">
+        <h5 class="card-header text-info display-4 font-weight-bold">
+          Feature And Feature value
+        </h5>
+        <div class="card-body"></div>
+      </div>
+
+      <div class="card">
+        <div class="row">
+          <div class="col-md-6 col-12">
+            <div class="d-flex justify-content-between align-items-center m-1">
+              <label class="d-flex align-items-center"
+                >Show
+                <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                  <option value="9999999999999999999999">All</option>
+                  <option value="2">2</option>
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                  <option value="250">250</option>
+                  <option value="500">500</option>
+                  <option value="1000">1000</option>
+                  <option value="2500">2500</option>
+                  <option value="5000">5000</option>
+                  <option value="10000">10000</option>
+                </select>
+                entries</label
+              >
+            </div>
+          </div>
+          <div
+            class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end"
+          >
+            <div
+              class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0"
+            >
+              <label class="d-flex align-items-center ml-1 ml-md-0"
+                >Search:<input
+                  [(ngModel)]="searchValue"
+                  name="searchValue"
+                  type="search"
+                  class="form-control ml-25"
+                  (keyup)="filterUpdate($event)"
+                  (search)="filterUpdate($event)"
+              /></label>
+            </div>
+          </div>
+        </div>
+        <ngx-datatable
+          [rows]="rows"
+          [rowHeight]="'auto'"
+          class="bootstrap core-bootstrap"
+          [limit]="selectedOption"
+          [columnMode]="ColumnMode.force"
+          [headerHeight]="50"
+          [footerHeight]="50"
+          [scrollbarH]="true"
+        >
+
+          <!-- Feature id  -->
+          <ngx-datatable-column name="ID" prop="feature_id" [width]="80">
+            <ng-template
+              let-id="value"
+              let-values="row.values"
+              let-isVerified="row.mobile_verified"
+              ngx-datatable-cell-template
+            >
+              <div
+                class="badge badge-pill badge-glow px-3"
+                [ngClass]="{
+                  'badge-danger': values.length == 0,
+                  'badge-primary': values.length >= 1
+                }"
+              >
+                {{ id }}
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+            <!-- Category English Name  -->
+            <ngx-datatable-column name="Category Name En" prop="category_en"[width]="200">
+              <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                <div class="d-flex align-items-center">
+                  <div class="mr-2">
+                    <ngx-avatar
+                      class="m-1"
+                      src="{{ row.category_image }}"
+                      name="{{ row.category_en }}"
+                      value="28%"
+                      size="40"
+                      [round]="true"
+                    >
+                    </ngx-avatar>
+                  </div>
+                  <div class="cell-line-height">
+                    <a class="font-medium-1 d-block" routerLink="/view-all-category"><span class="font-weight-bold">{{row.category_en}}</span></a >
+                  </div>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+
+          <!-- Category Arabic Name  -->
+          <ngx-datatable-column name="Category Name AR" prop="category_ar"[width]="200">
+            <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+              <div class="d-flex align-items-center">
+                <div class="mr-2">
+                  <ngx-avatar
+                    class="m-1"
+                    src="{{ row.category_image }}"
+                    name="{{ row.category_ar }}"
+                    value="28%"
+                    size="40"
+                    [round]="true"
+                  >
+                  </ngx-avatar>
+                </div>
+                <div class="cell-line-height">
+                  <a class="font-medium-1 d-block" routerLink="/view-all-category"><span class="font-weight-bold">{{row.category_ar}}</span></a >
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+           <!-- Subcategory  Name  -->
+          <!-- <ngx-datatable-column name="SubCategory Name"  prop="subCategory_title" [width]="200">
+            <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+              <div class="d-flex align-items-center">
+                <div class="mr-2">
+                  <ngx-avatar
+                    class="m-1 rounded-left"
+                    name="{{ row.subCategory_title }}"
+                    value="100%"
+                    size="50"
+                    [round]="false"
+                  >
+                  </ngx-avatar>
+                </div>
+                <div class="cell-line-height">
+                  <a class="font-medium-1 d-block" routerLink="/view-all-subcategory" ><span class="font-weight-bold">{{ row.subCategory_title }}</span></a>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column> -->
+
+            <!-- Feature English Name  -->
+          <ngx-datatable-column name="Feature Name en" prop="feature_name_en" [width]="200">
+            <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+              <div class="d-flex align-items-center">
+                <div class="mr-2">
+                  <ngx-avatar
+                    class="m-1 rounded-left"
+                    name="{{ row.feature_name_en}}"
+                    value="100%"
+                    size="50"
+                    [round]="false"
+                  >
+                  </ngx-avatar>
+                </div>
+                <div class="cell-line-height">
+                  <a class="font-medium-1 d-block" routerLink="/view-all-subcategory"><span class="font-weight-bold">{{row.feature_name_en}}</span></a>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+           <!-- Feature Arabic Name  -->
+          <ngx-datatable-column name="Feature Name Ar" prop="feature_name_ar" [width]="200">
+            <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+              <div class="d-flex align-items-center">
+                <div class="mr-2">
+                  <ngx-avatar
+                    class="m-1 rounded-left"
+                    name="{{ row.feature_name_ar}}"
+                    value="100%"
+                    size="50"
+                    [round]="false"
+                  >
+                  </ngx-avatar>
+                </div>
+                <div class="cell-line-height">
+                  <a class="font-medium-1 d-block" routerLink="/view-all-subcategory"><span class="font-weight-bold">{{row.feature_name_ar}}</span></a>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+          
+          <!-- Feature Values -->
+          <ngx-datatable-column name="feature Value" prop="values" [width]="200">
+            <ng-template let-row="row" let-features="row.values" ngx-datatable-cell-template>
+              <div class="product-color-options ">
+                <ul class="list-group-flush ">
+                  <ng-container *ngFor="let value of features">
+                    <div >
+                      <div ngbDropdown  [placement]="'right'">
+                        <li  class="my-3" id="dropdownMenuButton"ngbDropdownToggle >
+                          <div
+                            [style.background-color]="value.value_en"
+                            class="color-option  b-primary px-1 rounded-pill border-dark"
+                          >
+                            {{ value.value_en}} - {{ value.id}}
+                          </div>
+                        </li>
+
+                        <div
+                          ngbDropdownMenu
+                          aria-labelledby="dropdownMenuButton"
+                        >
+                          <a class="aa" ngbDropdownItem href="javascript:void(0)"
+                          (click)="EditFeatureValueModel(modelEditValue ,  value.id ,value.value_en , value.value_ar)"
+
+                            >Update</a
+                          >
+                          <a class="aaa" ngbDropdownItem href="javascript:void(0)"
+                            (click)="DeleteFeatureValue(value.id, value.value_en)"
+                            >Delete</a
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </ul>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <!-- Feature Actions --> 
+          <ngx-datatable-column name="Actions" [width]="100" [sortable]="false">
+            <ng-template ngx-datatable-cell-template let-row="row">
+              <div ngbDropdown container="body">
+                <button
+                  ngbDropdownToggle
+                  type="button"
+                  class="btn icon-btn btn-sm hide-arrow text-danger"
+                  rippleEffect
+                >
+                  <span
+                    [data-feather]="'more-vertical'"
+                    [class]="'cursor-pointer'"
+                  ></span>
+                </button>
+                <div ngbDropdownMenu>
+                  <!-- AddFeatureValueMethod -->
+                  <a
+                    ngbDropdownItem
+                    (click)="AddFeatureValueModel(modelAddValue, row.feature_id)"
+                    ><span
+                      [data-feather]="'plus'"
+                      [size]="16"
+                      [class]="'mr-50 text-primary'"
+                    ></span>
+                    Add Values</a
+                  >
+                  <!-- Add Copy Feature Value  -->
+                  <a
+                  ngbDropdownItem
+                  (click)="AddCopyFeatureValueModel(modelAddCopyValue,  row.category_id)"
+                  ><span
+                    [data-feather]="'plus'"
+                    [size]="16"
+                    [class]="'mr-50 text-warning'"
+                  ></span>
+                  Add Copy Values</a
+                >
+                  <!-- Edit Feature Method -->
+                  <a
+                    ngbDropdownItem
+                    (click)="EditFeatureModel(modelEditFeature , row.feature_id)">
+                    <span
+                      [data-feather]="'edit-2'"
+                      [size]="16"
+                      [class]="'mr-50 text-success'"
+                    ></span>
+                    Edit Feature
+                  </a>
+                  <!-- DeleteFeature -->
+                  <a
+                    ngbDropdownItem
+                    (click)="DeleteFeature(row.feature_id, row.feature_name_en)">
+                    <span
+                      [data-feather]="'x-octagon'"
+                      [size]="16"
+                      [class]="'mr-50 text-danger'"
+                    ></span>
+                    Delete
+                  </a>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
+    </section>
+  </div>
+</div>
+
+
+
+<!-- Add Copy Feature Value  -->
+<ng-template #modelAddCopyValue let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalCenterTitle">Add Copy Values</h5>
+    <button
+      id="clo"
+      type="button"
+      class="close"
+      (click)="modal.dismiss('Cross click')"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <form  autocomplete="off" id="fo" (ngSubmit)="AddCopyFeatureValue()" [formGroup]="addCopyValueForm">
+      <div *ngFor="let featureItems of featuresItems; let i = index" @heightIn>
+        <div class="row d-flex align-items-end">
+          <div class="col-10">
+            <div class="form-group my-1">
+              <label>Select Sub Category and value</label>
+              <select
+                formControlName="from"
+                [ngClass]="{
+                  'is-invalid':
+                    addCopyValueFormSubmitted && AddCopyFeatureValueControls.parent_id.errors
+                }"
+                id="user-role"
+                class="form-control form-control-lg mb-1"
+                [(ngModel)]="featureItems.from"
+              >
+                <ng-container *ngFor="let item of featureDate">
+                  <option [ngValue]="item.feature_id">
+                    {{ item.category_en }} - {{ item.feature_name_en }}-{{ item.category_id }}
+                  </option>
+                </ng-container>
+              </select>
+            
+              <div
+                *ngIf="addCopyValueFormSubmitted && AddCopyFeatureValueControls.parent_id.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="AddCopyFeatureValueControls.parent_id.errors.required">
+                  Category is required
+                </div>
+              </div>
+            </div> 
+
+            <div class="form-group col-12">
+                <label for="nameEn{{ i }}">Feature Name {{ i + 1 }} (English)</label>
+                <input
+                type="text"
+                min="2"
+                min="30"
+                required
+                class="form-control"
+                name="nameEn{{ i }}"
+                id="nameEn{{ i }}"
+                [(ngModel)]="featureItems.name_en"
+                [cpOutputFormat]="'hex'"
+                [cpPosition] ='auto'
+                formControlName="name_en"
+
+              />
+            </div>
+            <div class="form-group col-12">
+              <label for="nameAr{{ i }}">Feature Name {{ i + 1 }} (Arabic)</label>
+              <input
+              type="text"
+              min="2"
+              min="30"
+              required
+              class="form-control"
+              [(ngModel)]="featureItems.name_ar"
+              name="nameAr{{ i }}"
+              id="nameAr{{ i }}"
+              [cpOutputFormat]="'hex'"
+              [cpPosition] ='auto'
+              formControlName="name_ar"
+            />
+            </div>
+            <div class="col-md-2 col-12 mb-50">
+              <div class="form-group">
+                <button *ngIf="i != 0"
+                  class="btn btn-outline-danger text-nowrap px-1"
+                  (click)="deleteFeatureItem(i)"
+                  rippleEffect
+                >
+                  <i data-feather="x" class="mr-25"></i>
+                  <span>Delete</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <hr />
+        </div>
+      </div>
+      <!--/ Multi Select Size large -->
+    </form>
+
+    <div class="row">
+      <div class="col-12">
+        <button
+          class="btn btn-icon btn-primary"
+          type="button"
+          (click)="addFeatureItem()"
+          rippleEffect
+        >
+          <i data-feather="plus" class="mr-25"></i>
+          <span>Add another Value</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      [disabled]="loading"
+      type="submit"
+      class="btn btn-outline-success round ml-1"
+      (click)="AddCopyFeatureValue()"
+      rippleEffect
+    >
+      <span
+        *ngIf="loading"
+        class="spinner-border spinner-border-sm mr-1"
+      ></span>
+      Add All Values
+    </button>
+    <button
+      type="button"
+      class="btn btn-outline-danger round ml-1"
+      (click)="modal.close('Accept click')"
+      rippleEffect
+    >
+      Close
+    </button>
+  </div>
+</ng-template>
+
+
+<!-- Add Feature Value  --x-->
+<ng-template #modelAddValue let-modal>
+     <div class="modal-header">
+       <h5 class="modal-title" id="exampleModalCenterTitle">Add Values</h5>
+       <button
+         id="clo"
+         type="button"
+         class="close"
+         (click)="modal.dismiss('Cross click')"
+         aria-label="Close"
+       >
+         <span aria-hidden="true">&times;</span>
+       </button>
+     </div>
+     <div class="modal-body" tabindex="0" ngbAutofocus>
+       <form  autocomplete="off" id="fo" (ngSubmit)="AddNewFeatureValue()">
+         <div *ngFor="let item of items; let i = index" @heightIn>
+           <div class="row d-flex align-items-end">
+             <div class="col-10">
+               <div class="form-group">
+                 <label for="nameEn{{ i }}">Value {{ i + 1 }} (English)</label>
+                  <input
+                  type="text"
+                  min="2"
+                  min="30"
+                  required
+                  class="form-control"
+                  [(ngModel)]="item.value_en"
+                  name="nameEn{{ i }}"
+                  id="nameEn{{ i }}"
+                  [value]="item.value_en"
+                  [style.background]="item.value_en"
+                  [(colorPicker)]="item.value_en"
+                  [cpOutputFormat]="'hex'"
+                  [cpPosition] ='auto'
+                />
+               <div class="form-group">
+                 <label for="nameAr{{ i }}">Value {{ i + 1 }} (Arabic)</label>
+                  <input
+                  type="text"
+                  min="2"
+                  min="30"
+                  required
+                  class="form-control"
+                  [(ngModel)]="item.value_ar"
+                  name="nameAr{{ i }}"
+                  id="nameAr{{ i }}"
+                  [value]="item.value_ar"
+                  [style.background]="item.value_ar"
+                  [(colorPicker)]="item.value_ar"
+                  [cpOutputFormat]="'hex'"
+                  [cpPosition] ='auto'
+                />
+              </div>
+              
+              <!-- <div class="form-group">
+                <label for="nameAr{{ i }}">Value {{ i + 1 }} (Arabic)</label>
+                <input
+                  type="text"
+                  min="2"
+                  min="30"
+                  required
+                  class="form-control"
+                  [(ngModel)]="item.value_ar"
+                  name="nameAr{{ i }}"
+                  id="nameAr{{ i }}"
+                  [value]="item.value_ar"
+                  [style.background]="item.itemName"
+                  [(colorPicker)]="item.itemName"
+                  [cpOutputFormat]="'hex'"
+                  [cpPosition] ='auto'
+                />
+               </div> -->
+             </div>
+   
+             <div class="col-md-2 col-12 mb-50">
+               <div class="form-group">
+                 <button *ngIf="i != 0"
+                   class="btn btn-outline-danger text-nowrap px-1"
+                   (click)="deleteItem(i)"
+                   rippleEffect
+                 >
+                   <i data-feather="x" class="mr-25"></i>
+                   <span>Delete</span>
+                 </button>
+               </div>
+             </div>
+
+           </div>
+           <hr />
+         </div>
+         </div>
+         <!--/ Multi Select Size large -->
+       </form>
+   
+       <div class="row">
+         <div class="col-12">
+           <button
+             class="btn btn-icon btn-primary"
+             type="button"
+             (click)="addItem()"
+             rippleEffect
+           >
+             <i data-feather="plus" class="mr-25"></i>
+             <span>Add another Value</span>
+           </button>
+         </div>
+       </div>
+     </div>
+     
+     <div class="modal-footer">
+       <button
+         [disabled]="loading"
+         type="submit"
+         class="btn btn-outline-success round ml-1"
+         (click)="AddNewFeatureValue()"
+         rippleEffect
+       >
+         <span
+           *ngIf="loading"
+           class="spinner-border spinner-border-sm mr-1"
+         ></span>
+         Add All Values
+       </button>
+       <button
+         type="button"
+         class="btn btn-outline-danger round ml-1"
+         (click)="modal.close('Accept click')"
+         rippleEffect
+       >
+         Close
+       </button>
+     </div>
+</ng-template>
+
+
+<!-- Edit Feature Value --x-->
+<ng-template #modelEditValue let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalCenterTitle">Edit Values</h5>
+    <button
+      id="clo"
+      type="button"
+      class="close"
+      (click)="modal.dismiss('Cross click')"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <form  autocomplete="off" id="fo" (ngSubmit)="EditFeatureValue()">
+      <div *ngFor="let item of items; let i = index" @heightIn>
+        <div class="row d-flex align-items-end">
+          <div class="col-10">
+            <div class="form-group">
+              <label for="nameEn{{ i }}">Value {{ i + 1 }} (English)</label>
+              <input
+              type="text"
+              min="2"
+              min="30"
+              required
+              class="form-control"
+              [(ngModel)]="item.value_en"
+              name="nameAr{{ i }}"
+              id="nameAr{{ i }}"
+              [value]="item.value_en"
+              [style.background]="item.value_en"
+              [(colorPicker)]="item.value_en"
+              [cpOutputFormat]="'hex'"
+              [cpPosition] ='auto'
+            />
+            <div class="form-group">
+              <label for="nameAr{{ i }}">Value {{ i + 1 }} (Arabic)</label>
+               <input
+               type="text"
+               min="2"
+               min="30"
+               required
+               class="form-control"
+               [(ngModel)]="item.value_ar"
+               name="nameAr{{ i }}"
+               id="nameAr{{ i }}"
+               [value]="item.value_ar"
+               [style.background]="item.value_ar"
+               [(colorPicker)]="item.value_ar"
+               [cpOutputFormat]="'hex'"
+               [cpPosition] ='auto'
+             />
+           </div>
+           
+           <!-- <div class="form-group">
+             <label for="nameAr{{ i }}">Value {{ i + 1 }} (Arabic)</label>
+             <input
+               type="text"
+               min="2"
+               min="30"
+               required
+               class="form-control"
+               [(ngModel)]="item.value_ar"
+               name="nameAr{{ i }}"
+               id="nameAr{{ i }}"
+               [value]="item.value_ar"
+               [style.background]="item.itemName"
+               [(colorPicker)]="item.itemName"
+               [cpOutputFormat]="'hex'"
+               [cpPosition] ='auto'
+             />
+            </div> -->
+          </div>
+
+          <div class="col-md-2 col-12 mb-50">
+            <div class="form-group">
+              <button *ngIf="i != 0"
+                class="btn btn-outline-danger text-nowrap px-1"
+                (click)="deleteItem(i)"
+                rippleEffect
+              >
+                <i data-feather="x" class="mr-25"></i>
+                <span>Delete</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+        <hr />
+      </div>
+      </div>
+      <!--/ Multi Select Size large -->
+    </form>
+
+    <div class="row">
+      <div class="col-12">
+        <button
+          class="btn btn-icon btn-primary"
+          type="button"
+          (click)="addItem()"
+          rippleEffect
+        >
+          <i data-feather="plus" class="mr-25"></i>
+          <span>Edit Value</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      [disabled]="loading"
+      type="submit"
+      class="btn btn-outline-success round ml-1"
+      (click)="EditFeatureValue()"
+      rippleEffect
+    >
+      <span
+        *ngIf="loading"
+        class="spinner-border spinner-border-sm mr-1"
+      ></span>
+      Add All Values
+    </button>
+    <button
+      type="button"
+      class="btn btn-outline-danger round ml-1"
+      (click)="modal.close('Accept click')"
+      rippleEffect
+    >
+      Close
+    </button>
+  </div>
+</ng-template>
+
+
+<!-- Update Feature Name  --x-->
+<ng-template #modelEditFeature let-modal>
+     <div class="modal-header ">
+       <h5 class="modal-title " id="exampleModalCenterTitle">Update Feature Name</h5>
+       <button
+         id="clo"
+         type="button"
+         class="close"
+         (click)="modal.dismiss('Cross click')"
+         aria-label="Close"
+       >
+         <span aria-hidden="true">&times;</span>
+       </button>
+     </div>
+     <div class="modal-body" tabindex="0" ngbAutofocus>
+       <div autocomplete="off" >
+           <div class="row d-flex align-items-end">
+             <div class="col-12">
+               <div class="form-group">
+                <label>Feature Name (English)</label>
+                <input
+                  type="text"
+                  min="2"
+                  min="30"
+                  required
+                  class="form-control"
+                  [(ngModel)]="name_en"
+                  [value]="name_en"
+                  [style.background]="name_en" 
+                  [(colorPicker)]="name_en"
+                  [cpOutputFormat]="'hex'"  
+                />
+                
+                <!-- Input for Arabic Name -->
+                <label>Feature Name (Arabic)</label>
+                <input
+                  type="text"
+                  min="2"
+                  min="30"
+                  required
+                  class="form-control"
+                  [(ngModel)]="name_ar" 
+                  [value]="name_ar"
+                  [style.background]="name_ar"
+                  [(colorPicker)]="name_ar" 
+                  [cpOutputFormat]="'hex'"  
+                />
+               </div>
+             </div>
+   
+      
+           </div>
+   
+         <!--/ Multi Select Size large -->   
+       </div>
+   
+  
+     </div>
+     <div class="modal-footer">
+       <button
+         [disabled]="loading"
+         type="submit"
+         class="btn btn-outline-warning round ml-1"
+         (click)="EditFeatureName()"
+         rippleEffect
+       >
+         <span
+           *ngIf="loading"
+           class="spinner-border spinner-border-sm mr-1"
+         ></span>
+        Update Value
+       </button>
+       <button
+         type="button"
+         class="btn btn-outline-danger round ml-1"
+         (click)="modal.close('Accept click')"
+         rippleEffect
+       >
+         Close
+       </button>
+     </div>
+</ng-template>
+   
+   

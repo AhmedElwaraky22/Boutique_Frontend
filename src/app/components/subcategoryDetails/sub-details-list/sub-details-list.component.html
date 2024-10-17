@@ -1,0 +1,856 @@
+<div class="content-wrapper container-xxl p-0 mt-3">
+    <div class="content-body">
+      <!-- User List -->
+      <section class="users-list-wrapper">
+        <!-- users filter start -->
+        <div class="card">
+          <h5 class="card-header font-weight-bold text-primary display-4">
+            Second Sub Category
+          </h5>
+          <div class="card-body"></div>
+        </div>
+        <!-- users filter end -->
+  
+        <div class="card">
+          <div class="row ">
+            <div class="col-md-6 col-12">
+              <div class="d-flex justify-content-between align-items-center m-1">
+                <label class="d-flex align-items-center"
+                  >Show
+                  <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                    <option value="9999999999999999999999">All</option>
+                    <option value="2">2</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="250">250</option>
+                    <option value="500">500</option>
+                    <option value="500">1000</option>
+                    <option value="500">2500</option>
+                    <option value="500">5000</option>
+                    <option value="500">10000</option>
+                  </select>
+                  entries</label
+                >
+              </div>
+            </div>
+            <div
+              class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end"
+            >
+              <div
+                class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0"
+              >
+                <label class="d-flex align-items-center ml-1 ml-md-0"
+                  >Search:<input
+                    [(ngModel)]="searchValue"
+                    name="searchValue"
+                    type="search"
+                    class="form-control ml-25"
+                    (keyup)="filterUpdate($event)"
+                    (search)="filterUpdate($event)"
+                /></label>
+                <button
+                [disabled]="!loadAddSub"
+                  (click)="modalOpenVC(modalVC)"
+                  class="btn btn-primary ml-3"
+                  rippleEffect
+                >
+                  <span
+                  *ngIf="!loadAddSub"
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                  <span  
+                  *ngIf="!loadAddSub"
+                  class="ml-25 align-middle"
+                  >Loading...</span>
+                  <span         
+                  *ngIf="loadAddSub"
+                  class="d-sm-inline-block"
+                  >Add Sub Category</span>
+                </button>
+              </div>
+            </div>
+          </div>
+  
+          <ngx-datatable
+            [rows]="rows"
+            [rowHeight]="'auto'"
+            class="bootstrap core-bootstrap"
+            [limit]="selectedOption"
+            [columnMode]="ColumnMode.force"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [scrollbarH]="true"
+          >
+          <!-- Third Sub Category Id -->
+            <ngx-datatable-column name="ID" prop="id" [width]="100">
+              <ng-template
+                let-id="value"
+                let-isDeleted="row.isDeleted"
+                let-isVerified="row.verified"
+                ngx-datatable-cell-template
+              >
+                <div class="badge badge-pill badge-glow px-3">
+                  {{ id }}
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+
+          <!--Second SubCategory English Name  -->
+          <ngx-datatable-column name="Second Sub Category Name En" prop="category_name_en" [width]="220">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <div class="d-flex align-items-center">
+                <div class="mr-2">
+                  <ngx-avatar
+                    class="m-1"
+                    src="{{ row.category_image}}"
+                    name="{{ row.category_name_en}}"
+                    value="28%"
+                    size="40"
+                    [round]="true">
+                  </ngx-avatar>
+                </div>
+                <div class="cell-line-height">
+                  <a class="font-medium-1 d-block">
+                    <span class="font-weight-bold">{{ row.category_name_en}}</span>
+                  </a>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+  
+          <!--Second SubCategory Arabic Name  -->
+            <ngx-datatable-column name="Second Sub Category Name Ar" prop="category_name_ar"  [width]="220">
+              <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                <div class="d-flex align-items-center">
+                  <div class="mr-2">
+                    <ngx-avatar
+                      class="m-1"
+                      src="{{ row.category_image}"
+                      name="{{ row.category_name_ar}} "
+                      value="28%"
+                      size="40"
+                      [round]="true">
+                    </ngx-avatar>
+                  </div>
+                  <div class="cell-line-height">
+                    <a class="font-medium-1 d-block"
+                      ><span class="font-weight-bold">{{ row.category_name_ar}}66</span></a
+                    >
+                  </div>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+  
+            <!--Third Subcategory English Name  -->
+            <ngx-datatable-column name="Third SubCategory Name En" prop="name_en"  [width]="220">
+              <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                <div class="d-flex align-items-center">
+                  <div class="mr-2">
+                    <ngx-avatar
+                      class="m-1"
+                      src="{{ row.image}}"
+                      name="{{ row.name_en}} "
+                      value="28%"
+                      size="40"
+                      [round]="true">
+                    </ngx-avatar>
+                  </div>
+                  <div class="cell-line-height">
+                   
+                    <a
+                      class="font-medium-1 d-block"
+                    >
+                      <span class="font-weight-bold">{{ row.name_en }}</span>
+                    </a>
+  
+                  </div>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+            
+            <!--Third Subcategory Arabic Name  -->
+            <ngx-datatable-column name="Third SubCategory Name Ar" prop="name_en"  [width]="220">
+              <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                <div class="d-flex align-items-center">
+                  <div class="mr-2">
+                    <ngx-avatar
+                      class="m-1"
+                      src="{{ row.image}}"
+                      name="{{ row.name_ar}} "
+                      value="27%"
+                      size="40"
+                      [round]="true">
+                    </ngx-avatar>
+                  </div>
+                  <div class="cell-line-height">
+                   
+                    <a
+                      class="font-medium-1 d-block"
+                    >
+                      <span class="font-weight-bold">{{ row.name_ar}}</span>
+                    </a>
+  
+                  </div>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+          
+            <!-- feature  -->
+            <ngx-datatable-column name="features"prop="features" [width]="200">
+              <ng-template let-row="row"   let-features="row.features "ngx-datatable-cell-template>
+                <div *ngFor="let item of features">
+                  <div class="row my-2">
+                    <i class="feather font-medium-3 mr-2"[ngClass]="{ 'icon-command  text-info ': item !== ''}"></i>
+                    {{ item.name }}
+                  </div>
+                  <div class="product-color-options">
+                    <ul class="list-unstyled mb-0">
+                      <ng-container *ngFor="let value of item.values">
+                        <li class="d-inline-block selected mx-2">
+                          <div
+                            [style.background-color]="value.value_en"
+                            class="color-option b-primary px-2 rounded-pill border-dark"
+                          >
+                            <div class=""></div>
+                            {{ value.value_en }}
+                          </div>
+                        </li>
+                      </ng-container>
+                    </ul>
+                  </div>
+  
+                  <hr class="border-danger rounded" />
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+  
+            <!-- Actions  --> 
+            <ngx-datatable-column name="Actions" [width]="100" [sortable]="false">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                <div ngbDropdown container="body">
+                  <button
+                    ngbDropdownToggle
+                    type="button"
+                    class="btn icon-btn btn-sm hide-arrow text-danger"
+                    rippleEffect
+                  >
+                    <span
+                      [data-feather]="'more-vertical'"
+                      [class]="'cursor-pointer'"
+                    ></span>
+                  </button>
+                  <div ngbDropdownMenu>
+                    <!-- Add Features -->
+                    <a
+                    ngbDropdownItem
+                    (click)="modalAddFeature(modalCreateFeature, row.id)"
+                  >
+                    <span
+                      [data-feather]="'file-plus'"
+                      [size]="16"
+                      [class]="'mr-50 text-warning'"
+                    ></span>
+                    Add Features
+                  </a>
+
+                   <!-- Add Copy Feature Value  -->
+                   <a
+                   ngbDropdownItem
+                   (click)="AddCopyFeatureValueModel(modelAddCopyValue,  row.id)"
+                   ><span
+                     [data-feather]="'plus'"
+                     [size]="16"
+                     [class]="'mr-50 text-warning'"
+                   ></span>
+                   Add Copy Values</a
+                   >
+                
+                    <a ngbDropdownItem
+                    (click)="modalOpenUpdateSubC(updataThirdModel , row.category_id ,row.id,  row.name_ar, row.name_en )"
+                    ><span
+  
+                        [data-feather]="'edit-2'"
+                        [size]="16"
+                        [class]="'mr-50 text-info'"
+                      ></span>
+                      Update Third Level
+                    </a>
+                    <a (click)="DeleteSubCategory(row.id, row.name_ar)" ngbDropdownItem
+                      ><span
+                        [data-feather]="'trash-2'"
+                        [size]="16"
+                        [class]="'mr-50 text-danger'"
+                      ></span>
+                      Delete
+                    </a>
+                  </div>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </section>
+    </div>
+  </div>
+  
+
+  <!-- Add SubCategory  --Stopped-->
+<ng-template #modalVC let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalCenterTitle">New Sub Category</h5>
+      <button
+        id="clo"
+        type="button"
+        class="close"
+        (click)="modal.dismiss('Cross click')"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+  
+      <form
+        id="fo"
+        [formGroup]="ReactiveOrderStatusForm"
+        (ngSubmit)="ReactiveUDFormOnSubmit()"
+      >
+        <div class="form-group my-1">
+          <label>Select Category</label>
+          <select
+            formControlName="parent_id"
+            [ngClass]="{
+              'is-invalid':
+              ReactiveOrderStatusFormSubmitted && ReactiveOSForm.parent_id.errors
+            }"
+            id="user-role"
+            class="form-control form-control-lg mb-1"
+          >
+            <ng-container *ngFor="let item of category">
+              <option [ngValue]="item.id">
+                {{ item.name_en }}
+              </option>
+            </ng-container>
+          </select>
+  
+          <div
+            *ngIf="ReactiveOrderStatusFormSubmitted && ReactiveOSForm.parent_id.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="ReactiveOSForm.parent_id.errors.required">
+              Category is required
+            </div>
+          </div>
+        </div>
+  
+        <!-- English Input  -->
+        <label>Sub Category Name En: </label>
+        <div class="form-group">
+          <input
+            formControlName="name_en"
+            [ngClass]="{
+              'is-invalid':
+                ReactiveOrderStatusFormSubmitted && ReactiveOSForm.name_en.errors
+            }"
+            type="text"
+            placeholder="Enter English Name"
+            class="form-control"
+          />
+          <div
+            *ngIf="ReactiveOrderStatusFormSubmitted && ReactiveOSForm.name_en.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="ReactiveOSForm.name_en.errors.required">
+             Sub Category Name is required
+            </div>
+            <div *ngIf="ReactiveOSForm.name_en.errors.minlength">
+              Sub Category Name must be at least 2 character
+            </div>
+            <div *ngIf="ReactiveOSForm.name_en.errors.maxlength">
+              Sub Category Name must be at most 50 character
+            </div>
+            <!-- Another one for pattern  -->
+            <div *ngIf="ReactiveOSForm.name_en.errors?.pattern">
+              Sub Category Name must be in English.
+            </div>
+          </div>
+        </div>
+  
+        <!-- Arabic Inpput  -->
+        <label>Sub Category Name Ar: </label>
+        <div class="form-group">
+          <input
+            formControlName="name_ar"
+            [ngClass]="{
+              'is-invalid':
+                ReactiveOrderStatusFormSubmitted && ReactiveOSForm.name_ar.errors
+            }"
+            type="text"
+            placeholder="Enter Arabic Name "
+            class="form-control"
+          />
+          <div
+            *ngIf="ReactiveOrderStatusFormSubmitted && ReactiveOSForm.name_ar.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="ReactiveOSForm.name_ar.errors.required">
+             Sub Category Name is required
+            </div>
+            <div *ngIf="ReactiveOSForm.name_ar.errors.minlength">
+              Sub Category Name must be at least 2 character
+            </div>
+            <div *ngIf="ReactiveOSForm.name_ar.errors.maxlength">
+              Sub Category Name must be at most 50 character
+            </div>
+            <!-- Another one for pattern  -->
+            <div *ngIf="ReactiveOSForm.name_ar.errors?.pattern">
+              Sub Category Name must be in Arabic.
+            </div>
+            
+          </div>
+        </div>
+  
+        <!-- Image Input   -->
+        <div class="form-group mt-2">
+          <label for="imageUpload" class="btn col-12 text-center font-medium-5 text-uppercase file-drop-zone">
+            {{fileName || "No file uploaded yet."}}
+          </label>
+          <input
+            (change)="this.onFilechange($event)"
+            type="file"
+            id="imageUpload"
+            accept="image/*"
+            style="display: none"
+            formControlName="image"
+            [ngClass]="{
+              'is-invalid':
+                ReactiveOrderStatusFormSubmitted && ReactiveOSForm.image.errors
+            }"
+          />
+          <div
+            *ngIf="ReactiveOrderStatusFormSubmitted && ReactiveOSForm.image.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="ReactiveOSForm.image.errors">
+              Image is required
+            </div>
+          </div>
+        </div>
+  
+        <div class="form-group mt-2"></div>
+        <!--/ Multi Select Size large -->
+      </form>
+    </div>
+      <!-- Button For Action  -->
+    <div class="modal-footer">
+      <button 
+      type="button" 
+      class="btn btn-outline-success round ml-1"
+      (click)="ReactiveOSFormOnSubmit()"rippleEffect>
+        Add
+      </button>
+      <button
+        type="button"
+        class="btn btn-outline-danger round ml-1"
+        (click)="modal.close('Accept click')"
+        rippleEffect>
+        Close
+      </button>
+    </div>
+</ng-template>
+  
+<!-- Update THird SubCategory   -->
+<ng-template #updataThirdModel let-modal>
+    <div class="modal-header bg-light-warning">
+      <h5 class="modal-title" id="exampleModalCenterTitle">Update Third SubCategory</h5>
+      <button
+        id="clo"
+        type="button"
+        class="close"
+        (click)="modal.dismiss('Cross click')"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <form
+        id="fo"
+        [formGroup]="ReactiveOrderStatusForm"
+        (ngSubmit)="ReactiveUDFormOnSubmit()"
+      >
+         <!-- English Input  -->
+         <label>  Third SubCategory Name En: </label>
+         <div class="form-group">
+           <input
+             [(ngModel)]="UpdatedCategory_name_en"
+             formControlName="name_en"
+             [ngClass]="{
+               'is-invalid':
+                 ReactiveOrderStatusFormSubmitted && ReactiveOSForm.name_en.errors
+             }"
+             type="text"
+             placeholder="Enter English Name"
+             class="form-control"
+           />
+           <div
+             *ngIf="ReactiveOrderStatusFormSubmitted && ReactiveOSForm.name_en.errors"
+             class="invalid-feedback"
+           >
+             <div *ngIf="ReactiveOSForm.name_en.errors.required">
+               Sub Category Name is required
+             </div>
+             <div *ngIf="ReactiveOSForm.name_en.errors.minlength">
+               Sub Category Name must be at least 2 characters
+             </div>
+             <div *ngIf="ReactiveOSForm.name_en.errors.maxlength">
+               Sub Category Name must be at most 50 characters
+             </div>
+             <div *ngIf="ReactiveOSForm.name_en.errors?.pattern">
+               Sub Category Name must be in English.
+             </div>
+           </div>
+         </div>
+         
+   
+        <!-- Arabic Input -->
+  <label> Third  SubCategory Name Ar: </label>
+  <div class="form-group">
+    <input
+      [(ngModel)]="UpdatedCategory_name_ar"
+      formControlName="name_ar"
+      [ngClass]="{
+        'is-invalid':
+          ReactiveOrderStatusFormSubmitted && ReactiveOSForm.name_ar.errors
+      }"
+      type="text"
+      placeholder="Enter Arabic Name"
+      class="form-control"
+    />
+    <div
+      *ngIf="ReactiveOrderStatusFormSubmitted && ReactiveOSForm.name_ar.errors"
+      class="invalid-feedback"
+    >
+      <div *ngIf="ReactiveOSForm.name_ar.errors.required">
+        Sub Category Name is required
+      </div>
+      <div *ngIf="ReactiveOSForm.name_ar.errors.minlength">
+        Sub Category Name must be at least 2 characters
+      </div>
+      <div *ngIf="ReactiveOSForm.name_ar.errors.maxlength">
+        Sub Category Name must be at most 50 characters
+      </div>
+      <div *ngIf="ReactiveOSForm.name_ar.errors?.pattern">
+        Sub Category Name must be in Arabic.
+      </div>
+    </div>
+  </div>
+   
+        <!-- Image Input   -->
+       <div class="form-group mt-2">
+        <label for="imageUpload" class="btn col-12 text-center font-medium-5 text-uppercase file-drop-zone">
+          {{fileName || "No file uploaded yet."}}
+        </label>
+        <input
+          (change)="this.onFilechange($event)"
+          type="file"
+          id="imageUpload"
+          accept="image/*"
+          style="display: none"
+          formControlName="image"
+          [ngClass]="{
+            'is-invalid':
+              ReactiveOrderStatusFormSubmitted && ReactiveOSForm.image.errors
+          }"
+        />
+        <div
+          *ngIf="ReactiveOrderStatusFormSubmitted && ReactiveOSForm.image.errors"
+          class="invalid-feedback"
+        >
+          <div *ngIf="ReactiveOSForm.image.errors">
+            Image is required
+          </div>
+        </div>
+      </div>
+  
+        <div class="form-group mt-2"></div>
+  
+        <!--/ Multi Select Size large -->
+      </form>
+    </div>
+  
+    <!-- Update Button -->
+    <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-warning round ml-1"
+          (click)="UpdateThirdLevel()"
+          rippleEffect
+        >
+        <ng-container *ngIf="!isLoading">
+          Update
+        </ng-container>
+        <ng-container *ngIf="isLoading">
+          <i class="fa fa-spinner fa-spin"></i>
+          Updating...
+        </ng-container>
+      </button> 
+      <button
+        type="button"
+        class="btn btn-outline-danger round ml-1"
+        (click)="modal.close('Accept click')"
+        rippleEffect
+      >
+        Close 
+      </button>
+    </div>
+</ng-template>
+
+<!-- Add Feature  -->
+<ng-template #modalCreateFeature let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalCenterTitle">Add Feature</h5>
+    <button
+      id="clo"
+      type="button"
+      class="close"
+      (click)="modal.dismiss('Cross click')"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <form id="fo" (ngSubmit)="AddFeatureMethod(row.id)">
+      <div *ngFor="let item of items; let i = index" @heightIn>
+        <div class="row d-flex align-items-end">
+          <div class="col-10">
+            <div class="form-group">
+              <!-- English Input -->
+              <label for="itemName_en{{ i }}">Feature (English) {{ i + 1 }}</label>
+              <input
+                type="text"
+                required
+                class="form-control"
+                [(ngModel)]="item.itemName_en"
+                name="itemName_en{{ i }}"
+                id="itemName_en{{ i }}"
+              />
+      
+              <!-- Arabic Input -->
+              <label for="itemName_ar{{ i }}">Feature (Arabic) {{ i + 1 }}</label>
+              <input
+                type="text"
+                required
+                class="form-control"
+                [(ngModel)]="item.itemName_ar"
+                name="itemName_ar{{ i }}"
+                id="itemName_ar{{ i }}"
+              />
+            </div>
+          </div>
+      
+          <div class="col-md-2 col-12 mb-50">
+            <div class="form-group">
+              <button
+                *ngIf="i != 0"
+                class="btn btn-outline-danger text-nowrap px-1"
+                (click)="deleteItem(i)"
+                rippleEffect
+              >
+                <i data-feather="x" class="mr-25"></i>
+                <span>Delete</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <hr />
+      </div>
+      
+
+      <!--/ Multi Select Size large -->
+    </form>
+
+    <div class="row">
+      <div class="col-12">
+        <button
+          class="btn btn-icon btn-primary"
+          type="button"
+          (click)="addItem()"
+          rippleEffect
+        >
+          <i data-feather="plus" class="mr-25"></i>
+          <span>Add another feature</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      [disabled]="loading"
+      type="submit"
+      class="btn btn-outline-success round ml-1"
+      (click)="AddFeatureMethod()"
+      rippleEffect 
+    >
+      <span
+        *ngIf="loading"
+        class="spinner-border spinner-border-sm mr-1"
+      ></span>
+      Add All Feature
+    </button>   
+    <button
+      type="button"
+      class="btn btn-outline-danger round ml-1"
+      (click)="modal.close('Accept click')"
+      rippleEffect
+    >
+      Close
+    </button>
+  </div>
+</ng-template>
+
+  <!-- Add Copy Feature Value  -->
+<ng-template #modelAddCopyValue let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalCenterTitle">Add Copy Values</h5>
+    <button
+      id="clo"
+      type="button"
+      class="close"
+      (click)="modal.dismiss('Cross click')"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <form  autocomplete="off" id="fo" (ngSubmit)="AddCopyFeatureValue()" [formGroup]="addCopyValueForm">
+      <div *ngFor="let featureItems of featuresItems; let i = index" @heightIn>
+        <div class="row d-flex align-items-end">
+          <div class="col-10">
+            <div class="form-group my-1">
+              <label>Select Sub Category and value</label>
+              <select
+                formControlName="from"
+                [ngClass]="{
+                  'is-invalid':
+                    addCopyValueFormSubmitted && AddCopyFeatureValueControls.parent_id.errors
+                }"
+                id="user-role"
+                class="form-control form-control-lg mb-1"
+                [(ngModel)]="featureItems.from"
+              >
+                <ng-container *ngFor="let item of featureDate">
+                  <option [ngValue]="item.feature_id">
+                    {{ item.category_en }} - {{ item.feature_name_en }}
+                  </option>
+                </ng-container>
+              </select>
+            
+              <div
+                *ngIf="addCopyValueFormSubmitted && AddCopyFeatureValueControls.parent_id.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="AddCopyFeatureValueControls.parent_id.errors.required">
+                  Category is required
+                </div>
+              </div>
+            </div> 
+
+            <div class="form-group col-12">
+                <label for="nameEn{{ i }}">Feature Name {{ i + 1 }} (English)</label>
+                <input
+                type="text"
+                min="2"
+                min="30"
+                required
+                class="form-control"
+                name="nameEn{{ i }}"
+                id="nameEn{{ i }}"
+                [(ngModel)]="featureItems.name_en"
+                [cpOutputFormat]="'hex'"
+                [cpPosition] ='auto'
+                formControlName="name_en"
+
+              />
+            </div>
+            <div class="form-group col-12">
+              <label for="nameAr{{ i }}">Feature Name {{ i + 1 }} (Arabic)</label>
+              <input
+              type="text"
+              min="2"
+              min="30"
+              required
+              class="form-control"
+              [(ngModel)]="featureItems.name_ar"
+              name="nameAr{{ i }}"
+              id="nameAr{{ i }}"
+              [cpOutputFormat]="'hex'"
+              [cpPosition] ='auto'
+              formControlName="name_ar"
+            />
+            </div>
+            <div class="col-md-2 col-12 mb-50">
+              <div class="form-group">
+                <button *ngIf="i != 0"
+                  class="btn btn-outline-danger text-nowrap px-1"
+                  (click)="deleteFeatureItem(i)"
+                  rippleEffect
+                >
+                  <i data-feather="x" class="mr-25"></i>
+                  <span>Delete</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <hr />
+        </div>
+      </div>
+      <!--/ Multi Select Size large -->
+    </form>
+
+    <div class="row">
+      <div class="col-12">
+        <button
+          class="btn btn-icon btn-primary"
+          type="button"
+          (click)="addFeatureItem()"
+          rippleEffect
+        >
+          <i data-feather="plus" class="mr-25"></i>
+          <span>Add another Value</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      [disabled]="loading"
+      type="submit"
+      class="btn btn-outline-success round ml-1"
+      (click)="AddCopyFeatureValue()"
+      rippleEffect
+    >
+      <span
+        *ngIf="loading"
+        class="spinner-border spinner-border-sm mr-1"
+      ></span>
+      Add All Values
+    </button>
+    <button
+      type="button"
+      class="btn btn-outline-danger round ml-1"
+      (click)="modal.close('Accept click')"
+      rippleEffect
+    >
+      Close
+    </button>
+  </div>
+</ng-template>

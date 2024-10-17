@@ -1,0 +1,362 @@
+<div class="content-wrapper container-xxl p-0 mt-3">
+    <div class="content-body">
+      <!-- User List -->
+      <section class="users-list-wrapper">
+        <!-- users filter start -->
+        <div class="card">
+          <h5 class="card-header font-weight-bold text-info">All Tags</h5>
+          <div class="card-body">
+          
+          </div>
+        </div>
+        <!-- users filter end -->
+  
+        <div class="card">
+          <div class="row">
+            <div class="col-md-6 col-12">
+              <div class="d-flex justify-content-between align-items-center m-1">
+                <label class="d-flex align-items-center"
+                  >Show
+                  <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                    <option value="9999999999999999999999">All</option>
+                    <option value="2">2</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="250">250</option>
+                    <option value="500">500</option>
+                    <option value="500">1000</option>
+                    <option value="500">2500</option>
+                    <option value="500">5000</option>
+                    <option value="500">10000</option>
+                  </select>
+                  entries</label
+                >
+              </div>
+            </div>
+            <div
+              class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end"
+            >
+              <div
+                class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0"
+              >
+                <label class="d-flex align-items-center ml-1 ml-md-0"
+                  >Search:<input
+                    [(ngModel)]="searchValue"
+                    name="searchValue"
+                    type="search"
+                    class="form-control ml-25"
+                    (keyup)="filterUpdate($event)"
+                    (search)="filterUpdate($event)"
+                /></label>
+            
+
+                <button
+                [disabled]="!loadAddCat"
+                  (click)="modalOpenVC(modalVC)"
+                  class="btn btn-primary ml-3"
+                  rippleEffect
+                >
+                  <span
+                  *ngIf="!loadAddCat"
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                  <span        *ngIf="!loadAddCat"
+                  class="ml-25 align-middle">Loading...</span>
+                  <span         *ngIf="loadAddCat"
+                  class="d-sm-inline-block">Add New Tag</span>
+                </button>
+
+
+
+              </div>
+            </div>
+          </div>
+          <ngx-datatable
+            [rows]="rows"
+            [rowHeight]="'auto'"
+            class="bootstrap core-bootstrap"
+            [limit]="selectedOption"
+            [columnMode]="ColumnMode.force"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [scrollbarH]="true"
+          >
+            <ngx-datatable-column name="ID" prop="id" [width]="100">
+              <ng-template
+                let-id="value"
+                let-isDeleted="row.isDeleted"
+                let-isVerified="row.verified"
+                ngx-datatable-cell-template
+              >
+                <div
+                  class="badge badge-pill badge-glow px-3"
+           
+                >
+                  {{ id }}
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+  
+   
+  
+            <ngx-datatable-column name="Name" prop="name" [width]="220">
+              <ng-template
+                let-row="row"
+                let-name="value"
+                ngx-datatable-cell-template
+              >
+                <div class="d-flex align-items-center">
+                  <div class="mr-2">
+                    <ngx-avatar
+                      class="m-1"
+                    
+                      name="{{ row.name }}"
+                      value="28%"
+                      size="40"
+                      [round]="true"
+                    >
+                    </ngx-avatar>
+                  </div>
+                  <div class="cell-line-height">
+                    <a class="font-medium-1 d-block"
+                      ><span class="font-weight-bold">{{
+                        row.name
+                      }}</span></a
+                    >
+               
+                  </div>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+  
+            
+            <ngx-datatable-column name="Creation Time" prop="created_at
+            " [width]="200" >
+              <ng-template
+                let-row="row"
+               
+                ngx-datatable-cell-template
+              >
+              {{ row.created_at| date: "short" }}
+
+
+            
+              </ng-template>
+            </ngx-datatable-column>
+           
+        
+  
+   
+  
+           
+
+  
+  
+            <ngx-datatable-column name="Actions" [width]="100" [sortable]="false">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                <div ngbDropdown container="body">
+                  <button
+                    ngbDropdownToggle
+                    type="button"
+                    class="btn icon-btn btn-sm hide-arrow text-danger"
+                    rippleEffect
+                  >
+                    <span
+                      [data-feather]="'more-vertical'"
+                      [class]="'cursor-pointer'"
+                    ></span>
+                  </button>
+                  <div ngbDropdownMenu>
+                   
+                    
+                      
+                    <a (click)="modalUpdaTag(updateTagModel,row.id,row.name)"
+                      ngbDropdownItem
+                      ><span
+                        [data-feather]="'edit-2'"
+                        [size]="16"
+                        [class]="'mr-50 text-info'"
+                      ></span>
+                      Update </a>
+                  
+                  </div>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </section>
+    </div>
+  </div>
+  
+  
+  
+
+
+
+  
+  <ng-template #modalVC let-modal >
+     
+       <div class="modal-body" tabindex="0" ngbAutofocus>
+
+        <button
+        id="clo"
+        type="button"
+        class="close"
+        (click)="modal.dismiss('Cross click')"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+        <div class="wrapper bg-dark">
+          <div class="title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+            class="feather feather-tag"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+            <h2>Tags</h2>
+          </div>
+          <div class="content">
+            <p>Press enter or add a comma after each tag</p>
+           <ul class="list-inline" id="ui"><input  class="bg-dark text-dark" id="tt" type="text" spellcheck="false" (keyup)="addTag($event)"></ul>
+          </div>
+          <div class="details">
+            <p><span>{{  count }}</span> tags are remaining</p>
+            <button (click)="remove_all()">Remove All</button>
+            <button
+            type="button"
+            class="btn btn-outline-success round ml-1 bg-info"
+            (click)="add_tags()"
+            rippleEffect
+          >
+            Add 
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-danger round ml-1 bg-danger"
+            (click)="modal.close('Accept click')"
+            rippleEffect
+          >
+            Close
+          </button>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+     
+       </div>
+       
+     </ng-template>
+  
+
+
+   
+     <ng-template #updateTagModel let-modal>
+       <div class="modal-header ">
+         <h5 class="modal-title" id="exampleModalCenterTitle">
+           update Tag
+         </h5>
+         <button
+           id="clo"
+           type="button"
+           class="close"
+           (click)="modal.dismiss('Cross click')"
+           aria-label="Close"
+         >
+           <span aria-hidden="true">&times;</span>
+         </button>
+       </div>
+       <div class="modal-body" tabindex="0" ngbAutofocus>
+         <form
+           id="fo"
+           [formGroup]=" ReactiveUpdateCatForm"
+           (ngSubmit)=" ReactiveUDFormOnSubmit()"
+         >
+      
+
+         <label>TagName: </label>
+         <div class="form-group">
+           <input [(ngModel)] = "tag_name"
+             formControlName="name"
+             [ngClass]="{
+               'is-invalid':
+               ReactiveUpdateCatFormSubmitted &&   ReactiveUpdForm.name.errors
+             }"
+             type="text"
+             placeholder="Name "
+             class="form-control"
+           />
+           <div
+             *ngIf="ReactiveUpdateCatFormSubmitted&& ReactiveUpdForm.name.errors"
+             class="invalid-feedback"
+           >
+             <div *ngIf="  ReactiveUpdForm.name.errors.required">
+              Category Name is required
+             </div>
+             <div *ngIf="  ReactiveUpdForm.name.errors.minlength">
+              Category Name must be at least 2 character
+             </div>
+             <div *ngIf="  ReactiveUpdForm.name.errors.maxlength">
+              Category Name must be at most 50 character
+             </div>
+           </div>
+         </div>
+
+     
+        
+
+           
+         </form>
+       </div>
+       <div class="modal-footer">
+         <button
+           type="button"
+           class="btn btn-outline-success round ml-1"
+           (click)="ReactiveUpdateFormOnSubmit()"
+           rippleEffect
+         >
+           Add 
+         </button>
+         <button
+           type="button"
+           class="btn btn-outline-danger round ml-1"
+           (click)="modal.close('Accept click')"
+           rippleEffect
+         >
+           Close
+         </button>
+       </div>
+     </ng-template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  

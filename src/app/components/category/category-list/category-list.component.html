@@ -1,0 +1,601 @@
+<div class="content-wrapper container-xxl p-0 mt-3">
+     <div class="content-body">
+       <!-- User List -->
+       <section class="users-list-wrapper ">
+         <!-- users filter start -->
+         <div class="card ">
+           <h5 class="card-header font-weight-bold text-primary display-4">All Category</h5>
+           <div class="card-body">
+           
+           </div>
+         </div>
+         <!-- users filter end -->
+   
+         <div class="card">
+           <div class="row">
+             <div class="col-md-6 col-12">
+               <div class="d-flex justify-content-between align-items-center m-1">
+                 <label class="d-flex align-items-center">
+                    Show
+                   <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                     <option value="9999999999999999999999">All</option>
+                     <option value="2">2</option>
+                     <option value="10">10</option>
+                     <option value="25">25</option>
+                     <option value="50">50</option>
+                     <option value="100">100</option>
+                     <option value="250">250</option>
+                     <option value="500">500</option>
+                     <option value="500">1000</option>
+                     <option value="500">2500</option>
+                     <option value="500">5000</option>
+                     <option value="500">10000</option>
+                   </select>
+                   entries</label
+                 >
+               </div>
+             </div>
+             <div
+               class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end"
+             >
+               <div
+                 class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0"
+               >
+                 <label class="d-flex align-items-center ml-1 ml-md-0"
+                   >Search:<input
+                     [(ngModel)]="searchValue"
+                     name="searchValue"
+                     type="search"
+                     class="form-control ml-25"
+                     (keyup)="filterUpdate($event)"
+                     (search)="filterUpdate($event)"
+                 /></label>
+                
+                 <!-- <button
+                 (click)="addCategoryModel(modalAddCategory)"
+                 class="btn btn-primary ml-3" rippleEffect
+                 >
+                 
+                   <span class="d-sm-inline-block">Add New Category</span>
+                 </button> -->
+
+                 <button
+                 [disabled]="!loadAddCat"
+                   (click)="addCategoryModel(modalAddCategory)"
+                   class="btn btn-primary ml-3"
+                   rippleEffect>
+                   <span
+                   *ngIf="!loadAddCat"
+                     class="spinner-border spinner-border-sm"
+                     role="status"
+                     aria-hidden="true"
+                   ></span>
+                   <span        *ngIf="!loadAddCat"
+                   class="ml-25 align-middle">Loading...</span>
+                   <span         *ngIf="loadAddCat"
+                   class="d-sm-inline-block">Add New Category</span>
+                 </button>
+
+
+
+               </div>
+             </div>
+           </div>
+           
+           <ngx-datatable
+             [rows]="rows"
+             [rowHeight]="'auto'"
+             class="bootstrap core-bootstrap"
+             [limit]="selectedOption"
+             [columnMode]="ColumnMode.force"
+             [headerHeight]="50"
+             [footerHeight]="50"
+             [scrollbarH]="true"
+           >  
+            
+              <!--Category ID-->
+             <ngx-datatable-column name="ID" prop="id" [width]="100">
+               <ng-template
+                 let-id="value"
+                 let-isDeleted="row.isDeleted"
+                 let-isVerified="row.verified"
+                 ngx-datatable-cell-template
+               >
+                 <div
+                   class="badge badge-pill badge-glow px-3"
+                 >
+                   {{id}}
+                 </div>
+               </ng-template>
+             </ngx-datatable-column>
+   
+               <!--Category English Name  -->
+             <ngx-datatable-column name="Category Name En" prop="name" [width]="220">
+              <ng-template let-row="row" let-name="value"ngx-datatable-cell-template>
+                <div class="d-flex align-items-center"   [routerLink]="['/view-Category-datails']" (click)="navigateWithState(row.id)" >
+                  <div class="mr-2">
+                    <ngx-avatar class="m-1" src="{{ row.image }}" name="{{ row.name_en }}" value="28%"  size="40"
+                      [round]="true">
+                    </ngx-avatar>
+                  </div>
+                  <div class="cell-line-height">
+                    <a class="font-medium-1 d-block"><span class="font-weight-bold">{{ row.name_en }}</span></a>
+                  </div>
+                </div>
+              </ng-template>
+             </ngx-datatable-column>
+    
+             <!-- Category Arabic Name  -->
+             <ngx-datatable-column name="Category Name Ar" prop="name" [width]="220">
+              <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                <div class="d-flex align-items-center"  [routerLink]="['/view-Category-datails']" (click)="navigateWithState(row.id)" >
+                  <div class="mr-2">
+                    <ngx-avatar class="m-1" src="{{ row.image }}" name="{{ row.name_ar }}" value="28%" size="40" [round]="true">
+                    </ngx-avatar>
+                  </div>
+                  <div class="cell-line-height">
+                    <a class="font-medium-1 d-block">
+                      <span class="font-weight-bold">{{ row.name_ar }}</span>
+                    </a>
+                  </div>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+            
+           
+              <!--subcategory English Name  -->
+              <ngx-datatable-column name="SubCategories En" prop="subcategories" [width]="200">
+                <ng-template let-row="row" let-name="row.subcategories" ngx-datatable-cell-template>
+                 <div *ngFor="let item of row.subcategories">
+                   <div class="row"   [routerLink]="['/view-all-subcategory' ]">
+                     <i class="feather font-medium-3 mr-2"[ngClass]="{'icon-command  text-info ': item !== '' }"
+                     ></i>
+                     {{ item.name_en }}
+                   </div>
+                 </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+             <!--subcategory Arabic Name  -->
+             <ngx-datatable-column name="SubCategories Ar" prop="subcategories" [width]="200">
+               <ng-template let-row="row" let-name="row.subcategories" ngx-datatable-cell-template>
+                <div *ngFor="let item of row.subcategories">
+                  <div class="row" [routerLink]="['/view-all-subcategory' ]">
+                    <i class="feather font-medium-3 mr-2"[ngClass]="{'icon-command  text-info ': item !== '' }"></i>
+                    {{ item.name_ar}}
+                  </div>
+                </div>
+               </ng-template>
+             </ngx-datatable-column>
+
+                 <!--Category Actions-->
+             <ngx-datatable-column name="Actions" [width]="100" [sortable]="false">
+               <ng-template ngx-datatable-cell-template let-row="row">
+                 <div ngbDropdown container="body">
+                   <button
+                     ngbDropdownToggle
+                     type="button"
+                     class="btn icon-btn btn-sm hide-arrow text-danger"
+                     rippleEffect
+                   >
+                     <span
+                       [data-feather]="'more-vertical'"
+                       [class]="'cursor-pointer'"
+                     ></span>
+                   </button>
+                   <div ngbDropdownMenu>
+                     <a ngbDropdownItem
+                       ><span
+                         [data-feather]="'file-text'"
+                         [size]="16"
+                         [class]="'mr-50 text-info'"
+                       ></span>
+                       Details</a
+                     >
+                     <!-- <a
+                       ngbDropdownItem
+                       (click)="modalAddSubCategory(modalAddSubCat,row.id)"
+                       ><span
+                         [data-feather]="'plus-circle'"
+                         [size]="16"
+                         [class]="'mr-50 text-warning'"
+                       ></span>
+                       Add SubCategory</a> -->
+                       
+                     <a (click)="modalUpdateCategory(updateCategoryModel , row.id , row.name_en , row.name_en)"
+                       ngbDropdownItem
+                       ><span
+                         [data-feather]="'edit-2'"
+                         [size]="16"
+                         [class]="'mr-50 text-warning'"
+                       ></span>
+                       Update </a>
+                     <a
+                         (click)="DeleteCategory(row.id,row.name)"
+                       ngbDropdownItem
+                       ><span
+                         [data-feather]="'trash-2'"
+                         [size]="16"
+                         [class]="'mr-50 text-danger'"
+                       ></span>
+                       Delete </a>
+                   </div>
+                 </div>
+               </ng-template>
+             </ngx-datatable-column>
+           </ngx-datatable>
+         </div>
+       </section>
+     </div>
+   </div>
+   
+   
+   
+
+
+
+      <!-- Add New Category Model -->
+      <ng-template #modalAddCategory let-modal>
+        <div class="modal-header ">
+          <h5 class="modal-title" id="exampleModalCenterTitle">
+            New Category 
+          </h5>
+          <button
+            id="clo"
+            type="button"
+            class="close"
+            (click)="modal.dismiss('Cross click')"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" tabindex="0" ngbAutofocus>
+
+          <form
+          id="fo"
+          [formGroup]="CreateNewCategoryForm"
+          (ngSubmit)="CreateNewCategoryMethod()"
+          >
+                  <!-- English Input  -->
+        <label>Category Name (English): </label>
+        <div class="form-group">
+          <input
+            formControlName="name_en"
+            [ngClass]="{
+              'is-invalid':
+                CreateNewCategoryFormSubmitted && NewCategoryForm.name_en.errors
+            }"
+            type="text"
+            placeholder="Name (English)"
+            class="form-control"
+          />
+          <div
+            *ngIf="CreateNewCategoryFormSubmitted && NewCategoryForm.name_en.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="NewCategoryForm.name_en.errors.required">
+              Category Name (English) is required
+            </div>
+            <div *ngIf="NewCategoryForm.name_en.errors.minlength">
+              Category Name (English) must be at least 2 characters
+            </div>
+            <div *ngIf="NewCategoryForm.name_en.errors.maxlength">
+              Category Name (English) must be at most 50 characters
+            </div>
+          </div>
+        </div>
+
+        <!-- Arabic Input  -->
+        <label>Category Name (Arabic): </label>
+        <div class="form-group">
+          <input
+            formControlName="name_ar"
+            [ngClass]="{
+              'is-invalid':
+                CreateNewCategoryFormSubmitted && NewCategoryForm.name_ar.errors
+            }"
+            type="text"
+            placeholder="Name (Arabic)"
+            class="form-control"
+          />
+          <div
+            *ngIf="CreateNewCategoryFormSubmitted && NewCategoryForm.name_ar.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="NewCategoryForm.name_ar.errors.required">
+              Category Name (Arabic) is required
+            </div>
+            <div *ngIf="NewCategoryForm.name_ar.errors.minlength">
+              Category Name (Arabic) must be at least 2 characters
+            </div>
+            <div *ngIf="NewCategoryForm.name_ar.errors.maxlength">
+              Category Name (Arabic) must be at most 50 characters
+            </div>
+          </div>
+        </div>
+        <!-- Upload Photo  -->
+        <div class="form-group mt-2">
+          <label for="imageUpload" class="btn col-12 text-center font-medium-5 text-uppercase file-drop-zone">
+            {{fileName || "No file uploaded yet."}}
+          </label>
+          <input
+            (change)="this.onFilechange($event)"
+            type="file"
+            id="imageUpload"
+            accept="image/*"
+            style="display: none"
+            formControlName="image"
+            [ngClass]="{
+              'is-invalid':
+                CreateNewCategoryFormSubmitted && NewCategoryForm.image.errors
+            }"
+          />
+          <div
+            *ngIf="CreateNewCategoryFormSubmitted && NewCategoryForm.image.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="NewCategoryForm.image.errors">
+              Image is required
+            </div>
+          </div>
+        </div>
+        </form>
+        </div>
+        
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-success round ml-1"
+            (click)="CreateNewCategoryMethod()"
+            rippleEffect
+            [disabled]="CreateNewCategoryForm.invalid || isLoading">
+            <ng-container *ngIf="!isLoading">
+              Add
+            </ng-container>
+            <ng-container *ngIf="isLoading">
+              <i class="fa fa-spinner fa-spin"></i>
+              Adding...
+            </ng-container>
+          </button>
+
+
+
+          <button
+            type="button"
+            class="btn btn-outline-danger round ml-1"
+            (click)="modal.close('Accept click')"
+            rippleEffect
+          >
+            Close
+          </button>
+        </div>
+      </ng-template>
+   
+
+
+      <!-- update Category Model -->
+      <ng-template #updateCategoryModel let-modal>
+        <div class="modal-header ">
+          <h5 class="modal-title" id="exampleModalCenterTitle">
+          Update Category 
+          </h5>
+          <button
+            id="clo"
+            type="button"
+            class="close"
+            (click)="modal.dismiss('Cross click')"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" tabindex="0" ngbAutofocus>
+
+          <form
+          id="fo"
+          [formGroup]="UpdateCategoryForm"
+          (ngSubmit)="UpdateCategoryMethod()"
+          >
+                  <!-- English Input  -->
+        <label>Category Name (English): </label>
+        <div class="form-group">
+          <input
+          [(ngModel)]="UpdatedCategory_name_en"
+            formControlName="name_en"
+            [ngClass]="{
+              'is-invalid':
+                UpdateCategoryFormSubmitted  && UpdateCategory.name_en.errors
+            }"
+            type="text"
+            placeholder="Name (English)"
+            class="form-control"
+          />
+          <div
+            *ngIf="UpdateCategoryFormSubmitted  && UpdateCategory.name_en.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="UpdateCategory.name_en.errors.required">
+              Category Name (English) is required
+            </div>
+            <div *ngIf="UpdateCategory.name_en.errors.minlength">
+              Category Name (English) must be at least 2 characters
+            </div>
+            <div *ngIf="UpdateCategory.name_en.errors.maxlength">
+              Category Name (English) must be at most 50 characters
+            </div>
+          </div>
+        </div>
+
+        <!-- Arabic Input  -->
+        <label>Category Name (Arabic): </label>
+        <div class="form-group">
+          <input
+          [(ngModel)]="UpdatedCategory_name_ar"
+            formControlName="name_ar"
+            [ngClass]="{
+              'is-invalid':
+                UpdateCategoryFormSubmitted  && UpdateCategory.name_ar.errors
+            }"
+            type="text"
+            placeholder="Name (Arabic)"
+            class="form-control"
+          />
+          <div
+            *ngIf="UpdateCategoryFormSubmitted  && UpdateCategory.name_ar.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="UpdateCategory.name_ar.errors.required">
+              Category Name (Arabic) is required
+            </div>
+            <div *ngIf="UpdateCategory.name_ar.errors.minlength">
+              Category Name (Arabic) must be at least 2 characters
+            </div>
+            <div *ngIf="UpdateCategory.name_ar.errors.maxlength">
+              Category Name (Arabic) must be at most 50 characters
+            </div>
+          </div>
+        </div>
+        <!-- Upload Photo  -->
+        <div class="form-group mt-2">
+          <label for="imageUpload" class="btn col-12 text-center font-medium-5 text-uppercase file-drop-zone">
+            {{fileName || "No file uploaded yet."}}
+          </label>
+          <input
+            (change)="this.onFileupdate($event)"
+            type="file"
+            id="imageUpload"
+            accept="image/*"
+            style="display: none"
+            formControlName="image"
+            [ngClass]="{
+              'is-invalid':
+                UpdateCategoryFormSubmitted  && UpdateCategory.image.errors
+            }"
+          />
+          <div
+            *ngIf="UpdateCategoryFormSubmitted  && UpdateCategory.image.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="UpdateCategory.image.errors">
+              Image is required
+            </div>
+          </div>
+        </div>
+        </form>
+        </div>
+        
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-warning round ml-1"
+            (click)="UpdateCategoryMethod()"
+            rippleEffect
+            [disabled]="UpdateCategoryForm.invalid || isLoading"
+          >
+          <ng-container *ngIf="!isLoading">
+            Update
+          </ng-container>
+          <ng-container *ngIf="isLoading">
+            <i class="fa fa-spinner fa-spin"></i>
+            Updating...
+          </ng-container>
+          </button>
+
+
+
+
+
+
+
+
+
+          <button
+            type="button"
+            class="btn btn-outline-danger round ml-1"
+            (click)="modal.close('Accept click')"
+            rippleEffect
+          >
+            Close
+          </button>
+        </div>
+      </ng-template>
+
+
+
+
+    <!-- add subCategory Model -->
+   <ng-template #modalAddSubCat let-modal>
+        <div class="modal-header ">
+          <h5 class="modal-title" id="exampleModalCenterTitle">
+            Add Sub Category  
+          </h5>
+          <button
+            id="clo"
+            type="button"
+            class="close"
+            (click)="modal.dismiss('Cross click')"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" tabindex="0" ngbAutofocus>
+          <form
+            id="fo"
+            [formGroup]="ReactiveSubCatForm"
+            (ngSubmit)="ReactiveSubFormOnSubmit()"
+          >
+       
+
+          <label>Sub Category Name: </label>
+          <div class="form-group">
+            <input
+              formControlName="title"
+              [ngClass]="{
+                'is-invalid':
+                ReactiveSubCatFormSubmitted && ReactiveSubForm.title.errors
+              }"
+              type="text"
+              placeholder="Name "
+              class="form-control form-control-lg"
+              />
+            <div
+              *ngIf="ReactiveSubCatFormSubmitted && ReactiveSubForm.title.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="ReactiveSubForm.title.errors.required">
+               Category Name is required
+              </div>
+              <div *ngIf="ReactiveSubForm.title.errors.minlength">
+               Category Name must be at least 2 character
+              </div>
+              <div *ngIf="ReactiveSubForm.title.errors.maxlength">
+               Category Name must be at most 50 character
+              </div>
+            </div>
+          </div>
+
+            <!--/ Multi Select Size large -->
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-success round ml-1"
+            (click)="ReactiveSubFormOnSubmit()"
+            rippleEffect
+          >
+            Add 
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-danger round ml-1"
+            (click)="modal.close('Accept click')"
+            rippleEffect
+          >
+            Close
+          </button>
+        </div>
+      </ng-template>
+   

@@ -1,0 +1,108 @@
+<div class="content-wrapper container-xxl p-0 mt-4">
+  <div class="content-body">
+    <app-content-header [contentHeader]="contentHeader"></app-content-header>
+    <div id="user-profile">
+      <div class="row">
+        <div class="col-12">
+          <div class="card profile-header mb-2">
+            <!-- profile cover photo -->
+            <img *ngIf="store_data.banner" class="card-img-top ima" [src]="store_data.banner" alt="User Profile Image" />
+            <img *ngIf="!store_data.banner"class="card-img-top ima"  src="assets/images/no/ldj1531725441.jpg" alt="User Profile Image" />
+            <!--/ profile cover photo -->
+
+            <div class="position-relative">
+              <!-- profile picture -->
+              <div class="profile-img-container d-flex align-items-center">
+                <div class="profile-img">
+                  <img *ngIf="store_data.profile_image" [src]="store_data.profile_image" class="rounded img-fluid" alt="Card image" />
+                  <img *ngIf="!store_data.profile_image" class="card-img-top ima"  src="assets/images/no/no-image-available.png" alt="User Profile Image" />
+
+                </div>
+                <!-- profile title -->
+                <div class="profile-title ml-3">
+                  <h2 class="text-white">{{store_data.store_name}}</h2>
+                  <p class="text-white">{{store_data.owner_name}}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="profile-header-nav">
+              <!-- navbar -->
+              <nav class="navbar navbar-expand-md navbar-light justify-content-end justify-content-md-between w-100">
+                <button
+                  class="btn btn-icon navbar-toggler"
+                  type="button"
+                  data-target="#navbarSupportedContent"
+                  aria-controls="navbarSupportedContent"
+                  aria-expanded="false"
+                  aria-label="Toggle navigation"
+                  (click)="toggleMenu = !toggleMenu"
+                  rippleEffect
+                >
+                  <i data-feather="align-justify" class="font-medium-5"></i>
+                </button>
+
+                <!-- collapse  -->
+                <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="toggleMenu">
+                  <div class="profile-tabs d-flex justify-content-between flex-wrap mt-1 mt-md-0">
+                    <ul class="nav nav-pills mb-0">
+                      <li class="nav-item">
+                        <a class="nav-link font-weight-bold active" href="javascript:void(0)">
+                          <span class="">categories</span>
+                        </a>
+                      </li>
+                      <div *ngFor="let cat of store_data.categories">
+
+                        <li class="nav-item">
+                          <a class="nav-link font-weight-bold" href="javascript:void(0)">
+                            <span class="">{{cat.title}}</span>
+                          </a>
+                        </li>
+                      </div>
+                    </ul>
+                      <div>
+
+                        <button class="btn btn-warning mr-5 " rippleEffect>
+                          <span class="font-weight-bold  ">Banned</span>
+                        </button>
+                        <button class="btn btn-danger" rippleEffect>
+                          <span class="font-weight-bold ">Delete</span>
+                        </button>
+                      </div>
+                      </div>
+                </div>
+                <!--/ collapse  -->
+              </nav>
+              <!--/ navbar -->
+            </div>
+          </div>
+        </div>
+          <!-- left profile info section -->
+          <div class="col-lg-12 col-12 order-2 order-lg-1">
+            <!-- about -->
+            <div class="card">
+              <div class="card-body">
+                <h5 class="mb-75">About</h5>
+                <p class="card-text">
+                  {{ store_data.about_store }}
+                </p>
+                <div class="mt-2">
+                  <h5 class="mb-75">Store Slug</h5>
+                  <p class="card-text">{{ store_data.store_slug }}</p>
+                </div>
+                <div class="mt-2">
+                  <h5 class="mb-75">Email:</h5>
+                  <p class="card-text">{{ store_data.email }}</p>
+                </div>
+                <div class="mt-2">
+                  <h5 class="mb-50">Website:</h5>
+                  <p class="card-text mb-0">{{ store_data.store_slug }}</p>
+                </div>
+              </div>
+            </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>

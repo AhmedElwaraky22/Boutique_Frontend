@@ -1,0 +1,495 @@
+<div class="content-wrapper container-xxl p-0 mt-5">
+    <div class="content-body">
+      <section class="app-ecommerce-details">
+        <div class="card">
+          <!-- Product Details starts -->
+          <div class="card-body">
+            <div class="row my-2">
+              <div class="col-12 col-md-5 d-flex align-items-center justify-content-center mb-2 mb-md-0">
+                <div class="d-flex align-items-center justify-content-center">
+                  <div class="card-body">
+                    <swiper class="swiper-coverflow swiper-container" [config]="swiperCoverflow">
+                      <!-- Loop through the subCategories array -->
+                      <ng-container *ngFor="let item of subCategories">
+                        <!-- Ensure item has an 'image' property or adjust accordingly -->
+                        <img class="img-fluid" [src]="item.image" alt="banner" />
+                      </ng-container>
+                    </swiper>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-7" >
+                <ng-container *ngFor="let item of subCategories">
+                  <!-- Ensure item has an 'image' property or adjust accordingly -->
+                  <h4>{{ item.name_en}}-{{ item.name_ar}}</h4>
+                </ng-container>
+                <span class="card-text item-company" *ngFor="let item of subCategories">
+                  Category
+                  <a href="javascript:void(0)" class="company-name">
+                    {{ item.name_en}}-{{ item.name_ar}}
+                  </a>
+                </span>
+                <div>
+                  <span class="card-text item-company mt-1"
+                    >Tags
+                    <ng-container >
+                    <!-- her ng for  unside  container-->
+                      <a href="javascript:void(0)" class="text-info mx-2">
+                        <!-- {{item.name }} -->
+                      </a>
+                    </ng-container>
+                  </span>
+                </div>
+                <div class="ecommerce-details-price d-flex flex-wrap mt-1">
+                  <h4 class="item-price mr-1">
+                    <!-- EG {{ product.product_price }} -->
+                  </h4>
+                  <div class="rating rating-sm pl-1 border-left mb-1">
+                    <ngb-rating
+                      [rate]=""
+                      [readonly]="true"
+                      [max]="5"
+                      class="outline-none"
+                    >
+                      <ng-template let-fill="fill" let-index="index"
+                        ><span
+                          class="fa fa-star-o mr-25"
+                          [class.fa-star]="fill === 100"
+                        ></span
+                      ></ng-template>
+                    </ngb-rating>
+                  </div>
+                </div>
+                <!-- <p *ngIf="product.product_quantity >= 1" class="card-text">
+                  Available - <span class="text-success">In stock</span>
+                </p>
+                <p *ngIf="product.product_quantity < 1" class="card-text">
+                  Not Available - <span class="text-warning">out of stock</span>
+                </p> -->
+                <p class="card-text">
+                  Quantity :
+                  <span class="text-info">
+                    2
+                    </span
+                  >
+                </p>
+                <p class="card-text">
+                 Total Reviews :
+                  <span class="text-info">
+                    26
+                  </span>
+                </p>
+                <p class="card-text">
+                  <!-- {{ product.overview }} -->
+                </p>
+                <ul class="product-features list-unstyled">
+                  <!-- <li *ngIf="product.has_discount">
+                    <span class="text-success">discount</span>
+                  </li>
+                  <li *ngIf="product.has_discount">
+                    <i data-feather="smile"></i>
+                    <span
+                      >Price After Discount : EG
+                      <span class="text-success">
+                        {{ product.discounted_price }}</span
+                      ></span
+                    >
+                  </li> -->
+                </ul>
+                <hr />
+  
+                  <!-- Color  -->
+                <div class="product-color-options">
+                  <h6>Colors:-</h6>
+                  <ul class="list-unstyled mb-0">
+                    <li class="d-inline-block selected">
+                      <div class="color-option b-primary">
+                        <div class="filloption bg-primary"></div>
+                      </div>
+                    </li>
+                    <li class="d-inline-block">
+                      <div class="color-option b-success">
+                        <div class="filloption bg-success">Green</div>
+                      </div>
+                    </li>
+                    <li class="d-inline-block">
+                      <div class="color-option b-danger">
+                        <div class="filloption bg-danger">Red</div>
+                      </div>
+                    </li>
+                    <li class="d-inline-block">
+                      <div class="color-option b-warning">
+                        <div class="filloption bg-warning"></div>
+                      </div>
+                    </li>
+                    <li class="d-inline-block">
+                      <div class="color-option b-info">
+                        <div class="filloption bg-info"></div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                  <!-- Features  -->
+                <div  class="mt-4">
+                  <h6>Features:-</h6>
+                  <!-- *ngFor="let feature of product.features" -->
+                     <div class="product-color-options">
+                       <h6>
+                        Size
+                        <!-- {{ feature.name }} -->
+                       </h6>
+                       <ul class="list-unstyled mb-0">
+                        <ng-container >
+                            <!-- *ngFor="let value of feature.values" -->
+                              <li class="d-inline-block selected mx-2 ">
+                                <div [style.background-color]=""class="color-option b-primary px-2">
+                                  <div class=""></div>
+                                  <!-- {{ value.value }} -->
+                                </div>
+                              </li>
+                          </ng-container>
+                      </ul>
+                     </div>
+                </div>
+                <!-- Delete Btn  -->
+                <hr />
+                <div class="d-flex flex-column flex-sm-row pt-1">
+                  <a class="btn btn-outline-danger round" rippleEffect>
+                    <span class="">Delete Product</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Product Details ends -->
+  
+          <!-- Item features starts -->
+          <div class="item-features">
+            <div class="row text-center">
+              <div class="col-12 col-md-4 mb-4 mb-md-0">
+                <div class="w-75 mx-auto">
+                  <i data-feather="award"></i>
+                  <h4 class="mt-2 mb-1">100% Original</h4>
+                  <p class="card-text">
+                    Chocolate bar candy canes ice cream toffee. Croissant pie
+                    cookie halvah.
+                  </p>
+                </div>
+                <hr>
+              </div>
+              <div class="col-12 col-md-4 mb-4 mb-md-0">
+                <div class="w-75 mx-auto">
+                  <i data-feather="clock"></i>
+                  <h4 class="mt-2 mb-1">10 Day Replacement</h4>
+                  <p class="card-text">
+                    Marshmallow biscuit donut dragée fruitcake. Jujubes wafer
+                    cupcake.
+                  </p>
+                </div>
+                <hr>
+              </div>
+              <div class="col-12 col-md-4 mb-4 mb-md-0">
+                <div class="w-75 mx-auto">
+                  <i data-feather="shield"></i>
+                  <h4 class="mt-2 mb-1">1 Year Warranty</h4>
+                  <p class="card-text">
+                    Cotton candy gingerbread cake I love sugar plum I love sweet
+                    croissant.
+                  </p>
+                </div>
+                <hr>
+              </div>
+              <!-- Table to Show Data  -->
+              <div class="col-12 my-4 ">
+                <ngx-datatable
+                [rows]="subCategories"
+                [rowHeight]="'auto'"
+                class="bootstrap core-bootstrap"
+            
+                [headerHeight]="50"
+                [footerHeight]="50"
+                [scrollbarH]="true"
+              >  
+               <!-- ////////////////////////// Table /////////////////////////////// -->
+                 <!--Category ID-->
+                <ngx-datatable-column name="ID" prop="id" [width]="100">
+                  <ng-template
+                    let-id="value"
+                    let-isDeleted="row.isDeleted"
+                    let-isVerified="row.verified"
+                    ngx-datatable-cell-template
+                  >
+                    <div
+                      class="badge badge-pill badge-glow px-3"
+               
+                    >
+                      {{ id }}
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+      
+                  <!--Category English Name  -->
+                <ngx-datatable-column name="Category Name En" prop="name_en" [width]="220">
+                 <ng-template let-row="row" let-name="value"ngx-datatable-cell-template>
+                   <div class="d-flex align-items-center"   [routerLink]="['/view-Category-datails']">
+                     <div class="mr-2">
+                       <ngx-avatar class="m-1" src="{{ row.image }}" name="{{ row.name_en }}" value="28%"  size="40"
+                         [round]="true">
+                       </ngx-avatar>
+                     </div>
+                     <div class="cell-line-height">
+                       <a class="font-medium-1 d-block"><span class="font-weight-bold">{{ row.name_en }}</span></a>
+                     </div>
+                   </div>
+                 </ng-template>
+                </ngx-datatable-column>
+       
+                <!-- Category Arabic Name  -->
+                <ngx-datatable-column name="Category Name Ar" prop="name_ar" [width]="220">
+                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                   <div class="d-flex align-items-center"  [routerLink]="['view-Category-datails']">
+                     <div class="mr-2">
+                       <ngx-avatar class="m-1" src="{{ row.image }}" name="{{ row.name_ar }}" value="28%" size="40" [round]="true">
+                       </ngx-avatar>
+                     </div>
+                     <div class="cell-line-height">
+                       <a class="font-medium-1 d-block">
+                         <span class="font-weight-bold">{{ row.name_ar }}</span>
+                       </a>
+                     </div>
+                   </div>
+                 </ng-template>
+               </ngx-datatable-column>
+              
+                 <!--subcategory English Name  -->
+                 <ngx-datatable-column name="SubCategories En" prop="subcategories" [width]="200">
+                   <ng-template let-row="row" let-name="row.subcategories" ngx-datatable-cell-template>
+                    <div *ngFor="let item of row.subcategories">
+                      <div class="row">
+                        <i class="feather font-medium-3 mr-2"[ngClass]="{'icon-command  text-info ': item !== '' }"
+                        ></i>
+                        {{ item.name_en }}
+                      </div>
+                    </div>
+                   </ng-template>
+                 </ngx-datatable-column>
+   
+                <!--subcategory Arabic Name  -->
+                <ngx-datatable-column name="SubCategories Ar" prop="subcategories" [width]="200">
+                  <ng-template let-row="row" let-name="row.subcategories" ngx-datatable-cell-template>
+                   <div *ngFor="let item of row.subcategories">
+                     <div class="row" [routerLink]="['/view-all-subcategory' ]">
+                       <i class="feather font-medium-3 mr-2"[ngClass]="{'icon-command  text-info ': item !== '' }"></i>
+                       {{ item.name_ar}}
+                     </div>
+                   </div>
+                  </ng-template>
+                </ngx-datatable-column>
+                
+                <!-- feature  -->
+                <ngx-datatable-column name="features" prop="features" [width]="200">
+                  <ng-template let-row="row"   let-features="row.features "ngx-datatable-cell-template>
+                    <div *ngFor="let item of features">
+                      <div class="row my-2">
+                        <i class="feather font-medium-3 mr-2"[ngClass]="{ 'icon-command  text-info ': item !== ''}"></i>
+                        {{ item.name }}
+                      </div>
+                      <div class="product-color-options">
+                        <ul class="list-unstyled mb-0">
+                          <ng-container *ngFor="let value of item.values">
+                            <li class="d-inline-block selected mx-2">
+                              <div
+                                [style.background-color]="value.value"
+                                class="color-option b-primary px-2 rounded-pill border-dark"
+                              >
+                                <div class=""></div>
+                                {{ value.value }}
+                              </div>
+                            </li>
+                          </ng-container>
+                        </ul>
+                      </div>
+
+                      <hr class="border-danger rounded" />
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <!--Category Actions-->
+                <ngx-datatable-column name="Actions" [width]="100" [sortable]="false">
+                  <ng-template ngx-datatable-cell-template let-row="row">
+                    <div ngbDropdown container="body">
+                      <button
+                        ngbDropdownToggle
+                        type="button"
+                        class="btn icon-btn btn-sm hide-arrow text-danger"
+                        rippleEffect
+                      >
+                        <span
+                          [data-feather]="'more-vertical'"
+                          [class]="'cursor-pointer'"
+                        ></span>
+                      </button>
+                      <div ngbDropdownMenu>
+                        <!-- Add SubCategory -->
+                        <a
+                        ngbDropdownItem
+                        (click)="modalAddThirdSubCategory(modalSubThirdCat, row.id)"
+                      >
+                        <span
+                          [data-feather]="'plus-circle'"
+                          [size]="16"
+                          [class]="'mr-50 text-success'"
+                        ></span>
+                        Add SubCategory
+                      </a>
+                        <!-- Add Features -->
+                        <a
+                          ngbDropdownItem
+                          (click)="modalAddFteature(modalSubCat, row.id)"
+                          ><span
+                            [data-feather]="'file-plus'"
+                            [size]="16"
+                            [class]="'mr-50 text-warning'"
+                          ></span>
+                          Add Features
+                        </a>
+                        <!-- Update -->
+                        <a ngbDropdownItem
+                        (click)="modalOpenUpdateSubC(modalSubC , row.id , row.name_ar  , row.name_en, row.id)"
+                        ><span
+                            [data-feather]="'edit-2'"
+                            [size]="16"
+                            [class]="'mr-50 text-info'"
+                          ></span>
+                          Update
+                        </a>
+      
+                          <!-- Delete  -->
+                        <a (click)="DeleteSubCategory(row.id, row.title)" ngbDropdownItem
+                          ><span
+                            [data-feather]="'trash-2'"
+                            [size]="16"
+                            [class]="'mr-50 text-danger'"
+                          ></span>
+                          Delete
+                        </a>
+      
+                      </div>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+              </ngx-datatable>
+              </div>
+              
+            </div>
+          </div>
+          <!-- Item features ends -->
+  
+          <!-- Related Products starts -->
+  
+          <!-- Related Products ends -->
+        </div>
+      </section>
+      <!-- app e-commerce details end -->
+    </div>
+</div>
+
+
+<!-- Add Feature  -->
+<ng-template #modalSubCat let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalCenterTitle">Add Feature</h5>
+    <button
+      id="clo"
+      type="button"
+      class="close"
+      (click)="modal.dismiss('Cross click')"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <form id="fo" (ngSubmit)="ReactiveSubFormOnSubmit()">
+      <div *ngFor="let item of items; let i = index" @heightIn>
+        <div class="row d-flex align-items-end">
+          <div class="col-10">
+            <div class="form-group">
+              <label for="itemName{{ i }}">Feature {{ i + 1 }}</label>
+              <input
+                type="text"
+                min="2"
+                min="30"
+                required
+                class="form-control"
+                [(ngModel)]="item.itemName"
+                name="itemName{{ i }}"
+                id="itemName{{ i }}"
+              />
+            </div>
+          </div>
+
+          <div class="col-md-2 col-12 mb-50">
+            <div class="form-group">
+              <button
+                *ngIf="i != 0"
+                class="btn btn-outline-danger text-nowrap px-1"
+                (click)="deleteItem(i)"
+                rippleEffect
+              >
+                <i data-feather="x" class="mr-25"></i>
+                <span>Delete</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <hr />
+      </div>
+
+      <!--/ Multi Select Size large -->
+    </form>
+
+    <div class="row">
+      <div class="col-12">
+        <button
+          class="btn btn-icon btn-primary"
+          type="button"
+          (click)="addItem()"
+          rippleEffect
+        >
+          <i data-feather="plus" class="mr-25"></i>
+          <span>Add another feature</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      [disabled]="loading"
+      type="submit"
+      class="btn btn-outline-success round ml-1"
+      (click)="ReactiveSubFormOnSubmit()"
+      rippleEffect
+    >
+      <span
+        *ngIf="loading"
+        class="spinner-border spinner-border-sm mr-1"
+      ></span>
+      Add All Feature
+    </button>   
+    <button
+      type="button"
+      class="btn btn-outline-danger round ml-1"
+      (click)="modal.close('Accept click')"
+      rippleEffect
+    >
+      Close
+    </button>
+  </div>
+</ng-template>
+  

@@ -1,0 +1,311 @@
+<div class="content-wrapper container-xxl p-0 mt-5">
+  <div class="content-body">
+    <!-- app e-commerce details start -->
+    <section class="app-ecommerce-details">
+      <div class="card">
+        <!-- Product Details starts -->
+        <div class="card-body">
+          <div class="row my-2">
+            <div class="col-12 col-md-5 d-flex align-items-center justify-content-center mb-2 mb-md-0">
+              <div class="d-flex align-items-center justify-content-center">
+                <!-- Next & Pervious Buttons -->
+                <div class="card-body">
+                  <swiper class="swiper-coverflow swiper-container" [config]="swiperCoverflow">
+                    <ng-container *ngFor="let image of productData?.images">
+                      <img
+                        class="img-fluid"
+                        [src]="image"
+                        alt="product image"
+                      />
+                    </ng-container>
+                  </swiper>
+                </div>
+                <!-- <img [src]="productData?.images" class="img-fluid product-img" alt="product image" /> -->
+              </div>
+            </div>
+            <div class="col-12 col-md-7">
+              <div class=""> 
+                 <h4>{{ productData?.product_name }}</h4>
+                <span class="card-text item-company">
+                  Category
+                  <a href="javascript:void(0)" class="company-name">
+                    {{productData?.category?.name}}
+                  </a>
+                </span>
+              </div>
+
+              <div>
+                <span class="card-text item-company mt-1">
+                  Tags
+                  <ng-container *ngFor="let item of productData?.tags">
+                    <a href="javascript:void(0)" class="text-info mx-2">{{productData?.tags}}</a>
+                  </ng-container>
+                </span>
+              </div>
+
+              <div class="ecommerce-details-price d-flex flex-wrap mt-1">
+                <h4 class="item-price mr-1">YER {{ productData?.product_price }}</h4>
+                <div class="rating rating-sm pl-1 border-left mb-1">
+                  <ngb-rating
+                    [rate]="productData?.rate"
+                    [readonly]="true"
+                    [max]="5"
+                    class="outline-none"
+                  >
+                    <ng-template let-fill="fill" let-index="index">
+                      <span
+                        class="fa fa-star-o mr-25"
+                        [class.fa-star]="fill === 100">
+                      </span>
+                    </ng-template>
+                  </ngb-rating>
+                </div>
+              </div>
+
+                <div>
+                  <p class="card-text">
+                    Quantity :
+                    <span class="text-info">
+                      {{ getTotalQuantity() }}
+                    </span>
+                  </p>
+                </div>
+              
+            
+
+              <div class="Total Reviews">
+                <p class="card-text">
+                  Total Reviews :
+                   <span class="text-info">
+                     {{productData?.store.total_reviews}}
+                    </span>
+                </p>
+              </div>
+
+              <!-- Condition  has_discount -->
+              <div class="discount" *ngIf="productData?.has_discount == true">
+                <ul class="product-features list-unstyled">
+                  <li>
+                    <span class="text-success">Discount</span>
+                  </li>
+                  <li>
+                    <i data-feather="smile"></i>
+                    <span>
+                      Discount Percentage: 
+                      <span class="text-success">
+                        {{ productData?.discount_percentage}}%
+                      </span>
+                    </span>
+                  </li>
+                  <li>
+                    <i data-feather="smile"></i>
+                    <div>
+                      Price After Discount: YER 
+                      <span class="text-success">
+                        {{ productData?.discounted_price }}
+                      </span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              
+
+              <!-- Condition  quantity -->
+              <!-- <div class="div">
+                <p *ngIf="product.product_quantity >= 1" class="card-text">
+                Available - <span class="text-success">In stock</span>
+                </p>
+                <p *ngIf="product.product_quantity < 1" class="card-text">
+                Not Available - <span class="text-warning">out of stock</span>
+              </p>
+              </div> -->
+               <hr />
+               <!-- Color -->
+              <!-- <div class="product-color-options">
+                <h6>Colors</h6>
+                <ul class="list-unstyled mb-0">
+                  <li class="d-inline-block selected">
+                    <div class="color-option b-primary">
+                      <div class="filloption bg-primary"></div>
+                    </div>
+                  </li>
+                  <li class="d-inline-block">
+                    <div class="color-option b-success">
+                      <div class="filloption bg-success"></div>
+                    </div>
+                  </li>
+                  <li class="d-inline-block">
+                    <div class="color-option b-danger">
+                      <div class="filloption bg-danger"></div>
+                    </div>
+                  </li>
+                  <li class="d-inline-block">
+                    <div class="color-option b-warning">
+                      <div class="filloption bg-warning"></div>
+                    </div>
+                  </li>
+                  <li class="d-inline-block">
+                    <div class="color-option b-info">
+                      <div class="filloption bg-info"></div>
+                    </div>
+                  </li>
+                </ul>
+              </div> -->
+              
+              <!-- <div class="product-Size-options">
+                <h6>size</h6>
+                <ul class="list-unstyled mb-0">
+                  <li class="d-inline-block selected">
+                    <div class="color-option b-primary">
+                      M
+                    </div>
+                  </li> 
+                  <span> & </span>
+                  <li class="d-inline-block">
+                    <div class="color-option b-success">
+                      S
+                    </div>
+                  </li>
+                  <span> & </span>
+                  <li class="d-inline-block">
+                    <div class="color-option b-success">
+                      L
+                    </div>
+                  </li>
+                  <span> & </span>
+                  <li class="d-inline-block">
+                    <div class="color-option b-success">
+                      XL
+                    </div>
+                  </li>
+                </ul>
+              </div> -->
+              <!-- Features  -->
+              <!-- <div>
+                <h2>Feature </h2>
+                <ng-container >
+                  <div class="product-color-options">
+                    <h6></h6>
+                    <ul class="list-unstyled mb-0">
+                      <ng-container *ngFor="let value of feature.feature_values">
+                        <li class="d-inline-block selected mx-2 ">
+                          <div [style.background-color]="value.value" class="color-option b-primary px-2">
+                            <div class=""></div>{{  }}
+                          </div>
+                        </li>
+                      </ng-container>
+                    </ul>
+                  </div>
+                </ng-container>
+              </div>  -->
+
+              <div class="d-flex flex-column flex-sm-row pt-1">
+                <a class="btn btn-outline-danger round" rippleEffect (click)="removeProduct(productData?.product_id , productData?.product_name)">
+                  <span class="">Delete Product</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Product Details ends -->
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>SKU</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Color</th>
+              <th>Size</th>
+        
+              <!-- Dynamically display additional feature names as table headers -->
+              <th *ngFor="let feature of productData?.product_additional_features">
+                {{ feature.name_en }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sku of productData?.product_skus">
+              <td>{{ sku.id }}</td>
+              <td>{{ sku.sku }}</td>
+              <td>YER {{ sku.price }} </td>
+              <td>{{ sku.quantity }}</td>
+              <td>
+                <span *ngFor="let feature of sku.feature_values">
+                  <span *ngIf="feature.feature === 'Color'" [ngStyle]="{'background-color': feature.value}">
+                    {{ feature.value_en || feature.value }}
+                  </span>
+                </span>
+              </td>
+              <td>
+                <span *ngFor="let feature of sku.feature_values">
+                  <span *ngIf="feature.feature === 'Size'">
+                    {{ feature.value_en || feature.value }}
+                  </span>
+                </span>
+              </td>
+        
+              <!-- Dynamically display additional feature values as table data cells -->
+              <td *ngFor="let additionalFeature of productData?.product_additional_features">
+                {{ additionalFeature.value_en }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+        
+        
+        
+
+        <!-- Item features starts -->
+        <div class="item-features">
+          <div class="row text-center">
+            <div class="col-12 col-md-4 mb-4 mb-md-0">
+              <div class="w-75 mx-auto">
+                <i data-feather="award"></i>
+                <h4 class="mt-2 mb-1">100% Original</h4>
+                <div class=""> 
+                 <p class="card-text item-company">
+                  {{productData?.description}}
+                 </p>
+               </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-4 mb-4 mb-md-0">
+              <div class="w-75 mx-auto">
+                <i data-feather="clock"></i>
+                <h4 class="mt-2 mb-1">10 Day Replacement</h4>
+                <p class="card-text " *ngFor = "let items of productData?.product_additional_features">
+                  <!-- {{items.value_en}} - {{items.value_ar}} -->
+                </p>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-4 mb-4 mb-md-0">
+              <div class="w-75 mx-auto">
+                <i data-feather="shield"></i>
+                <h4 class="mt-2 mb-1">1 Year Warranty</h4>
+                <p class="card-text">
+                 {{productData?.description}}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Related Products starts -->
+
+        <!-- Related Products ends -->
+      </div>
+    </section>
+    <!-- app e-commerce details end -->
+  </div>
+
+</div>
+
+
+
+
+

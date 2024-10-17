@@ -1,0 +1,144 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+      <!-- content-header component -->
+  
+      <!-- Basic Alerts start -->
+      <section id="statistics-card">
+        <div class="row match-height mt-3">
+          <div class="col-lg-12 col-12">
+            <div class="card card-statistics">
+              <div class="card-header ">
+                <h4 class="card-title">Statistics</h4>
+                <div class="d-flex align-items-center">
+                </div>
+              </div>
+              <div class="card-body statistics-body">
+                <div class="row">
+                  <div class="col-md-3 col-sm-6 col-12 mb-2 mb-md-3 ">
+                    <div class="media">
+                      <div class="avatar bg-light-primary mr-2">
+                        <div class="avatar-content">
+                          <i data-feather="shopping-bag" class="avatar-icon"></i>
+                        </div>
+                      </div>
+                      <div class="media-body my-auto">
+                        <h4 class="font-weight-bolder mb-0">{{ stores_count}}</h4>
+                        <p class="card-text font-small-3 mb-0">All Store</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-sm-6 col-12 mb-2 mb-md-3">
+                    <div class="media">
+                      <div class="avatar bg-light-warming mr-2">
+                        <div class="avatar-content">
+                          <i data-feather="user-plus" class="avatar-icon"></i>
+                        </div>
+                      </div>
+                      <div class="media-body my-auto">
+                        <h4 class="font-weight-bolder mb-0">{{requst_count}}</h4>
+                        <p class="card-text font-small-3 mb-0">New Store Request</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-sm-6 col-12 mb-2 mb-md-3">
+                    <div class="media">
+                      <div class="avatar bg-light-info mr-2">
+                        <div class="avatar-content">
+                          <i data-feather="user" class="avatar-icon"></i>
+                        </div>
+                      </div>
+                      <div class="media-body my-auto">
+                        <h4 class="font-weight-bolder mb-0">{{users_count}}</h4>
+                        <p class="card-text font-small-3 mb-0">Customers</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-sm-6 col-12 mb-2 mb-sm-0">
+                    <div class="media">
+                      <div class="avatar bg-light-danger mr-2">
+                        <div class="avatar-content">
+                          <i data-feather="box" class="avatar-icon"></i>
+                        </div>
+                      </div>
+                      <div class="media-body my-auto">
+                        <h4 class="font-weight-bolder mb-0">{{ productCount}}</h4>
+                        <p class="card-text font-small-3 mb-0">Products</p>
+                      </div>
+                    </div>
+                  </div>
+                
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+  
+      <section id="apex-radar-and-donut-charts">
+        <div class="row">
+        
+          <div class="col-xl-6 col-12">
+            <div class="card">
+              <div class="card-header flex-column align-items-start">
+                <h4 class="card-title mb-75">Store </h4>
+                <span class="card-subtitle text-muted">Full report on stores </span>
+              </div>
+              <div class="card-body">
+                <div id="donut-chart" #apexDonutChartRef>
+                    <apx-chart
+                    [series]="apexDonutChart?.series"
+                    [chart]="{
+                      height: 350,
+                      type: 'donut'
+                    }"
+                    [labels]="apexDonutChart?.labels"
+                    [plotOptions]="apexDonutChart?.plotOptions"
+                    [responsive]="apexDonutChart?.responsive"
+                    [colors]="apexDonutChart?.colors"
+                    [legend]="apexDonutChart?.legend"
+                  ></apx-chart>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- ////////////////////////////////// -->
+  
+          <div class="col-xl-6 col-12">
+            <div class="card">
+              <div
+                class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start"
+              >
+                <h4 class="card-title mb-sm-0 mb-1">Users</h4>
+              </div>
+              <div class="card-body">
+                <div id="radialbar-chart" #apexRadialChartRef>
+                  <apx-chart
+                    [series]="apexRadialChart?.series"
+                    [chart]="{
+                      height: 400,
+                      width: isMenuToggled === false ? apexRadialChartRef?.offsetWidth : apexRadialChart?.chart.width,
+                      type: 'radialBar'
+                    }"
+                    [plotOptions]="apexRadialChart?.plotOptions"
+                    [labels]="apexRadialChart?.labels"
+                    [colors]="apexRadialChart?.colors"
+                    [stroke]="apexRadialChart?.stroke"
+                    [legend]="apexRadialChart?.legend"
+                  ></apx-chart>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+  
+  
+        </div>
+      </section>
+      <!-- Basic Alerts end -->
+    </div>
+  </div>
+  
+  
+  
