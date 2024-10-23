@@ -5,6 +5,9 @@
 @import '@core/scss/base/pages/app-user.scss';
 @import '@core/scss/angular/libs/file-uploader.component.scss';
 .users-list-wrapper .card{
-
-    border-radius: 10PX   ;
+    border-radius: 10px   ;
+    -webkit-border-radius: 10px   ;
+    -moz-border-radius: 10px   ;
+    -ms-border-radius: 10px   ;
+    -o-border-radius: 10px   ;
 }
