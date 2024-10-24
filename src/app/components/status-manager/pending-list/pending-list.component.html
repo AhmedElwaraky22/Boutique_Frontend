@@ -3,7 +3,7 @@
     Show
     <select class="form-control mx-2" [(ngModel)]="selectedOption" (change)="updateLimit()">
       <option [value]="pendingData.length">All</option>
-      <option value="2">2</option>
+      <option value="5">5</option>
       <option value="10">10</option>
       <option value="25">25</option>
       <option value="50">50</option>
@@ -11,12 +11,14 @@
     </select>
     entries
   </label>
+  
   <label class="d-flex align-items-center">
     Search:
     <input [(ngModel)]="searchValue" name="searchValue" type="search" class="form-control mx-2" (keyup)="filterUpdate()"/>
   </label>
 </div>
 
+<!-- Table of Contents -->
 <div class="table-responsive" *ngIf="pendingData.length > 0">
   <table class="table text-center table-striped">
     <thead>
@@ -59,12 +61,10 @@
             </button>
             <div ngbDropdownMenu>
               <a ngbDropdownItem (click)="onApprove(item.id)">
-                <span [data-feather]="'check'" [size]="16" class="mr-50 text-success"></span>
-                Accept
+                <span [data-feather]="'check'" [size]="16" class="mr-50 text-success"></span>Accept
               </a>
               <a ngbDropdownItem (click)="onReject(item.id)">
-                <span [data-feather]="'x'" [size]="16" class="mr-50 text-danger"></span>
-                Reject
+                <span [data-feather]="'x'" [size]="16" class="mr-50 text-danger"></span>Reject
               </a>
             </div>
           </div>
@@ -105,6 +105,7 @@
   </div>
 </div>
 
+<!-- Upload Photo Modal -->
 <div class="d-flex justify-content-between align-items-center mt-3">
   <span>{{ pendingData.length }} total</span>
   <div>

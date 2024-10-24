@@ -134,13 +134,13 @@ export class AcceptListComponent implements OnInit {
   }
 
   skipBack(): void {
-    this.currentPage = 1; // Go to the first page
+    this.currentPage = 1; 
     this.updateLimit();
   }
 
   skipForward(): void {
     const totalPages = Math.ceil(this.acceptData.length / this.selectedOption);
-    this.currentPage = totalPages; // Go to the last page
+    this.currentPage = totalPages; 
     this.updateLimit();
   }
   

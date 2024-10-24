@@ -1,147 +1,175 @@
-  import { Component, OnInit, ViewChild } from '@angular/core';
-  import { TransactionsService } from '../status.service';
-  import { Router } from '@angular/router';
-  import { ColumnMode, DatatableComponent } from "@swimlane/ngx-datatable";
-  import { DomSanitizer } from '@angular/platform-browser';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { TransactionsService } from '../status.service';
+import { ColumnMode, DatatableComponent } from "@swimlane/ngx-datatable";
+import { DomSanitizer } from '@angular/platform-browser';
+import { type } from 'os';
 
-  @Component({
-    selector: 'app-pending-list',
-    templateUrl: './pending-list.component.html',
-    styleUrls: ['./pending-list.component.scss']
-  })
-  export class PendingListComponent implements OnInit {
-    pendingData: any[] = [];
-    displayedData: any[] = []; 
-    ColumnMode = ColumnMode;
-    selectedOption: number = 10; 
-    currentPage: number = 1; 
-    sortColumn: string = '';
-    sortDirection: 'asc' | 'desc' = 'asc'; 
-    searchValue: string = '';
-    showModal: boolean = false; 
-    selectedTransactionId: any; 
+@Component({
+  selector: 'app-pending-list',
+  templateUrl: './pending-list.component.html',
+  styleUrls: ['./pending-list.component.scss']
+})
 
-    @ViewChild(DatatableComponent) table: DatatableComponent;
+export class PendingListComponent implements OnInit {
+  pendingData: any[] = [];
+  displayedData: any[] = []; 
+  ColumnMode = ColumnMode;
+  selectedOption: number = 10; 
+  currentPage: number = 1; 
+  sortColumn: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc'; 
+  searchValue: string = '';
+  showModal: boolean = false; 
+  selectedTransactionId: any; 
 
-    constructor(private _transaction: TransactionsService, private router: Router, private sanitizer: DomSanitizer) {}
+  @ViewChild(DatatableComponent) table: DatatableComponent;
 
-    ngOnInit(): void {
-      this.GetAllTransactions();
-    }
+  constructor(private _transaction: TransactionsService, private sanitizer: DomSanitizer,) {}
 
-    GetAllTransactions(): void {
-      this._transaction.GetAllTransactions().subscribe(
-        (res: any) => { 
-          this.pendingData = res.filter((item: any) => item.status === "pending");
-          this.updateLimit(); 
-        },
-        (error) => console.error('Error occurred:', error)
-      );
-    }
+  ngOnInit(): void {
+    this.GetAllTransactions();
+  }
 
-    sortData(column: string): void {
-      this.sortDirection = this.sortColumn === column && this.sortDirection === 'asc' ? 'desc' : 'asc';
-      this.sortColumn = column;
+  GetAllTransactions(): void {
+    this._transaction.GetAllTransactions().subscribe(
+      (res: any) => { 
+        this.pendingData = res.filter((item: any) => item.status === "pending");
+        this.updateLimit(); 
+      },
+      (error) => {
+        console.error('Error occurred:', error);
+      }
+    );
+  }
 
-      this.pendingData.sort((a, b) => {
+  sortData(column: string): void {
+    const wewe = this.pendingData.map(index => index[column]);
+
+    this.sortDirection = this.sortColumn === column && this.sortDirection === 'asc' ? 'desc' : 'asc';
+    this.sortColumn = column;
+    
+    this.pendingData.sort((a, b) => {
         const aValue = a[column];
         const bValue = b[column];
-
-        if (aValue < bValue) {
-          return this.sortDirection === 'asc' ? -1 : 1;
-        } else if (aValue > bValue) {
-          return this.sortDirection === 'asc' ? 1 : -1;
+    
+        const isANumber = !isNaN(Number(aValue));
+        const isBNumber = !isNaN(Number(bValue));
+    
+        if (isANumber && isBNumber) {
+            // Both are numbers
+            return this.sortDirection === 'asc' ? Number(aValue) - Number(bValue) : Number(bValue) - Number(aValue);
+        } else {
+            // Treat as strings
+            return this.sortDirection === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
         }
-        return 0;
-      });
-
-      this.updateLimit();
-    }
-
-    filterUpdate(): void {
-      const searchLower = this.searchValue.toLowerCase();
-      this.pendingData = this.pendingData.filter(item => 
-        Object.keys(item).some(key => 
-          String(item[key]).toLowerCase().includes(searchLower)
-        )
-      );
-
-      this.currentPage = 1;
-      this.updateLimit();
-    }
-
-    updateLimit(): void {
-      if (this.selectedOption === this.pendingData.length) {
-        this.displayedData = this.pendingData;
-      } else {
-        const startIndex = (this.currentPage - 1) * this.selectedOption;
-        const endIndex = startIndex + this.selectedOption;
-        this.displayedData = this.pendingData.slice(startIndex, endIndex);
-      }
-    }
-
-    onReject(id: any): void {
-      const index = this.pendingData.findIndex(item => item.id === id);
-      if (index !== -1) {
-        this.pendingData[index].status = 'rejected';
-        this.updateLimit();
-      }
-    }
-
-    onApprove(id: any): void {
-      this.selectedTransactionId = id;
-      this.showModal = true;
-    }
-
-    uploadPhoto(id: any, event: Event): void {
-      const file = (event.target as HTMLInputElement).files[0];
-      const index = this.pendingData.findIndex(item => item.id === this.selectedTransactionId);
-      if (file) {
-        const fileUrl = URL.createObjectURL(file);
-        this.showModal = false;
-        this.pendingData[index].attachment = this.sanitizer.bypassSecurityTrustUrl(fileUrl);
-        this.pendingData[index].status = 'accepted';
-        this.updateLimit();
-      }
-    }
-
-    closeModal(): void {
-      this.showModal = false;
-    }
-
-    nextPage(): void {
-      if (this.currentPage * this.selectedOption < this.pendingData.length) {
-        this.currentPage++;
-        this.updateLimit();
-      }
-    }
-
-    prevPage(): void {
-      if (this.currentPage > 1) {
-        this.currentPage--;
-        this.updateLimit();
-      }
-    }
-
-    getPagesArray(): number[] {
-      const totalPages = Math.ceil(this.pendingData.length / this.selectedOption);
-      return Array.from({ length: totalPages }, (_, i) => i + 1);
-    }
+    });
     
-    goToPage(page: number): void {
-      this.currentPage = page;
-      this.updateLimit();
-    }
 
-    skipBack(): void {
-      this.currentPage = 1; // Go to the first page
-      this.updateLimit();
-    }
-  
-    skipForward(): void {
-      const totalPages = Math.ceil(this.pendingData.length / this.selectedOption);
-      this.currentPage = totalPages; // Go to the last page
-      this.updateLimit();
-    }
-    
+    // this.pendingData.sort((a, b) => {
+    //     const aValue = a[column];
+    //     const bValue = b[column];
+
+    //     const isANumber = Number.isInteger(aValue);
+    //     const isBNumber = Number.isInteger(bValue);
+       
+    //     // Both are numbers
+    //     if (isANumber && isBNumber) {
+    //         return this.sortDirection === 'asc' ? aValue - bValue : bValue - aValue;
+    //     }
+
+    //     // Both are strings
+    //     const stringA = String(aValue);
+    //     const stringB = String(bValue);
+
+    //     if (stringA < stringB) {
+    //         return this.sortDirection === 'asc' ? -1 : 1;
+    //     } else if (stringA > stringB) {
+    //         return this.sortDirection === 'asc' ? 1 : -1;
+    //     }
+        
+    //     this.updateLimit();
+    // });
+    this.updateLimit();
+}
+
+  filterUpdate(): void {
+    const searchLower = this.searchValue.toLowerCase();
+    this.pendingData = this.pendingData.filter(item => 
+      Object.keys(item).some(key => 
+        String(item[key]).toLowerCase().includes(searchLower)
+      )
+    );
+    this.currentPage = 1;
+    this.updateLimit();
   }
+
+  updateLimit(): void {
+    const startIndex = (this.currentPage - 1) * this.selectedOption;
+    const endIndex = startIndex + this.selectedOption;
+    this.displayedData = this.pendingData.slice(startIndex, endIndex);
+  }
+
+  onReject(id: any): void {
+    const index = this.pendingData.findIndex(item => item.id === id);
+    if (index !== -1) {
+      this.pendingData[index].status = 'rejected';
+      this.GetAllTransactions();
+    }
+  }
+
+  onApprove(id: any): void {
+    this.selectedTransactionId = id;
+    this.showModal = true;
+  }
+
+  uploadPhoto(id: any, event: Event): void {
+    const file = (event.target as HTMLInputElement).files[0];
+    const index = this.pendingData.findIndex(item => item.id === this.selectedTransactionId);
+    if (file) {
+      const fileUrl = URL.createObjectURL(file);
+      this.showModal = false;
+      this.pendingData[index].attachment = this.sanitizer.bypassSecurityTrustUrl(fileUrl);
+      this.pendingData[index].status = 'accepted';
+      this.updateLimit();
+    }
+  }
+
+  closeModal(): void {
+    this.showModal = false;
+  }
+
+  nextPage(): void {
+    if (this.currentPage * this.selectedOption < this.pendingData.length) {
+      this.currentPage++;
+      this.updateLimit();
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updateLimit();
+    }
+  }
+
+  getPagesArray(): number[] {
+    const totalPages = Math.ceil(this.pendingData.length / this.selectedOption);
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
+  }
+  
+  goToPage(page: number): void {
+    this.currentPage = page;
+    this.updateLimit();
+  }
+
+  skipBack(): void {
+    this.currentPage = 1;
+    this.updateLimit();
+  }
+  
+  skipForward(): void {
+    const totalPages = Math.ceil(this.pendingData.length / this.selectedOption);
+    this.currentPage = totalPages;
+    this.updateLimit();
+  }
+}
