@@ -43,8 +43,6 @@ export class PendingListComponent implements OnInit {
   }
 
   sortData(column: string): void {
-    const wewe = this.pendingData.map(index => index[column]);
-
     this.sortDirection = this.sortColumn === column && this.sortDirection === 'asc' ? 'desc' : 'asc';
     this.sortColumn = column;
     
@@ -63,32 +61,6 @@ export class PendingListComponent implements OnInit {
             return this.sortDirection === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
         }
     });
-    
-
-    // this.pendingData.sort((a, b) => {
-    //     const aValue = a[column];
-    //     const bValue = b[column];
-
-    //     const isANumber = Number.isInteger(aValue);
-    //     const isBNumber = Number.isInteger(bValue);
-       
-    //     // Both are numbers
-    //     if (isANumber && isBNumber) {
-    //         return this.sortDirection === 'asc' ? aValue - bValue : bValue - aValue;
-    //     }
-
-    //     // Both are strings
-    //     const stringA = String(aValue);
-    //     const stringB = String(bValue);
-
-    //     if (stringA < stringB) {
-    //         return this.sortDirection === 'asc' ? -1 : 1;
-    //     } else if (stringA > stringB) {
-    //         return this.sortDirection === 'asc' ? 1 : -1;
-    //     }
-        
-    //     this.updateLimit();
-    // });
     this.updateLimit();
 }
 
