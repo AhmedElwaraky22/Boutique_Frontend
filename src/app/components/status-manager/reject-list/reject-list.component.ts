@@ -134,5 +134,16 @@ export class RejectListComponent implements OnInit {
     this.currentPage = page;
     this.updateLimit();
   }
+
+  skipBack(): void {
+    this.currentPage = 1; // Go to the first page
+    this.updateLimit();
+  }
+
+  skipForward(): void {
+    const totalPages = Math.ceil(this.rejectData.length / this.selectedOption);
+    this.currentPage = totalPages; // Go to the last page
+    this.updateLimit();
+  }
   
 }

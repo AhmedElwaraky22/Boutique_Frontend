@@ -105,8 +105,13 @@
     <nav aria-label="Page navigation">
       <ul class="pagination">
         <li class="page-item" [class.disabled]="currentPage === 1">
+          <button class="page-link" (click)="skipBack()" aria-label="Previous">
+            <span [data-feather]="'skip-back'" [size]="18.5" class=""></span>
+          </button>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage === 1">
           <button class="page-link" (click)="prevPage()" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
+            <span [data-feather]="'chevron-left'" [size]="18.5" class=""></span>
           </button>
         </li>
         <li class="page-item" *ngFor="let page of getPagesArray()" [class.active]="currentPage === page">
@@ -114,7 +119,12 @@
         </li>
         <li class="page-item" [class.disabled]="currentPage * selectedOption >= acceptData.length">
           <button class="page-link" (click)="nextPage()" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
+            <span [data-feather]="'chevron-right'" [size]="18.5" class=""></span>
+          </button>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage * selectedOption >= acceptData.length">
+          <button class="page-link" (click)="skipForward()" aria-label="Next">
+            <span [data-feather]="'skip-forward'" [size]="18.5" class=""></span>
           </button>
         </li>
       </ul>

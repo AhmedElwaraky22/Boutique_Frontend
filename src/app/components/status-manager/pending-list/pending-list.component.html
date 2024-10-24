@@ -71,7 +71,7 @@
         </td>
       </tr>
     </tbody>
-  </table>
+  </table> 
 </div>
 
 <div *ngIf="pendingData.length == 0">
@@ -85,19 +85,21 @@
       <div class="modal-header">
         <h5 class="modal-title">Upload Photo</h5>
         <button type="button" class="close" (click)="closeModal()">
-          <span>&times;</span>
+          <span [data-feather]="'x'" [size]="16" class=""></span>
         </button>
       </div>
       <div class="modal-body">
         <form>
           <div class="form-group">
             <label for="photoInput">Select a photo to upload:</label>
-            <input type="file" id="photoInput" (change)="uploadPhoto(selectedTransactionId, $event)" class="form-control" accept="image/*" />
+            <input type="file" id="photoInput" (change)="uploadPhoto(selectedTransactionId, $event)" class="form-control" accept="image/*"/>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">
+          Close
+        </button>
       </div>
     </div>
   </div>
@@ -109,8 +111,13 @@
     <nav aria-label="Page navigation">
       <ul class="pagination">
         <li class="page-item" [class.disabled]="currentPage === 1">
+          <button class="page-link" (click)="skipBack()" aria-label="Previous">
+            <span [data-feather]="'skip-back'" [size]="18.5" class=""></span>
+          </button>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage === 1">
           <button class="page-link" (click)="prevPage()" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
+            <span [data-feather]="'chevron-left'" [size]="18.5" class=""></span>
           </button>
         </li>
         <li class="page-item" *ngFor="let page of getPagesArray()" [class.active]="currentPage === page">
@@ -118,7 +125,12 @@
         </li>
         <li class="page-item" [class.disabled]="currentPage * selectedOption >= pendingData.length">
           <button class="page-link" (click)="nextPage()" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
+            <span [data-feather]="'chevron-right'" [size]="18.5" class=""></span>
+          </button>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage * selectedOption >= pendingData.length">
+          <button class="page-link" (click)="skipForward()" aria-label="Next">
+            <span [data-feather]="'skip-forward'" [size]="18.5" class=""></span>
           </button>
         </li>
       </ul>

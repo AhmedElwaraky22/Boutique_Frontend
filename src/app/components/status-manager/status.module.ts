@@ -21,7 +21,7 @@ import { AcceptListComponent } from './accept-list/accept-list.component';
 import { RejectListComponent } from './reject-list/reject-list.component';
 // import { StatusManagerComponent } from './status-manager.component';
 // 
-
+ 
 
 
 
@@ -68,6 +68,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   ],
   imports: [
     ReactiveFormsModule,
+    NgxDatatableModule,
     CommonModule,
     RouterModule.forChild(routes),
     CommonModule,
