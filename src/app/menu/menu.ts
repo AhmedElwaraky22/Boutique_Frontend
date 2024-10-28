@@ -240,6 +240,7 @@ export const menu: CoreMenu[] = [
         icon: "file-text",
         children: [
           {
+
             id: "pending",
             title: "Pending",
             type: "item",
@@ -264,4 +265,59 @@ export const menu: CoreMenu[] = [
       },
     ],
   },
+
+            id: 'all-problems',
+            title: 'All Problems',
+            type: 'item',
+            icon: 'package',
+            url: 'view-all-problems'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'transactions-section',
+    type: 'section',
+    title: 'Transactions Section',
+    icon: 'file-text',
+    children: [
+      {
+        id: 'transaction',
+        title: 'Transaction',
+        type: 'collapsible',
+        icon: 'file',
+        children: [
+          {
+            id: 'pending',
+            title: 'Pending',
+            type: 'item',
+            icon: 'loader',
+            url: 'view-all-user'
+          },{
+            id: 'upload',
+            title: 'Upload',
+            type: 'item',
+            icon: 'upload',
+            url: 'view-all-user'
+          },
+          {
+            id: 'accepted',
+            title: 'Accepted',
+            type: 'item',
+            icon: 'check',
+            url: 'view-all-user'
+          },
+          {
+            id: 'rejected',
+            title: 'Rejected',
+            type: 'item',
+            icon: 'x',
+            url: 'view-all-user'
+          },
+        ]
+      }
+    ]
+  }
+
 ];
