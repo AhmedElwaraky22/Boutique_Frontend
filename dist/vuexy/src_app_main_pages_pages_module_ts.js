@@ -11,8 +11,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "AuthLoginV2Component": function() { return /* binding */ AuthLoginV2Component; }
 /* harmony export */ });
-/* harmony import */ var F_Boutique_Frontend_node_modules_babel_runtime_helpers_esm_classCallCheck_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js */ 8069);
-/* harmony import */ var F_Boutique_Frontend_node_modules_babel_runtime_helpers_esm_createClass_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/createClass.js */ 8047);
+/* harmony import */ var D_Boutique_Frontend0_node_modules_babel_runtime_helpers_esm_classCallCheck_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js */ 8069);
+/* harmony import */ var D_Boutique_Frontend0_node_modules_babel_runtime_helpers_esm_createClass_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/createClass.js */ 8047);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/forms */ 587);
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! rxjs/operators */ 5921);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! rxjs */ 2218);
@@ -151,7 +151,7 @@ var AuthLoginV2Component = /*#__PURE__*/function () {
    * @param {CoreConfigService} _coreConfigService
    */
   function AuthLoginV2Component(_coreConfigService, _formBuilder, _route, _router, _userserve) {
-    (0,F_Boutique_Frontend_node_modules_babel_runtime_helpers_esm_classCallCheck_js__WEBPACK_IMPORTED_MODULE_0__["default"])(this, AuthLoginV2Component);
+    (0,D_Boutique_Frontend0_node_modules_babel_runtime_helpers_esm_classCallCheck_js__WEBPACK_IMPORTED_MODULE_0__["default"])(this, AuthLoginV2Component);
 
     this._coreConfigService = _coreConfigService;
     this._formBuilder = _formBuilder;
@@ -181,7 +181,7 @@ var AuthLoginV2Component = /*#__PURE__*/function () {
   } // convenience getter for easy access to form fields
 
 
-  (0,F_Boutique_Frontend_node_modules_babel_runtime_helpers_esm_createClass_js__WEBPACK_IMPORTED_MODULE_1__["default"])(AuthLoginV2Component, [{
+  (0,D_Boutique_Frontend0_node_modules_babel_runtime_helpers_esm_createClass_js__WEBPACK_IMPORTED_MODULE_1__["default"])(AuthLoginV2Component, [{
     key: "f",
     get: function get() {
       return this.loginForm.controls;
@@ -364,8 +364,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "AuthenticationModule": function() { return /* binding */ AuthenticationModule; }
 /* harmony export */ });
-/* harmony import */ var F_Boutique_Frontend_node_modules_babel_runtime_helpers_esm_createClass_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/createClass.js */ 8047);
-/* harmony import */ var F_Boutique_Frontend_node_modules_babel_runtime_helpers_esm_classCallCheck_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js */ 8069);
+/* harmony import */ var D_Boutique_Frontend0_node_modules_babel_runtime_helpers_esm_createClass_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/createClass.js */ 8047);
+/* harmony import */ var D_Boutique_Frontend0_node_modules_babel_runtime_helpers_esm_classCallCheck_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js */ 8069);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common */ 6362);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/forms */ 587);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ 2816);
@@ -391,8 +391,8 @@ var routes = [{
     animation: 'auth'
   }
 }];
-var AuthenticationModule = /*#__PURE__*/(0,F_Boutique_Frontend_node_modules_babel_runtime_helpers_esm_createClass_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function AuthenticationModule() {
-  (0,F_Boutique_Frontend_node_modules_babel_runtime_helpers_esm_classCallCheck_js__WEBPACK_IMPORTED_MODULE_1__["default"])(this, AuthenticationModule);
+var AuthenticationModule = /*#__PURE__*/(0,D_Boutique_Frontend0_node_modules_babel_runtime_helpers_esm_createClass_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function AuthenticationModule() {
+  (0,D_Boutique_Frontend0_node_modules_babel_runtime_helpers_esm_classCallCheck_js__WEBPACK_IMPORTED_MODULE_1__["default"])(this, AuthenticationModule);
 });
 
 AuthenticationModule.ɵfac = function AuthenticationModule_Factory(t) {
@@ -426,8 +426,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ErrorComponent": function() { return /* binding */ ErrorComponent; }
 /* harmony export */ });
-/* harmony import */ var F_Boutique_Frontend_node_modules_babel_runtime_helpers_esm_classCallCheck_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js */ 8069);
-/* harmony import */ var F_Boutique_Frontend_node_modules_babel_runtime_helpers_esm_createClass_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/createClass.js */ 8047);
+/* harmony import */ var D_Boutique_Frontend0_node_modules_babel_runtime_helpers_esm_classCallCheck_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js */ 8069);
+/* harmony import */ var D_Boutique_Frontend0_node_modules_babel_runtime_helpers_esm_createClass_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/createClass.js */ 8047);
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ 5921);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs */ 2218);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 3184);
@@ -449,7 +449,7 @@ var ErrorComponent = /*#__PURE__*/function () {
    * @param {CoreConfigService} _coreConfigService
    */
   function ErrorComponent(_coreConfigService) {
-    (0,F_Boutique_Frontend_node_modules_babel_runtime_helpers_esm_classCallCheck_js__WEBPACK_IMPORTED_MODULE_0__["default"])(this, ErrorComponent);
+    (0,D_Boutique_Frontend0_node_modules_babel_runtime_helpers_esm_classCallCheck_js__WEBPACK_IMPORTED_MODULE_0__["default"])(this, ErrorComponent);
 
     this._coreConfigService = _coreConfigService;
     this._unsubscribeAll = new rxjs__WEBPACK_IMPORTED_MODULE_4__.Subject(); // Configure the layout
@@ -477,7 +477,7 @@ var ErrorComponent = /*#__PURE__*/function () {
    */
 
 
-  (0,F_Boutique_Frontend_node_modules_babel_runtime_helpers_esm_createClass_js__WEBPACK_IMPORTED_MODULE_1__["default"])(ErrorComponent, [{
+  (0,D_Boutique_Frontend0_node_modules_babel_runtime_helpers_esm_createClass_js__WEBPACK_IMPORTED_MODULE_1__["default"])(ErrorComponent, [{
     key: "ngOnInit",
     value: function ngOnInit() {
       var _this = this;
@@ -558,8 +558,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "MiscellaneousModule": function() { return /* binding */ MiscellaneousModule; }
 /* harmony export */ });
-/* harmony import */ var F_Boutique_Frontend_node_modules_babel_runtime_helpers_esm_createClass_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/createClass.js */ 8047);
-/* harmony import */ var F_Boutique_Frontend_node_modules_babel_runtime_helpers_esm_classCallCheck_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js */ 8069);
+/* harmony import */ var D_Boutique_Frontend0_node_modules_babel_runtime_helpers_esm_createClass_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/createClass.js */ 8047);
+/* harmony import */ var D_Boutique_Frontend0_node_modules_babel_runtime_helpers_esm_classCallCheck_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js */ 8069);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common */ 6362);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ 2816);
 /* harmony import */ var _core_common_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @core/common.module */ 5078);
@@ -581,8 +581,8 @@ var routes = [{
     animation: 'misc'
   }
 }];
-var MiscellaneousModule = /*#__PURE__*/(0,F_Boutique_Frontend_node_modules_babel_runtime_helpers_esm_createClass_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function MiscellaneousModule() {
-  (0,F_Boutique_Frontend_node_modules_babel_runtime_helpers_esm_classCallCheck_js__WEBPACK_IMPORTED_MODULE_1__["default"])(this, MiscellaneousModule);
+var MiscellaneousModule = /*#__PURE__*/(0,D_Boutique_Frontend0_node_modules_babel_runtime_helpers_esm_createClass_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function MiscellaneousModule() {
+  (0,D_Boutique_Frontend0_node_modules_babel_runtime_helpers_esm_classCallCheck_js__WEBPACK_IMPORTED_MODULE_1__["default"])(this, MiscellaneousModule);
 });
 
 MiscellaneousModule.ɵfac = function MiscellaneousModule_Factory(t) {
@@ -616,8 +616,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "PagesModule": function() { return /* binding */ PagesModule; }
 /* harmony export */ });
-/* harmony import */ var F_Boutique_Frontend_node_modules_babel_runtime_helpers_esm_createClass_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/createClass.js */ 8047);
-/* harmony import */ var F_Boutique_Frontend_node_modules_babel_runtime_helpers_esm_classCallCheck_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js */ 8069);
+/* harmony import */ var D_Boutique_Frontend0_node_modules_babel_runtime_helpers_esm_createClass_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/createClass.js */ 8047);
+/* harmony import */ var D_Boutique_Frontend0_node_modules_babel_runtime_helpers_esm_classCallCheck_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js */ 8069);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/common */ 6362);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/forms */ 587);
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 7544);
@@ -638,8 +638,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var PagesModule = /*#__PURE__*/(0,F_Boutique_Frontend_node_modules_babel_runtime_helpers_esm_createClass_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function PagesModule() {
-  (0,F_Boutique_Frontend_node_modules_babel_runtime_helpers_esm_classCallCheck_js__WEBPACK_IMPORTED_MODULE_1__["default"])(this, PagesModule);
+var PagesModule = /*#__PURE__*/(0,D_Boutique_Frontend0_node_modules_babel_runtime_helpers_esm_createClass_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function PagesModule() {
+  (0,D_Boutique_Frontend0_node_modules_babel_runtime_helpers_esm_classCallCheck_js__WEBPACK_IMPORTED_MODULE_1__["default"])(this, PagesModule);
 });
 
 PagesModule.ɵfac = function PagesModule_Factory(t) {

@@ -212,7 +212,7 @@
                     'icon-gift  text-warning ': item !== ''
                   }"
                 ></i>
-                {{ item.name }}
+                {{ item.name_en }}
                 </div>
              
               </div>
@@ -226,6 +226,7 @@
                  </div>
                </ng-template>
              </ngx-datatable-column>
+
              <ngx-datatable-column name="URL" prop="store_url" [width]="150">
                <ng-template let-url="value" ngx-datatable-cell-template>
                  <div
@@ -239,6 +240,7 @@
                  </div>
                </ng-template>
              </ngx-datatable-column>
+
              <ngx-datatable-column name="Mobile Verified" prop="mobile_verified" [width]="150">
                <ng-template let-status="value" ngx-datatable-cell-template>
                  <div
@@ -296,83 +298,135 @@
           </ngx-datatable-column>
    
              <ngx-datatable-column name="Actions" [width]="100" [sortable]="false">
-               <ng-template ngx-datatable-cell-template let-row="row">
-                 <div ngbDropdown container="body">
-                   <button
-                     ngbDropdownToggle
-                     type="button"
-                     class="btn icon-btn btn-sm hide-arrow text-danger"
-                     rippleEffect
-                   >
-                     <span
-                       [data-feather]="'more-vertical'"
-                       [class]="'cursor-pointer'"
-                     ></span>
-                   </button>
-                   <div ngbDropdownMenu>
-                     <a ngbDropdownItem
-                       ><span
-                         [data-feather]="'file-text'"
-                         [size]="16"
-                         [class]="'mr-50 text-info'"
-                       ></span>
-                       Details</a
-                     >        
-                     <a
-                     *ngIf="row.banned == false && row.isDeleted == false "
-                       ngbDropdownItem
-                       (click)="SuspendUser(row.id, row.store_name)"
-                       ><span
-                         [data-feather]="'slash'"
-                         [size]="16"
-                         [class]="'mr-50 text-warning'"
-                       ></span>
-                       Suspend</a
-                     >
-                     <a
-                     *ngIf="row.banned == true && row.isDeleted == false "
-                       ngbDropdownItem
-                       (click)="ActiveStore(row.id, row.store_name)"
-                       ><span
-                         [data-feather]="'check-circle'"
-                         [size]="16"
-                         [class]="'mr-50 text-success'"
-                       ></span>
-                       Active</a
-                     >
-   
-                     <a
-                       ngbDropdownItem
-                       *ngIf="row.isDeleted == false "
-   
-                       (click)="DeleteStore(row.id, row.store_name)"
-                       ><span
-                         [data-feather]="'x-octagon'"
-                         [size]="16"
-                         [class]="'mr-50 text-danger'"
-                       ></span>
-                       Delete</a
-                     >
-   
-                     <a
-                       ngbDropdownItem
-                       *ngIf="row.isDeleted== true "
-                       (click)="RestoreStore(row.id, row.store_name)"
-                       ><span
-                         [data-feather]="'refresh-cw'"
-                         [size]="16"
-                         [class]="'mr-50 text-warning'"
-                       ></span>
-                       Restore</a
-                     >
-                   </div>
-                 </div>
-               </ng-template>
+              <ng-template ngx-datatable-cell-template let-row="row" let-i="index">
+                <div ngbDropdown container="body">
+                  <button
+                    ngbDropdownToggle
+                    type="button"
+                    class="btn icon-btn btn-sm hide-arrow text-danger"
+                    rippleEffect
+                  >
+                    <span
+                      [data-feather]="'more-vertical'"
+                      [class]="'cursor-pointer'"
+                    ></span>
+                  </button>
+                  <div ngbDropdownMenu>
+                    <!-- Details  -->
+                    <a ngbDropdownItem>
+                      <span
+                        [data-feather]="'file-text'"
+                        [size]="16"
+                        [class]="'mr-50 text-info'"
+                      ></span>
+                      Details
+                    </a>
+
+                    <!-- Suspend  -->
+                    <a *ngIf="!row.banned && !row.isDeleted" ngbDropdownItem (click)="SuspendUser(row.id, row.store_name, i)">
+                      <span
+                        [data-feather]="'slash'"
+                        [size]="16"
+                        [class]="'mr-50 text-warning'"
+                      ></span>
+                      Suspend
+                    </a>
+
+                    <!-- Active -->
+                    <a *ngIf="row.banned && !row.isDeleted" ngbDropdownItem (click)="ActiveStore(row.id, row.store_name, i)">
+                      <span
+                        [data-feather]="'check-circle'"
+                        [size]="16"
+                        [class]="'mr-50 text-success'"
+                      ></span>
+                      Active
+                    </a>
+
+                    <!-- Edit Category Store -->
+                    <a ngbDropdownItem (click)="addCategoryModel(editCategoryStore, row.id)">
+                      <span [data-feather]="'edit-2'" [size]="16" [class]="'mr-50 text-warning'"></span>
+                      Edit Category Store
+                    </a>
+
+                    <!-- Delete  -->
+                    <a *ngIf="!row.isDeleted" ngbDropdownItem (click)="DeleteStore(row.id, row.store_name, i)">
+                      <span
+                        [data-feather]="'x-octagon'"
+                        [size]="16"
+                        [class]="'mr-50 text-danger'"
+                      ></span>
+                      Delete
+                    </a>
+
+                    <!-- Restore  -->
+                    <a *ngIf="row.isDeleted" ngbDropdownItem (click)="RestoreStore(row.id, row.store_name, i)">
+                      <span
+                        [data-feather]="'refresh-cw'"
+                        [size]="16"
+                        [class]="'mr-50 text-warning'"
+                      ></span>
+                      Restore
+                    </a>
+
+                  </div>
+                </div>
+              </ng-template>
+              
              </ngx-datatable-column>
            </ngx-datatable>
          </div>
        </section>
      </div>
-   
    </div>
-   
+
+<!-- Model Add Sub Category   -->
+<ng-template #editCategoryStore let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalCenterTitle">New Sub Category</h5>
+    <button
+      id="clo"
+      type="button"
+      class="close"
+      (click)="modal.dismiss('Cross click')"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+  
+    <form [formGroup]="fo">
+      <div class="form-group my-1">
+        <label>Select Categories</label>
+        <select formControlName="parent_id" id="user-role" class="form-control form-control-lg mb-1" multiple>
+          <option value="" disabled>Select categories</option>
+          <ng-container *ngFor="let items of category">
+            <option [value]="items.id" *ngIf="items?.name_en != cat">
+              {{ items?.name_en }}
+            </option>
+            
+          </ng-container>
+          <!-- <ng-container *ngFor="let cat of storeCats">
+            <option [value]="items?.id" *ngIf="items?.name_en === cat" disabled>
+              {{ cat?.name_en }}
+            </option>
+          </ng-container> -->
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" (click)="addCategoryToStore()" class="btn btn-outline-success round ml-1" [disabled]="isLoading || fo.invalid">
+          <ng-container *ngIf="!isLoading">Add</ng-container>
+          <ng-container *ngIf="isLoading">
+            <i class="fa fa-spinner fa-spin"></i> Adding...
+          </ng-container>
+        </button>
+        <button type="button" class="btn btn-outline-danger round ml-1" (click)="modal.close('Accept click')">
+          Close
+        </button>
+      </div>
+    </form>
+    
+  </div>
+</ng-template>
+

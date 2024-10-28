@@ -52,10 +52,8 @@ export class RejectListComponent implements OnInit {
         const isBNumber = !isNaN(Number(bValue));
     
         if (isANumber && isBNumber) {
-            // Both are numbers
             return this.sortDirection === 'asc' ? Number(aValue) - Number(bValue) : Number(bValue) - Number(aValue);
         } else {
-            // Treat as strings
             return this.sortDirection === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
         }
     });
