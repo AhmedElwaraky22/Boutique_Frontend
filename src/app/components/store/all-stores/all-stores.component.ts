@@ -4,25 +4,40 @@ import { CoreConfigService } from "./../../../../@core/services/config.service";
 import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { ColumnMode, DatatableComponent } from "@swimlane/ngx-datatable";
 import Swal from "sweetalert2";
-import { Subject } from 'rxjs';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subject } from "rxjs";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { filter } from "rxjs/operators";
+import { log } from 'console';
 @Component({
   selector: "app-all-stores",
   templateUrl: "./all-stores.component.html",
   styleUrls: ["./all-stores.component.scss"],
-    encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None,
 })
 export class AllStoresComponent implements OnInit {
   private tempData: any;
   @ViewChild(DatatableComponent) table: DatatableComponent;
-  @ViewChild('tableRowDetails') tableRowDetails: any;
-
+  @ViewChild("tableRowDetails") tableRowDetails: any;
+ 
   public sidebarToggleRef = false;
   public rows: StoreInterface;
+  public isLoading: boolean = false;
   public selectedOption = 10;
   public ColumnMode = ColumnMode;
+  public productProperties:any;
+  public data:any;
+  public storeCats: any;
+  public selectedStoreId:any;
+  public fo: FormGroup;
+  public category: any;
+  public loadAddCat: any;
+  public catSelected:any;
   public temp: any;
+  public modalReference: any;
   public searchValue = "";
+  public CreateNewCategoryFormSubmitted = "";
+  public CreateNewCategoryForm = "";
   private _unsubscribeAll: Subject<any>;
 
   public previousVerifiedFilter = "";
@@ -49,15 +64,24 @@ export class AllStoresComponent implements OnInit {
   public selectedSuspend = [];
   public selectedVerified = [];
   public selectedDeleted = [];
+  public storeId;
 
   constructor(
-    private _storeServices: StoreSService
-  ) {}
+    private _storeServices: StoreSService,
+    private modalService: NgbModal,
+    private fb: FormBuilder
+  ) {
+    this.fo = this.fb.group({
+      parent_id: [[]], 
+    });
+  }
 
   ngOnInit(): void {
     this.getAllStoreData();
+    this.getAllCategory();
   }
 
+    // get all Store 
   getAllStoreData() {
     this._storeServices.GetAllStore().subscribe(
       (res: any) => {
@@ -69,7 +93,82 @@ export class AllStoresComponent implements OnInit {
       }
     );
   }
+  // get all catgegory 
+  getAllCategory() {
+    this._storeServices.getAllCategory().subscribe(
+      (res: any) => {
+        this.category = res;
+      },
+      (er: any) => {
+        console.log(er);
+      }
+    );
+  }
 
+
+
+  // Model Add New Category to store
+  addCategoryModel(editCategoryStore, id) {
+    // this.loadAddCat = false;
+    // setTimeout(() => this.loadAddCat = true, 300);
+    // this.selectedStoreId= this.productProperties?.id;
+    // if (this.productProperties) {
+    // }
+
+      this.productProperties = this.tempData.filter((pro) => pro.id == id);
+      // this.storeCats = this.productProperties[0].categories.map(index=>index.id);
+
+      this.modalReference = this.modalService.open(editCategoryStore, {
+        backdrop: "static",
+        centered: true,
+      });
+
+
+      this.storeId= id
+      console.log( id);
+      // console.log(this.storeCats);
+      
+  }
+
+  addCategoryToStore() {
+    const selectedCategories = this.fo.get('parent_id')?.value;
+    console.log("Selected Categories:", selectedCategories);
+    this._storeServices.addCategoryToStore(this.storeId ,selectedCategories).subscribe(
+      (res:any)=>{
+        this.isLoading=false;
+        this.modalReference.close();
+        this.getAllStoreData();
+
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "category added Successfully ",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      },
+      (err)=>{
+        this.isLoading=false;
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "An Error Occurred While adding  !",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    )
+  }
+
+
+
+
+
+
+
+
+
+  
   SuspendUser(id: number, name: string) {
     Swal.fire({
       title: `Are you sure Want To Suspend Store : ${name} ?`,
@@ -171,6 +270,7 @@ export class AllStoresComponent implements OnInit {
       }
     });
   }
+
   RestoreStore(id: number, name: string) {
     Swal.fire({
       title: `Are you sure Want To Restore Store : ${name} ?`,
@@ -192,7 +292,6 @@ export class AllStoresComponent implements OnInit {
             );
           },
           (err: any) => {
-            
             Swal.fire({
               position: "center",
               icon: "error",
@@ -245,7 +344,7 @@ export class AllStoresComponent implements OnInit {
         row.verified.toString().toLowerCase().indexOf(verifiedFilter) !== -1 ||
         !verifiedFilter;
       const isPartialGenderMatch =
-       `${row.banned}`.toLowerCase().indexOf(suspendFilter) !== -1 ||
+        `${row.banned}`.toLowerCase().indexOf(suspendFilter) !== -1 ||
         !suspendFilter;
       const isPartialStatusMatch =
         row.isDeleted.toString().toLowerCase().indexOf(deletedFilter) !== -1 ||
@@ -292,5 +391,4 @@ export class AllStoresComponent implements OnInit {
   //   this._unsubscribeAll.next();
   //   this._unsubscribeAll.complete();
   // }
-
 }

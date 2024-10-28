@@ -2,8 +2,7 @@ import { StoreSService } from './store-s.service';
 import { AuthGuard } from 'app/auth/helpers';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
+import { CommonModule, NgIf } from '@angular/common';
 
 import { FormsModule } from '@angular/forms';
 import { AvatarModule } from 'ngx-avatar';
@@ -49,6 +48,7 @@ const routes: Routes = [
   ],
   imports: [
     RouterModule.forChild(routes),
+    NgIf,
     CommonModule,
     CoreCommonModule,
     FormsModule,

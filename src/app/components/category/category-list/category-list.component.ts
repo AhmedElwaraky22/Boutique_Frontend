@@ -235,8 +235,7 @@ navigateWithState(CategoryId: number): void {
   // Modal Add SubCategory
   modalAddSubCategory(modalAddSubCat,id) {
     this.ReactiveSubCatFormSubmitted = false;
-    this.
-    ReactiveSubCatForm.reset();
+    this.ReactiveSubCatForm.reset();
    this.modalReference2 = this.modalService.open(modalAddSubCat, {
       backdrop: false,
       centered: true,

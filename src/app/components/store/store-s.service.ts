@@ -7,6 +7,7 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { environment } from 'environments/environment';
 
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Categoryinterface } from 'app/main/sample/modules/categoryinterface';
 
 @Injectable()
 export class StoreSService implements Resolve<any> {
@@ -49,6 +50,7 @@ export class StoreSService implements Resolve<any> {
   }
 
 
+
   BannedStore(id:number){
 
     return this._httpClient.post(`${environment.apiUrl}admin/banned-store`,{id});
@@ -74,6 +76,13 @@ export class StoreSService implements Resolve<any> {
     return this._httpClient.post(`${environment.apiUrl}admin/accstorereq`,{id});
 
   }
+    //New Get All Categor
+    getAllCategory(){
+      return this._httpClient.get<Categoryinterface>(`${environment.apiUrl}admin/admin-category`);
+    }
+    addCategoryToStore(store_id:number,categories_ids:Array<any>) {
+      return this._httpClient.put(`${environment.apiUrl}admin/store-category`, { store_id, categories_ids });
+    }
 
 
 }

@@ -1,0 +1,135 @@
+<div class="d-flex justify-content-between align-items-center my-4 m-1">
+  <label class="d-flex align-items-center">
+    Show
+    <select class="form-control mx-2" [(ngModel)]="selectedOption" (change)="updateLimit()">
+      <option [value]="rejectData.length">All</option>
+      <option value="2">2</option>
+      <option value="10">10</option>
+      <option value="25">25</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+    </select>
+    entries
+  </label>
+  <label class="d-flex align-items-center">
+    Search:
+    <input [(ngModel)]="searchValue" name="searchValue" type="search" class="form-control mx-2" (keyup)="filterUpdate()"/>
+  </label>
+</div>
+
+<!-- Table of Contents -->
+<div class="table-responsive" *ngIf="rejectData.length > 0">
+  <table class="table text-center table-striped">
+    <thead>
+      <tr>
+        <th (click)="sortData('id')">ID</th>
+        <th (click)="sortData('amount')">Amount</th>
+        <th (click)="sortData('payment_type')">Payment Type</th>
+        <th (click)="sortData('transaction_type')">Transaction Type</th>
+        <th (click)="sortData('wallet_id')">Wallet ID</th>
+        <th (click)="sortData('wallet_type')">Wallet Type</th>
+        <th (click)="sortData('wallet_phone')">Wallet Phone</th>
+        <th (click)="sortData('status')">Status</th>
+        <th (click)="sortData('store')">Store</th>
+        <th (click)="sortData('created_at')">Creation Date</th>
+        <th (click)="sortData('approve_date')">Action Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of displayedData">
+        <td>{{ item.id }}</td>
+        <td>{{ item.amount }}</td>
+        <td>{{ item.payment_type }}</td>
+        <td>{{ item.transaction_type }}</td>
+        <td>{{ item.wallet_id }}</td>
+        <td>{{ item.wallet_type }}</td>
+        <td>{{ item.wallet_phone }}</td>
+        <td>{{ item.status }}</td>
+        <td>{{ item.store }}</td>
+        <td>{{ item.created_at | date : "short" }}</td>
+        <td>{{ item.approve_date | date : "short" }}</td>
+        <td>
+          <div ngbDropdown container="body">
+            <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow text-white" rippleEffect>
+              <span [data-feather]="'more-vertical'" class="cursor-pointer"></span>
+            </button>
+            <div ngbDropdownMenu>
+              <a ngbDropdownItem (click)="onApprove(item.id)">
+                <span [data-feather]="'check'" [size]="16" class="mr-50 text-success"></span>
+                Approve Transaction
+              </a>
+              <!-- <a ngbDropdownItem (click)="onDelete(item.id)">
+                <span [data-feather]="'x'" [size]="16" class="mr-50 text-danger"></span>
+                Delete Transaction
+              </a> -->
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="rejectData.length == 0">
+  <h3 class="text-center">No Rejected Transactions</h3>
+</div>
+
+<!-- Upload Photo Modal -->
+<div class="modal fade" id="uploadPhotoModal" tabindex="-1" role="dialog" [ngClass]="{ show: showModal }" [style]="showModal ? 'display:block' : 'display:none'">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Upload Photo</h5>
+        <button type="button" class="close" (click)="closeModal()">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="photoInput">Select a photo to upload:</label>
+            <input type="file" id="photoInput" (change)="uploadPhoto(selectedTransactionId, $event)" class="form-control" accept="image/*" />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Paginator -->
+<div class="d-flex justify-content-between align-items-center mt-3">
+  <span>{{ rejectData.length }} total</span>
+  <div>
+    <nav aria-label="Page navigation">
+      <ul class="pagination">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <button class="page-link" (click)="skipBack()" aria-label="Previous">
+            <span [data-feather]="'skip-back'" [size]="18.5" class=""></span>
+          </button>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <button class="page-link" (click)="prevPage()" aria-label="Previous">
+            <span [data-feather]="'chevron-left'" [size]="18.5" class=""></span>
+          </button>
+        </li>
+        <li class="page-item" *ngFor="let page of getPagesArray()" [class.active]="currentPage === page">
+          <button class="page-link" (click)="goToPage(page)">{{ page }}</button>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage * selectedOption >= rejectData.length">
+          <button class="page-link" (click)="nextPage()" aria-label="Next">
+            <span [data-feather]="'chevron-right'" [size]="18.5" class=""></span>
+          </button>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage * selectedOption >= rejectData.length">
+          <button class="page-link" (click)="skipForward()" aria-label="Next">
+            <span [data-feather]="'skip-forward'" [size]="18.5" class=""></span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
