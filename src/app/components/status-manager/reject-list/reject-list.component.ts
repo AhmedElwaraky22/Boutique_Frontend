@@ -40,7 +40,7 @@ export class RejectListComponent implements OnInit {
     );
   }
 
-  sortData(column: string): void {
+   sortData(column: string): void {
     this.sortDirection = this.sortColumn === column && this.sortDirection === 'asc' ? 'desc' : 'asc';
     this.sortColumn = column;
     
@@ -52,8 +52,15 @@ export class RejectListComponent implements OnInit {
         const isBNumber = !isNaN(Number(bValue));
     
         if (isANumber && isBNumber) {
+<<<<<<< HEAD
             return this.sortDirection === 'asc' ? Number(aValue) - Number(bValue) : Number(bValue) - Number(aValue);
         } else {
+=======
+            // Both are numbers
+            return this.sortDirection === 'asc' ? Number(aValue) - Number(bValue) : Number(bValue) - Number(aValue);
+        } else {
+            // Treat as strings
+>>>>>>> 34b67d4830e26f07826890f638f2a742755089bb
             return this.sortDirection === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
         }
     });
