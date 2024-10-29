@@ -32,7 +32,7 @@ export class AcceptListComponent implements OnInit {
   GetAllTransactions(): void {
     this._transaction.GetAllTransactions().subscribe(
       (res: any) => { 
-        this.acceptData = res.filter((item: any) => item.status === "accepted");
+        this.acceptData = res.filter((item: any) => item.status === "approved");
         this.updateLimit(); 
       },
       (error) => console.error('Error occurred:', error)
@@ -43,11 +43,8 @@ export class AcceptListComponent implements OnInit {
     this.sortDirection = this.sortColumn === column && this.sortDirection === 'asc' ? 'desc' : 'asc';
     this.sortColumn = column;
     
-<<<<<<< HEAD
+
     this.acceptData.sort((a, b) => {
-=======
-    this.rejectData.sort((a, b) => {
->>>>>>> 34b67d4830e26f07826890f638f2a742755089bb
         const aValue = a[column];
         const bValue = b[column];
     

@@ -41,7 +41,6 @@ import { StatusModule } from './components/status-manager/status.module';
 
 
 
-
 const appRoutes: Routes = [
   {
     path: 'pages',

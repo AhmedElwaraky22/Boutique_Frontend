@@ -3,6 +3,7 @@ import { TransactionsService } from '../status.service';
 import { Router } from '@angular/router';
 import { ColumnMode, DatatableComponent } from "@swimlane/ngx-datatable";
 import { DomSanitizer } from '@angular/platform-browser';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-reject-list',
@@ -21,6 +22,8 @@ export class RejectListComponent implements OnInit {
   searchValue: string = '';
   showModal: boolean = false; 
   selectedTransactionId: any; 
+  uploadedFile:any; 
+  fileName:any;
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -33,7 +36,7 @@ export class RejectListComponent implements OnInit {
   GetAllTransactions(): void {
     this._transaction.GetAllTransactions().subscribe(
       (res: any) => { 
-        this.rejectData = res.filter((item: any) => item.status === "rejected");
+        this.rejectData = res.filter((item: any) => item.status === "refused");
         this.updateLimit(); 
       },
       (error) => console.error('Error occurred:', error)
@@ -52,15 +55,10 @@ export class RejectListComponent implements OnInit {
         const isBNumber = !isNaN(Number(bValue));
     
         if (isANumber && isBNumber) {
-<<<<<<< HEAD
-            return this.sortDirection === 'asc' ? Number(aValue) - Number(bValue) : Number(bValue) - Number(aValue);
-        } else {
-=======
-            // Both are numbers
+          // Treat as numbers
             return this.sortDirection === 'asc' ? Number(aValue) - Number(bValue) : Number(bValue) - Number(aValue);
         } else {
             // Treat as strings
->>>>>>> 34b67d4830e26f07826890f638f2a742755089bb
             return this.sortDirection === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
         }
     });
@@ -89,30 +87,56 @@ export class RejectListComponent implements OnInit {
     }
   }
 
-  // onDelete(id: any): void {
-  //   const index = this.rejectData.findIndex(item => item.id === id);
-  //   if (index !== -1) {
-  //     this.rejectData.splice(index,1);
-  //     this.updateLimit();
-  //   }
-  // }
-
   onApprove(id: any): void {
     this.selectedTransactionId = id;
     this.showModal = true;
     this.updateLimit();
   }
 
-  uploadPhoto(id: any, event: Event): void {
-    const file = (event.target as HTMLInputElement).files[0];
-    const index = this.rejectData.findIndex(item => item.id === this.selectedTransactionId);
+  uploadPhoto(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
-      const fileUrl = URL.createObjectURL(file);
-      this.showModal = false;
-      this.rejectData[index].attachment = this.sanitizer.bypassSecurityTrustUrl(fileUrl);
-      this.rejectData[index].status = 'accepted';
-      this.updateLimit();
+      this.uploadedFile = file;
+      this.fileName = file.name
+      console.log('File uploaded:', file);
+      console.log('File uploaded:', this.fileName);
     }
+
+    if (!this.selectedTransactionId || !this.uploadedFile) {
+      console.error('Transaction ID or file is missing');
+      return;
+    }
+
+    console.log('attachment[]', this.fileName);
+    this.approveRequest();
+  }
+
+
+
+  approveRequest(): void {
+    const formData = new FormData();
+    formData.append('attachment[]', this.fileName);
+    this._transaction.approveRequest(this.selectedTransactionId, formData).subscribe(
+      (res: any) => {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Transaction Approved",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        this.updateLimit();
+      },
+      (error) => {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "An error occurred while Approving!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    );
   }
 
   closeModal(): void {

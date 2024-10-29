@@ -29,6 +29,7 @@ export class AllStoresComponent implements OnInit {
   public data:any;
   public storeCats: any;
   public selectedStoreId:any;
+  public selectedStoreName:any;
   public fo: FormGroup;
   public category: any;
   public loadAddCat: any;
@@ -109,14 +110,10 @@ export class AllStoresComponent implements OnInit {
 
   // Model Add New Category to store
   addCategoryModel(editCategoryStore, id) {
-    // this.loadAddCat = false;
-    // setTimeout(() => this.loadAddCat = true, 300);
-    // this.selectedStoreId= this.productProperties?.id;
-    // if (this.productProperties) {
-    // }
-
-      this.productProperties = this.tempData.filter((pro) => pro.id == id);
-      // this.storeCats = this.productProperties[0].categories.map(index=>index.id);
+      this.productProperties = this.tempData.filter(pro => pro.id == id);
+      if (this.productProperties) { 
+        this.selectedStoreName = this.productProperties[0]?.store_name;
+    }
 
       this.modalReference = this.modalService.open(editCategoryStore, {
         backdrop: "static",
@@ -159,15 +156,6 @@ export class AllStoresComponent implements OnInit {
       }
     )
   }
-
-
-
-
-
-
-
-
-
   
   SuspendUser(id: number, name: string) {
     Swal.fire({
