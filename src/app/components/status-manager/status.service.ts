@@ -46,7 +46,8 @@ export class TransactionsService implements Resolve<any> {
    * Get rows
    */
   GetAllTransactions = () => this._httpClient.get(`${environment.apiUrl}admin/store-transactions`);
-  
+  approveRequest = (id:any,attachments:any) => this._httpClient.post(`${environment.apiUrl}admin/store-transactions/approve`,{id,attachments});
+  rejectRequest = (id:any) => this._httpClient.put(`${environment.apiUrl}admin/store-transactions/reject`,{id});
 
   /**
    * Upload file

@@ -157,7 +157,7 @@ navigateWithState(CategoryId: number): void {
   
   // photo at Add Cactegory 
   onFilechange(event: any) {
-    this.file = event.target.files[0];
+    this.file = event.target.files;
     this.fileName = this.file.name;
   }
 

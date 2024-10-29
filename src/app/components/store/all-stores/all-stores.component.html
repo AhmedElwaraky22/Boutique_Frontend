@@ -383,10 +383,10 @@
      </div>
    </div>
 
-<!-- Model Add Sub Category   -->
+<!-- Model Add Category   -->
 <ng-template #editCategoryStore let-modal>
   <div class="modal-header">
-    <h5 class="modal-title" id="exampleModalCenterTitle">New Sub Category</h5>
+    <h5 class="modal-title" id="exampleModalCenterTitle">New Category</h5>
     <button
       id="clo"
       type="button"
@@ -401,6 +401,7 @@
   <div class="modal-body" tabindex="0" ngbAutofocus>
   
     <form [formGroup]="fo">
+      <h1>{{selectedStoreName}}</h1>
       <div class="form-group my-1">
         <label>Select Categories</label>
         <select formControlName="parent_id" id="user-role" class="form-control form-control-lg mb-1" multiple>
