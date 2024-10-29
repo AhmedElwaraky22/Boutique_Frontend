@@ -170,7 +170,6 @@
   </div>
   <div class="modal-body" tabindex="0" ngbAutofocus>
     <form *ngIf="createProductForm"  [formGroup]="createProductForm"novalidate autocomplete="off" id="fo">
-
       <!-- Stores -->
       <div class="form-group">
         <label for="categorySelect">Select Stores</label>
@@ -382,51 +381,11 @@
             </div>
         </div>
 
-        <!-- File Upload -->
-        <div class="form-group mt-2 col-12">
-          <label for="imageUpload" class="btn col-12 text-center font-medium-5 text-uppercase file-drop-zone">
-            {{ fileNames?.length ? fileNames.join(', ') : "No file uploaded yet." }}
-          </label>
-          <input
-            (change)="onFileUpload($event)"
-            type="file"
-            id="imageUpload"
-            accept="image/*"
-            multiple
-            style="display: none"
-            formControlName="images"
-            [ngClass]="{
-              'is-invalid': createProductFormSubmitted && createProductForm.get('images')?.errors
-            }"
-          />
-          <div *ngIf="createProductForm.get('images') && createProductFormSubmitted && createProductForm.get('images')?.errors" class="invalid-feedback">
-            <div *ngIf="createProductForm.get('images')?.errors?.required">
-              Image is required
-            </div>
-          </div>
-        </div>
+      
         
       </div>
 
-      <!-- Submit Button -->
-      <div class="form-group">
-        <button 
-        type="submit" 
-        class="btn btn-primary btn-block"        
-        (click)="createProductFormMethod()" 
-        rippleEffect
-        [disabled]="createProductForm.invalid"
-        >
-        <ng-container *ngIf="!isLoading">
-          Create Product
-        </ng-container>
-        <ng-container *ngIf="isLoading">
-          <i class="fa fa-spinner fa-spin"></i> 
-          Loading...
-        </ng-container>
-      </button>
-      
-      </div>
+     
     </form>
 
     <!-- Features -->
@@ -629,9 +588,50 @@
     </div> 
     <hr/>
 
-    
+    <form>
+        <!-- File Upload -->
+        <div class="form-group mt-2 col-12">
+          <label for="imageUpload" class="btn col-12 text-center font-medium-5 text-uppercase file-drop-zone">
+            {{ fileNames?.length ? fileNames.join(', ') : "No file uploaded yet." }}
+          </label>
+          <input
+            (change)="onFileUpload($event)"
+            type="file"
+            id="imageUpload"
+            accept="image/*"
+            multiple
+            style="display: none"
+            formControlName="images"
+            [ngClass]="{
+              'is-invalid': createProductFormSubmitted && createProductForm.get('images')?.errors
+            }"
+          />
+          <div *ngIf="createProductForm.get('images') && createProductFormSubmitted && createProductForm.get('images')?.errors" class="invalid-feedback">
+            <div *ngIf="createProductForm.get('images')?.errors?.required">
+              Image is required
+            </div>
+          </div>
+        </div> 
 
-
+         <!-- Submit Button -->
+        <div class="form-group">
+          <button 
+          type="submit" 
+          class="btn btn-primary btn-block"        
+          (click)="createProductFormMethod()" 
+          rippleEffect
+          [disabled]="createProductForm.invalid"
+          >
+          <ng-container *ngIf="!isLoading">
+            Create Product
+          </ng-container>
+          <ng-container *ngIf="isLoading">
+            <i class="fa fa-spinner fa-spin"></i> 
+            Loading...
+          </ng-container>
+          </button>
+        </div>
+    </form>
   </div>
     
 </ng-template>
