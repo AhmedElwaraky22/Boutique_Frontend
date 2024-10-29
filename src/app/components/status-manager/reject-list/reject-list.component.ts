@@ -63,6 +63,8 @@ export class RejectListComponent implements OnInit {
         }
     });
     this.updateLimit();
+
+    
 }
 
   filterUpdate(): void {
