@@ -259,7 +259,7 @@ navigateWithState(CategoryId: number): void {
        });
    
      }
-   
+     
   //Add New Category 
   CreateNewCategoryMethod() {
     this.isLoading = true;
