@@ -106,11 +106,9 @@
              [scrollbarH]="true"
    
            >
-   
+           <!-- Store Id  -->
            <ngx-datatable-column name="ID" prop="id" [width]="80">
-             <ng-template let-id="value" let-isDeleted="row.isDeleted"  let-isVerified="row.verified"  ngx-datatable-cell-template
-          
-             >
+             <ng-template let-id="value" let-isDeleted="row.isDeleted"  let-isVerified="row.verified"  ngx-datatable-cell-template>
                <div
                  class="badge badge-pill badge-glow px-3"
                  [ngClass]="{
@@ -123,7 +121,8 @@
                </div>
              </ng-template>
            </ngx-datatable-column>
-   
+
+           <!-- Store Name  -->
              <ngx-datatable-column
                name="Store Name"
                prop="store_name"
@@ -160,6 +159,8 @@
                  </div>
                </ng-template>
              </ngx-datatable-column>
+
+             <!-- Store Phone  -->
              <ngx-datatable-column name="phone" prop="store_phone" [width]="100">
                <ng-template let-phone="value" ngx-datatable-cell-template>
                  <div
@@ -173,11 +174,15 @@
                  </div>
                </ng-template>
              </ngx-datatable-column>
+
+             <!-- Store Emil  -->
              <ngx-datatable-column
                name="Email"
                prop="email"
                [width]="200"
              ></ngx-datatable-column>
+
+             <!-- Store Addres  -->
              <ngx-datatable-column name="Address" prop="store_address" [width]="400">
                <ng-template let-address="value" ngx-datatable-cell-template>
                  <div>
@@ -193,10 +198,7 @@
                </ng-template>
              </ngx-datatable-column>
    
-   
-   
-   
-   
+             <!-- Store categories  -->
              <ngx-datatable-column name="categories" prop="categories
              " [width]="200" >
                <ng-template
@@ -204,7 +206,7 @@
                  let-name="row.categories "
                  ngx-datatable-cell-template
                >
-               <div *ngFor="let item of name">
+               <div *ngFor="let item of row.categories">
                 <div class="row">
                   <i
                   class="feather font-medium-3 mr-2"
@@ -212,6 +214,8 @@
                     'icon-gift  text-warning ': item !== ''
                   }"
                 ></i>
+
+
                 {{ item.name_en }}
                 </div>
              
