@@ -1,15 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TransactionsService } from '../status.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ColumnMode, DatatableComponent } from "@swimlane/ngx-datatable";
-import { DomSanitizer } from '@angular/platform-browser';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-pending-list',
   templateUrl: './accept-list.component.html',
   styleUrls: ['./accept-list.component.scss']
 })
+
 export class AcceptListComponent implements OnInit {
+  UploadAttachment:FormGroup;
   acceptData: any[] = [];
   displayedData: any[] = []; 
   ColumnMode = ColumnMode;
@@ -23,8 +25,9 @@ export class AcceptListComponent implements OnInit {
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
-  constructor(private _transaction: TransactionsService, private router: Router, private sanitizer: DomSanitizer) {}
-
+  constructor(private _transaction: TransactionsService, private router: Router, private fb:FormBuilder) {
+    this.UploadAttachment = this.fb.group({attachment:[null]});
+  }
   ngOnInit(): void {
     this.GetAllTransactions();
   }
@@ -39,6 +42,7 @@ export class AcceptListComponent implements OnInit {
     );
   }
 
+  // Sort
   sortData(column: string): void {
     this.sortDirection = this.sortColumn === column && this.sortDirection === 'asc' ? 'desc' : 'asc';
     this.sortColumn = column;
@@ -62,6 +66,7 @@ export class AcceptListComponent implements OnInit {
     this.updateLimit();
 }
 
+// Search
   filterUpdate(): void {
     const searchLower = this.searchValue.toLowerCase();
     this.acceptData = this.acceptData.filter(item => Object.keys(item).some(key => String(item[key]).toLowerCase().includes(searchLower)));
@@ -70,6 +75,7 @@ export class AcceptListComponent implements OnInit {
     this.updateLimit();
   }
 
+  // Show no
   updateLimit(): void {
     if (this.selectedOption === this.acceptData.length) {
       this.displayedData = this.acceptData;
@@ -80,35 +86,61 @@ export class AcceptListComponent implements OnInit {
     }
   }
 
-  onReject(id: any): void {
-    const index = this.acceptData.findIndex(item => item.id === id);
-    if (index !== -1) {
-      this.acceptData[index].status = 'rejected';
-      this.updateLimit();
-    }
-  }
-
+  // Approve
   onApprove(id: any): void {
     this.selectedTransactionId = id;
     this.showModal = true;
   }
 
-  uploadPhoto(id: any, event: Event): void {
-    const file = (event.target as HTMLInputElement).files[0];
-    const index = this.acceptData.findIndex(item => item.id === this.selectedTransactionId);
+  uploadPhoto(event: Event): void {
+    const input = event.target as HTMLInputElement; // Cast to HTMLInputElement
+    const file = input.files[0].name; // Check for selected file
+    this.closeModal();
+    
     if (file) {
-      const fileUrl = URL.createObjectURL(file);
-      this.showModal = false;
-      this.acceptData[index].attachment = this.sanitizer.bypassSecurityTrustUrl(fileUrl);
-      this.acceptData[index].status = 'accepted';
-      this.updateLimit();
+        const formData = new FormData();
+        formData.append('attachment', file); // Append the file
+
+        // Call the API to approve the transaction with the uploaded file
+        this._transaction.approveRequest(this.selectedTransactionId, formData).subscribe(
+            (res: any) => {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Transaction Approved",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+                this.closeModal(); // Close modal after successful upload
+                this.GetAllTransactions(); // Refresh the transaction list
+            },
+            (error) => {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "An error occurred while Approving!",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+                console.error('Upload error:', error); // Log the error for debugging
+            }
+        );
+    } else {
+        Swal.fire({
+            position: "center",
+            icon: "warning",
+            title: "No file selected.",
+            showConfirmButton: false,
+            timer: 1500,
+        });
     }
-  }
+}
 
   closeModal(): void {
     this.showModal = false;
   }
 
+  // Paginator
   nextPage(): void {
     if (this.currentPage * this.selectedOption < this.acceptData.length) {
       this.currentPage++;

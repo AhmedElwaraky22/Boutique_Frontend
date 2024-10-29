@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { TransactionsService } from "../status.service";
 import { ColumnMode, DatatableComponent } from "@swimlane/ngx-datatable";
-import { DomSanitizer } from "@angular/platform-browser";
 import Swal from "sweetalert2";
 
 @Component({
@@ -13,7 +12,6 @@ export class PendingListComponent implements OnInit {
   pendingData: any[] = [];
   displayedData: any[] = [];
   ColumnMode = ColumnMode;
-  accept: any;
   selectedOption: number = 10;
   currentPage: number = 1;
   sortColumn: string = "";
@@ -21,58 +19,42 @@ export class PendingListComponent implements OnInit {
   searchValue: string = "";
   showModal: boolean = false;
   selectedTransactionId: any;
-  uploadedFile;
-  fileName;
+  uploadedFile: File | null = null;
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
-  constructor(
-    private _transaction: TransactionsService,
-    private sanitizer: DomSanitizer
-  ) {}
+  constructor(private transactionService: TransactionsService) {}
 
   ngOnInit(): void {
-    this.GetAllTransactions();
+    this.getAllTransactions();
   }
 
-  GetAllTransactions(): void {
-    this._transaction.GetAllTransactions().subscribe(
+  getAllTransactions(): void {
+    this.transactionService.GetAllTransactions().subscribe(
       (res: any) => {
         this.pendingData = res.filter((item: any) => item.status === "pending");
         this.updateLimit();
       },
       (error) => {
         console.error("Error occurred:", error);
+        Swal.fire({ position: "center", icon: "error", title: "Failed to load transactions", showConfirmButton: false, timer: 1500 });
       }
     );
   }
 
-
-   
-
   sortData(column: string): void {
-    this.sortDirection =
-      this.sortColumn === column && this.sortDirection === "asc"
-        ? "desc"
-        : "asc";
+    this.sortDirection = this.sortColumn === column && this.sortDirection === "asc" ? "desc" : "asc";
     this.sortColumn = column;
 
     this.pendingData.sort((a, b) => {
       const aValue = a[column];
       const bValue = b[column];
-
       const isANumber = !isNaN(Number(aValue));
       const isBNumber = !isNaN(Number(bValue));
 
       if (isANumber && isBNumber) {
-        // Both are numbers
-        return this.sortDirection === "asc"
-          ? Number(aValue) - Number(bValue)
-          : Number(bValue) - Number(aValue);
+        return this.sortDirection === "asc" ? Number(aValue) - Number(bValue) : Number(bValue) - Number(aValue);
       } else {
-        // Treat as strings
-        return this.sortDirection === "asc"
-          ? aValue.localeCompare(bValue)
-          : bValue.localeCompare(aValue);
+        return this.sortDirection === "asc" ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
       }
     });
     this.updateLimit();
@@ -80,10 +62,8 @@ export class PendingListComponent implements OnInit {
 
   filterUpdate(): void {
     const searchLower = this.searchValue.toLowerCase();
-    this.pendingData = this.pendingData.filter((item) =>
-      Object.keys(item).some((key) =>
-        String(item[key]).toLowerCase().includes(searchLower)
-      )
+    this.pendingData = this.pendingData.filter(item =>
+      Object.values(item).some(value => String(value).toLowerCase().includes(searchLower))
     );
     this.currentPage = 1;
     this.updateLimit();
@@ -95,22 +75,54 @@ export class PendingListComponent implements OnInit {
     this.displayedData = this.pendingData.slice(startIndex, endIndex);
   }
 
-  //actions
-  onReject(id: any): void {
-      this.RejectTransaction(id);
-    }
-
   onApprove(id: any): void {
     this.selectedTransactionId = id;
     this.showModal = true;
   }
 
- 
   closeModal(): void {
     this.showModal = false;
+    this.uploadedFile = null; // Reset file when closing modal
   }
 
-  //paginator
+  uploadPhoto(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files.length) {
+      this.uploadedFile = input.files[0];
+      this.showModal = false;
+
+      const formData = new FormData();
+      formData.append('attachment', this.uploadedFile); // Append file correctly
+
+      this.transactionService.approveRequest(this.selectedTransactionId, formData).subscribe(
+        (res: any) => {
+          Swal.fire({ position: "center", icon: "success", title: "Transaction Approved", showConfirmButton: false, timer: 1500 });
+          this.getAllTransactions();
+        },
+        (error) => {
+          console.error("Approval error:", error);
+          Swal.fire({ position: "center", icon: "error", title: "An error occurred while approving!", showConfirmButton: false, timer: 1500 });
+        }
+      );
+    } else {
+      Swal.fire({ position: "center", icon: "warning", title: "No file selected.", showConfirmButton: false, timer: 1500 });
+    }
+  }
+
+  onReject(transId: number): void {
+    this.transactionService.rejectRequest(transId).subscribe(
+      (res: any) => {
+        Swal.fire({ position: "center", icon: "success", title: "Transaction Rejected", showConfirmButton: false, timer: 1500 });
+        this.getAllTransactions();
+      },
+      (error) => {
+        console.error("Rejection error:", error);
+        Swal.fire({ position: "center", icon: "error", title: "An error occurred while rejecting!", showConfirmButton: false, timer: 1500 });
+      }
+    );
+  }
+
+  // Paginator
   nextPage(): void {
     if (this.currentPage * this.selectedOption < this.pendingData.length) {
       this.currentPage++;
@@ -144,75 +156,5 @@ export class PendingListComponent implements OnInit {
     const totalPages = Math.ceil(this.pendingData.length / this.selectedOption);
     this.currentPage = totalPages;
     this.updateLimit();
-  }
-
-  uploadPhoto(event: Event) {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      this.uploadedFile = file;
-      this.fileName = file.name
-      console.log('File uploaded:', file);
-      console.log('File uploaded:', this.fileName);
-    }
-
-    if (!this.selectedTransactionId || !this.uploadedFile) {
-      console.error('Transaction ID or file is missing');
-      return;
-    }
-
-    console.log('attachment[]', this.fileName);
-    this.approveRequest();
-  }
-
-
-
-  approveRequest(): void {
-    const formData = new FormData();
-    formData.append('attachment[]', this.fileName);
-    this._transaction.approveRequest(this.selectedTransactionId, formData).subscribe(
-      (res: any) => {
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Transaction Approved",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        this.updateLimit();
-      },
-      (error) => {
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "An error occurred while Approving!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
-    );
-  }
-
-  RejectTransaction(id){
-    this._transaction.rejectRequest(id).subscribe(
-      (res: any) => {
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Transaction Rejected",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        this.updateLimit();
-      },
-      (error) => {
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "An error occurred while Rejecting!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
-    );
   }
 }

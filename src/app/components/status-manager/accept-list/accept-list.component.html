@@ -33,7 +33,7 @@
         <th (click)="sortData('store')">Store</th>
         <th (click)="sortData('created_at')">Creation Date</th>
         <th (click)="sortData('approve_date')">Action Date</th>
-        <th>Actions</th>
+        <!-- <th>Actions</th> -->
       </tr>
     </thead>
     <tbody>
@@ -43,7 +43,7 @@
         <td>{{ item.payment_type }}</td>
         <td>{{ item.transaction_type }}</td>
         <td>
-          <img loading="lazy" [src]="item.attachment" style="max-height: 75px;">
+          <img [src]="item.attachment" style="max-height: 75px;">
         </td>
         <td>{{ item.wallet_id }}</td>
         <td>{{ item.wallet_type }}</td>
@@ -52,7 +52,7 @@
         <td>{{ item.store }}</td>
         <td>{{ item.created_at | date : "short" }}</td>
         <td>{{ item.approve_date | date : "short" }}</td>
-        <td>
+        <!-- <td>
           <div ngbDropdown container="body">
             <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow text-white" rippleEffect>
               <span [data-feather]="'more-vertical'" class="cursor-pointer"></span>
@@ -64,7 +64,7 @@
               </a>
             </div>
           </div>
-        </td>
+        </td> -->
       </tr>
     </tbody>
   </table>
@@ -88,7 +88,7 @@
         <form>
           <div class="form-group">
             <label for="photoInput">Select a photo to upload:</label>
-            <input type="file" id="photoInput" (change)="uploadPhoto(selectedTransactionId, $event)" class="form-control" accept="image/*" />
+            <input type="file" id="photoInput" (change)="uploadPhoto($event)" class="form-control" accept="image/*" />
           </div>
         </form>
       </div>

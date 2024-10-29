@@ -1,5 +1,4 @@
 import { AdminSelectCategory } from './../../../main/sample/modules/admin-select-category';
-import { map } from 'rxjs/operators';
 import { repeaterAnimation } from './form-repeater.animation';
 import { Subcategoryinterface, Value } from './../../../main/sample/modules/subcategoryinterface';
 import { SubcategoryserviceService } from './../subcategoryservice.service';
