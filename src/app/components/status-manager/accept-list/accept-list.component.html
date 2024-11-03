@@ -1,113 +1,134 @@
-<div class="d-flex justify-content-between align-items-center my-4 m-1">
-  <label class="d-flex align-items-center">
-    Show
-    <select class="form-control mx-2" [(ngModel)]="selectedOption" (change)="updateLimit()">
-      <option [value]="acceptData.length">All</option>
-      <option value="2">2</option>
-      <option value="10">10</option>
-      <option value="25">25</option>
-      <option value="50">50</option>
-      <option value="100">100</option>
-    </select>
-    entries
-  </label>
-  <label class="d-flex align-items-center">
-    Search:
-    <input [(ngModel)]="searchValue" name="searchValue" type="search" class="form-control mx-2" (keyup)="filterUpdate()"/>
-  </label>
+<div class="content-wrapper container-xxl p-0 mt-3">
+  <div class="content-body">
+    <!-- User List -->
+    <section class="users-list-wrapper">
+      <!-- users filter start -->
+      <div class="card">
+        <h5 class="card-header font-weight-bold text-primary display-4">All Category</h5>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6 col-12">
+              <div class="d-flex justify-content-between align-items-center m-1">
+                <label class="d-flex align-items-center">
+                  Show
+                  <select class="form-control mx-25" [(ngModel)]="selectedOption" (change)="updateLimit()">
+                    <option [value]="acceptData.length">All</option>
+                    <option value="2">2</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                  entries
+                </label>
+              </div>
+            </div>
+            <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+              <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                <label class="d-flex align-items-center ml-1 ml-md-0">
+                  Search:
+                  <input [(ngModel)]="searchValue" name="searchValue" type="search" class="form-control ml-25" (keyup)="filterUpdate()"/>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- users filter end -->
+
+      <div class="card">
+        <ngx-datatable
+          [rows]="displayedData"
+          [rowHeight]="'auto'"
+          class="bootstrap core-bootstrap"
+          [limit]="selectedOption"
+          [columnMode]="ColumnMode.force"
+          [headerHeight]="50"
+          [footerHeight]="50"
+          [scrollbarH]="true">
+
+          <ngx-datatable-column name="ID" prop="id" [width]="100" [sortable]="true">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row.id }}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Amount" prop="amount" [width]="150" [sortable]="true">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row.amount }}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Payment Type" prop="payment_type" [width]="150" [sortable]="true">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row.payment_type }}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Transaction Type" prop="transaction_type" [width]="150" [sortable]="true">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row.transaction_type }}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Attachment" [width]="150">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <img [src]="row.attachment" style="max-height: 75px;">
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Wallet ID" prop="wallet_id" [width]="150" [sortable]="true">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row.wallet_id }}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Wallet Type" prop="wallet_type" [width]="150" [sortable]="true">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row.wallet_type }}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Wallet Phone" prop="wallet_phone" [width]="150" [sortable]="true">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row.wallet_phone }}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Status" prop="status" [width]="150" [sortable]="true">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row.status }}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Store" prop="store" [width]="150" [sortable]="true">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row.store }}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Creation Date" prop="created_at" [width]="150" [sortable]="true">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row.created_at | date: 'short' }}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Action Date" prop="approve_date" [width]="150" [sortable]="true">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row.approve_date | date: 'short' }}
+            </ng-template>
+          </ngx-datatable-column>
+
+        </ngx-datatable>
+      </div>
+    </section>
+  </div>
+
+  <div *ngIf="acceptData.length === 0">
+    <h3 class="text-center">No Accepted Transactions</h3>
+  </div>
 </div>
 
-<div class="table-responsive" *ngIf="acceptData.length > 0">
-  <ngx-datatable
-  [rows]="displayedData"
-  [rowHeight]="'auto'"
-  class="bootstrap core-bootstrap"
-  [limit]="selectedOption"
-  [columnMode]="ColumnMode.force"
-  [headerHeight]="50"
-  [footerHeight]="50"
-  [scrollbarH]="true">
-
-  <ngx-datatable-column name="ID" prop="id" [width]="100" [sortable]="true">
-    <ng-template let-row="row" ngx-datatable-cell-template>
-      {{ row.id }}
-    </ng-template>
-  </ngx-datatable-column>
-
-  <ngx-datatable-column name="Amount" prop="amount" [width]="150" [sortable]="true">
-    <ng-template let-row="row" ngx-datatable-cell-template>
-      {{ row.amount }}
-    </ng-template>
-  </ngx-datatable-column>
-
-  <ngx-datatable-column name="Payment Type" prop="payment_type" [width]="150" [sortable]="true">
-    <ng-template let-row="row" ngx-datatable-cell-template>
-      {{ row.payment_type }}
-    </ng-template>
-  </ngx-datatable-column>
-
-  <ngx-datatable-column name="Transaction Type" prop="transaction_type" [width]="150" [sortable]="true">
-    <ng-template let-row="row" ngx-datatable-cell-template>
-      {{ row.transaction_type }}
-    </ng-template>
-  </ngx-datatable-column>
-
-  <ngx-datatable-column name="Attachment" [width]="150">
-    <ng-template let-row="row" ngx-datatable-cell-template>
-      <img [src]="row.attachment" style="max-height: 75px;">
-    </ng-template>
-  </ngx-datatable-column>
-
-  <ngx-datatable-column name="Wallet ID" prop="wallet_id" [width]="150" [sortable]="true">
-    <ng-template let-row="row" ngx-datatable-cell-template>
-      {{ row.wallet_id }}
-    </ng-template>
-  </ngx-datatable-column>
-
-  <ngx-datatable-column name="Wallet Type" prop="wallet_type" [width]="150" [sortable]="true">
-    <ng-template let-row="row" ngx-datatable-cell-template>
-      {{ row.wallet_type }}
-    </ng-template>
-  </ngx-datatable-column>
-
-  <ngx-datatable-column name="Wallet Phone" prop="wallet_phone" [width]="150" [sortable]="true">
-    <ng-template let-row="row" ngx-datatable-cell-template>
-      {{ row.wallet_phone }}
-    </ng-template>
-  </ngx-datatable-column>
-
-  <ngx-datatable-column name="Status" prop="status" [width]="150" [sortable]="true">
-    <ng-template let-row="row" ngx-datatable-cell-template>
-      {{ row.status }}
-    </ng-template>
-  </ngx-datatable-column>
-
-  <ngx-datatable-column name="Store" prop="store" [width]="150" [sortable]="true">
-    <ng-template let-row="row" ngx-datatable-cell-template>
-      {{ row.store }}
-    </ng-template>
-  </ngx-datatable-column>
-
-  <ngx-datatable-column name="Creation Date" prop="created_at" [width]="150" [sortable]="true">
-    <ng-template let-row="row" ngx-datatable-cell-template>
-      {{ row.created_at | date: 'short' }}
-    </ng-template>
-  </ngx-datatable-column>
-
-  <ngx-datatable-column name="Action Date" prop="approve_date" [width]="150" [sortable]="true">
-    <ng-template let-row="row" ngx-datatable-cell-template>
-      {{ row.approve_date | date: 'short' }}
-    </ng-template>
-  </ngx-datatable-column>
-
-</ngx-datatable>
-
-
-</div>
-
-<div *ngIf="acceptData.length == 0">
-  <h3 class="text-center">No Accepted Transactions</h3>
-</div>
 
 <!-- Upload Photo Modal -->
 <div class="modal fade" id="uploadPhotoModal" tabindex="-1" role="dialog" [ngClass]="{ show: showModal }" [style]="showModal ? 'display:block' : 'display:none'">
