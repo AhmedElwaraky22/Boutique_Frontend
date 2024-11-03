@@ -19,56 +19,114 @@
 
 <!-- Table of Contents -->
 <div class="table-responsive" *ngIf="rejectData.length > 0">
-  <table class="table text-center table-striped">
-    <thead>
-      <tr>
-        <th (click)="sortData('id')">ID</th>
-        <th (click)="sortData('amount')">Amount</th>
-        <th (click)="sortData('payment_type')">Payment Type</th>
-        <th (click)="sortData('transaction_type')">Transaction Type</th>
-        <th (click)="sortData('wallet_id')">Wallet ID</th>
-        <th (click)="sortData('wallet_type')">Wallet Type</th>
-        <th (click)="sortData('wallet_phone')">Wallet Phone</th>
-        <th (click)="sortData('status')">Status</th>
-        <th (click)="sortData('store')">Store</th>
-        <th (click)="sortData('created_at')">Creation Date</th>
-        <th (click)="sortData('approve_date')">Action Date</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of displayedData">
-        <td>{{ item.id }}</td>
-        <td>{{ item.amount }}</td>
-        <td>{{ item.payment_type }}</td>
-        <td>{{ item.transaction_type }}</td>
-        <td>{{ item.wallet_id }}</td>
-        <td>{{ item.wallet_type }}</td>
-        <td>{{ item.wallet_phone }}</td>
-        <td>{{ item.status }}</td>
-        <td>{{ item.store }}</td>
-        <td>{{ item.created_at | date : "short" }}</td>
-        <td>{{ item.approve_date | date : "short" }}</td>
-        <td>
-          <div ngbDropdown container="body">
-            <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow text-white" rippleEffect>
-              <span [data-feather]="'more-vertical'" class="cursor-pointer"></span>
-            </button>
-            <div ngbDropdownMenu>
-              <a ngbDropdownItem (click)="onApprove(item.id)">
-                <span [data-feather]="'check'" [size]="16" class="mr-50 text-success"></span>
-                Approve Transaction
-              </a>
-              <!-- <a ngbDropdownItem (click)="onDelete(item.id)">
-                <span [data-feather]="'x'" [size]="16" class="mr-50 text-danger"></span>
-                Delete Transaction
-              </a> -->
-            </div>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <ngx-datatable
+  [rows]="displayedData"
+  [rowHeight]="'auto'"
+  class="bootstrap core-bootstrap"
+  [limit]="selectedOption"
+  [columnMode]="ColumnMode.force"
+  [headerHeight]="50"
+  [footerHeight]="50"
+  [scrollbarH]="true">
+
+  <ngx-datatable-column name="ID" prop="id" [width]="100">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      <div class="badge badge-pill badge-glow px-3">
+        {{ row.id }}
+      </div>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Amount" prop="amount" [width]="150">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      {{ row.amount }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Payment Type" prop="payment_type" [width]="150">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      {{ row.payment_type }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Transaction Type" prop="transaction_type" [width]="150">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      {{ row.transaction_type }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Wallet ID" prop="wallet_id" [width]="150">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      {{ row.wallet_id }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Wallet Type" prop="wallet_type" [width]="150">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      {{ row.wallet_type }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Wallet Phone" prop="wallet_phone" [width]="150">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      {{ row.wallet_phone }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Status" prop="status" [width]="150">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      {{ row.status }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Store" prop="store" [width]="150">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      {{ row.store }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Creation Date" prop="created_at" [width]="150">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      {{ row.created_at | date: "short" }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Action Date" prop="approve_date" [width]="150">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      {{ row.approve_date | date: "short" }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Actions" [width]="100" [sortable]="false">
+    <ng-template ngx-datatable-cell-template let-row="row">
+      <div ngbDropdown container="body">
+        <button
+          ngbDropdownToggle
+          type="button"
+          class="btn icon-btn btn-sm hide-arrow text-danger"
+          rippleEffect>
+          <span [data-feather]="'more-vertical'" class="cursor-pointer"></span>
+        </button>
+        <div ngbDropdownMenu>
+          <a ngbDropdownItem (click)="onApprove(row.id)">
+            <span [data-feather]="'check'" [size]="16" class="mr-50 text-success"></span>
+            Approve Transaction
+          </a>
+        </div>
+      </div>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-footer>
+    <ngx-datatable-pager
+      [rows]="displayedData"
+      [limit]="selectedOption"
+      [count]="totalRows" 
+      (pageChange)="onPageChange($event)"
+      [pageSizeOptions]="[5, 10, 20, 50]">
+    </ngx-datatable-pager>
+  </ngx-datatable-footer>
+</ngx-datatable>
+
 </div>
 
 <div *ngIf="rejectData.length == 0">

@@ -13,3 +13,9 @@ img{
 a{
     text-decoration: none;
 }
+ngx-datatable .datatable-footer {
+    background-color: white !important; /* Make the background transparent */
+    border: none; /* Optional: remove any border */
+    color: #fff; /* Change text color to white or any other color */
+  }
+  

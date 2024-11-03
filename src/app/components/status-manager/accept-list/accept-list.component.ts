@@ -65,7 +65,6 @@ export class AcceptListComponent implements OnInit {
   filterUpdate(): void {
     const searchLower = this.searchValue.toLowerCase();
     this.acceptData = this.acceptData.filter(item => Object.keys(item).some(key => String(item[key]).toLowerCase().includes(searchLower)));
-
     this.currentPage = 1;
     this.updateLimit();
   }
@@ -143,5 +142,4 @@ export class AcceptListComponent implements OnInit {
     this.currentPage = totalPages; 
     this.updateLimit();
   }
-  
 }

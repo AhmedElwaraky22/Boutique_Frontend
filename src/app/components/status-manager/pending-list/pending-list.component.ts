@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { TransactionsService } from "../status.service";
 import { ColumnMode, DatatableComponent } from "@swimlane/ngx-datatable";
-import { DomSanitizer } from "@angular/platform-browser";
 import Swal from "sweetalert2";
 
 @Component({
@@ -9,6 +8,7 @@ import Swal from "sweetalert2";
   templateUrl: "./pending-list.component.html",
   styleUrls: ["./pending-list.component.scss"],
 })
+
 export class PendingListComponent implements OnInit {
   pendingData: any[] = [];
   displayedData: any[] = [];
@@ -23,11 +23,11 @@ export class PendingListComponent implements OnInit {
   selectedTransactionId: any;
   uploadedFile;
   fileName;
+
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
   constructor(
     private _transaction: TransactionsService,
-    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -40,14 +40,9 @@ export class PendingListComponent implements OnInit {
         this.pendingData = res.filter((item: any) => item.status === "pending");
         this.updateLimit();
       },
-      (error) => {
-        console.error("Error occurred:", error);
-      }
+      (error) => console.error("Error occurred:", error)
     );
   }
-
-
-   
 
   sortData(column: string): void {
     this.sortDirection =
@@ -80,11 +75,7 @@ export class PendingListComponent implements OnInit {
 
   filterUpdate(): void {
     const searchLower = this.searchValue.toLowerCase();
-    this.pendingData = this.pendingData.filter((item) =>
-      Object.keys(item).some((key) =>
-        String(item[key]).toLowerCase().includes(searchLower)
-      )
-    );
+    this.pendingData = this.pendingData.filter((item) => Object.keys(item).some((key) => String(item[key]).toLowerCase().includes(searchLower)));
     this.currentPage = 1;
     this.updateLimit();
   }
@@ -95,7 +86,7 @@ export class PendingListComponent implements OnInit {
     this.displayedData = this.pendingData.slice(startIndex, endIndex);
   }
 
-  //actions
+  // Actions
   onReject(id: any): void {
       this.RejectTransaction(id);
     }
@@ -105,12 +96,11 @@ export class PendingListComponent implements OnInit {
     this.showModal = true;
   }
 
- 
   closeModal(): void {
     this.showModal = false;
   }
 
-  //paginator
+  // Paginator
   nextPage(): void {
     if (this.currentPage * this.selectedOption < this.pendingData.length) {
       this.currentPage++;
@@ -154,7 +144,6 @@ export class PendingListComponent implements OnInit {
       console.log('File uploaded:', file);
       console.log('File uploaded:', this.fileName);
     }
-
     if (!this.selectedTransactionId || !this.uploadedFile) {
       console.error('Transaction ID or file is missing');
       return;
@@ -163,8 +152,6 @@ export class PendingListComponent implements OnInit {
     console.log('attachment[]', this.fileName);
     this.approveRequest();
   }
-
-
 
   approveRequest(): void {
     const formData = new FormData();

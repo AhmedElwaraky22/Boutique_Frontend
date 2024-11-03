@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { TransactionsService } from '../status.service';
 import { Router } from '@angular/router';
 import { ColumnMode, DatatableComponent } from "@swimlane/ngx-datatable";
-import { DomSanitizer } from '@angular/platform-browser';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -27,7 +26,7 @@ export class RejectListComponent implements OnInit {
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
-  constructor(private _transaction: TransactionsService, private router: Router, private sanitizer: DomSanitizer) {}
+  constructor(private _transaction: TransactionsService, private router: Router) {}
 
   ngOnInit(): void {
     this.GetAllTransactions();
