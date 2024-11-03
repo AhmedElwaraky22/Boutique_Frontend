@@ -76,7 +76,7 @@ export class ProductListComponent implements OnInit {
     ) 
 
 
-    {
+  {
       this.createProductForm = this.fb.group({
         store_id: [null, Validators.required],
         selectedCategoryId: [null, Validators.required],
@@ -418,7 +418,7 @@ export class ProductListComponent implements OnInit {
         Swal.fire({
           position: "center",
           icon: "success",
-          title: "category added Successfully ",
+          title: "Product added Successfully ",
           showConfirmButton: false,
           timer: 1500,
         });
@@ -443,7 +443,7 @@ export class ProductListComponent implements OnInit {
         Swal.fire({
           position: "center",
           icon: "error",
-          title: "An Error Occurred While adding  !",
+          title: "An Error Occurred While adding product  !",
           showConfirmButton: false,
           timer: 1500,
         });

@@ -97,7 +97,7 @@ export class ProductsService implements Resolve<any> {
 
   // Add To Home Product
   AddToHomeProduct(product_id: number, type: string, index: number) {
-    return this._httpClient.post(`${environment.apiUrl}admin/home-products`, { product_id, type, index });
+    return this._httpClient.post(`${environment.apiUrl}admin/home-products`, {  type, index });
   }
 
   // Add New Product 

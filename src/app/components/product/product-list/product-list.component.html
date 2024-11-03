@@ -382,30 +382,240 @@
             </div>
         </div>
 
-        <!-- File Upload -->
-        <div class="form-group mt-2 col-12">
-          <label for="imageUpload" class="btn col-12 text-center font-medium-5 text-uppercase file-drop-zone">
-            {{ fileNames?.length ? fileNames.join(', ') : "No file uploaded yet." }}
-          </label>
-          <input
-            (change)="onFileUpload($event)"
-            type="file"
-            id="imageUpload"
-            accept="image/*"
-            multiple
-            style="display: none"
-            formControlName="images"
-            [ngClass]="{
-              'is-invalid': createProductFormSubmitted && createProductForm.get('images')?.errors
-            }"
-          />
-          <div *ngIf="createProductForm.get('images') && createProductFormSubmitted && createProductForm.get('images')?.errors" class="invalid-feedback">
-            <div *ngIf="createProductForm.get('images')?.errors?.required">
-              Image is required
+        
+      </div>      
+    </form>
+
+    
+       <!-- Features -->
+     <div class="form-group">
+      <div class="modal-body " tabindex="1" ngbAutofocus>
+        <div *ngFor="let feature of features; let i = index">
+          <div class="row">
+            <!-- First Feature Selection -->
+            <div class="form-group col-md-6">
+              <label for="firstFeature{{ i }}">Select First Feature {{ i + 1 }}</label>
+              <select 
+                class="form-control" 
+                [(ngModel)]="feature.firstFeature" 
+                name="firstFeature{{ i }}" 
+                id="firstFeature{{ i }}"
+                [value]="feature.firstFeature"
+              >
+                <option value="" >Select Feature</option>
+                
+                <ng-container *ngFor="let Feature of SubFeatures">
+                  <ng-container *ngIf="Feature.is_color == false">
+                    <option *ngFor="let last of Feature.values" [value]="last.id">
+                      {{ last.value }} 
+                    </option>
+                  </ng-container>
+                </ng-container>
+              </select>
+            </div>
+  
+            <!-- Second Feature Selection -->
+            <div class="form-group col-md-6">
+              <label for="secondFeature{{ i }}">Select Second Feature {{ i + 1 }}</label>
+              <select 
+                class="form-control"
+                [(ngModel)]="feature.secondFeature" 
+                name="secondFeature{{ i }}" 
+                id="secondFeature{{ i }}"
+                [value]="feature.secondFeature"
+              >
+                <option value="" >Select Feature</option>
+                <ng-container *ngFor="let Feature of SubFeatures">
+                  <ng-container *ngIf="Feature.is_color == true">
+                    <option 
+                      *ngFor="let last of Feature.values" 
+                      [value]="last.id"
+                      [ngStyle]="{ 'background-color': last.value }"
+                    >
+                      {{ last.value }}
+                    </option>
+                  </ng-container>
+                </ng-container>
+              </select>
+            </div>
+            
+            <!-- Price Input -->
+            <div class="form-group col-md-6 w-100">
+              <label for="price{{ i }}">Price for Feature {{ i + 1 }} </label>
+              <input 
+              class="form-control" 
+              type="text" 
+              [(ngModel)]="feature.price" 
+              name="price{{ i }}" 
+              placeholder="Price" 
+              id="price{{ i }}"
+              [cpOutputFormat]="'hex'"
+              [cpPosition] ='auto'
+              [value]="feature.price"
+              >
+            </div>
+    
+            <!-- Quantity Input -->
+            <div class="form-group col-md-6">
+              <label for="quantity{{ i }}">Quantity for Feature{{ i + 1 }}</label>
+              <input class="form-control"
+               type="number" 
+               [(ngModel)]="feature.quantity" 
+               name="quantity{{ i }}" 
+               placeholder="Quantity" 
+               id="quantity{{ i }}"
+               [value]="feature.quantity"
+               >
+            </div>
+    
+            <!-- Delete Button -->
+            <div class="col-md-12">
+              <div class="form-group">
+                <button *ngIf="i != 0" 
+                  class="btn btn-outline-danger text-nowrap px-1" 
+                  (click)="deleteFeature(i)" rippleEffect
+                >
+                  <i data-feather="x" class="mr-25"></i>
+                  <span>Delete</span>
+                </button>
+              </div>
             </div>
           </div>
+          <hr />
         </div>
-        
+      </div>      
+  
+      <div class="col-12">
+        <button class="btn btn-icon btn-primary" type="button" (click)="addFeature()" rippleEffect>
+          <i data-feather="plus" class="mb-1"></i>
+          <span>Add another feature</span>
+        </button>
+        <hr/>
+      </div> 
+     </div>
+   
+
+    <!-- Additional Features -->
+      <div class="modal-body " tabindex="1" ngbAutofocus>
+        <div *ngFor="let additional of additional_features; let i = index">
+          <div class="row">
+  
+            <!-- Additional Features Name En  Input -->
+            <div class="form-group col-md-6 w-100">
+              <label for="Name En{{ i }}">Additional Features Name En {{ i + 1 }} </label>
+              <input 
+              class="form-control" 
+              type="text" 
+              [(ngModel)]="additional.name_en" 
+              name="name_en{{ i }}" 
+              placeholder="name_en" 
+              id="price{{ i }}"
+              [cpOutputFormat]="'hex'"
+              [cpPosition] ='auto'
+              [value]="additional.name_en"
+              >
+            </div>
+  
+            <!-- Additional Features Name Ar Input -->
+            <div class="form-group col-md-6 w-100">
+              <label for="Name En{{ i }}">Additional Features Name Ar{{ i + 1 }} </label>
+              <input 
+              class="form-control" 
+              type="text" 
+              [(ngModel)]="additional.name_ar" 
+              name="name_ar{{ i }}" 
+              placeholder="name_ar" 
+              id="price{{ i }}"
+              [cpOutputFormat]="'hex'"
+              [cpPosition] ='auto'
+              [value]="additional.name_ar"
+              >
+            </div>
+  
+            <!-- Additional Features Value En Input -->
+            <div class="form-group col-md-6 w-100">
+              <label for="Name En{{ i }}">Additional Features Value En{{ i + 1 }} </label>
+              <input 
+              class="form-control" 
+              type="text" 
+              [(ngModel)]="additional.value_en" 
+              name="value_en{{ i }}" 
+              placeholder="value_en" 
+              id="price{{ i }}"
+              [cpOutputFormat]="'hex'"
+              [cpPosition] ='auto'
+              [value]="additional.value_en"
+              >
+            </div>
+  
+            <!-- Additional Features Value Ar Input -->
+            <div class="form-group col-md-6 w-100">
+              <label for="Name En{{ i }}">Additional Features Value Ar{{ i + 1 }} </label>
+              <input 
+              class="form-control" 
+              type="text" 
+              [(ngModel)]="additional.value_ar" 
+              name="value_ar{{ i }}" 
+              placeholder="value_ar" 
+              id="price{{ i }}"
+              [cpOutputFormat]="'hex'"
+              [cpPosition] ='auto'
+              [value]="additional.value_ar"
+              >
+            </div>
+    
+    
+            <!-- Delete Button -->
+            <div class="col-md-12">
+              <div class="form-group">
+                <button *ngIf="i != 0" 
+                  class="btn btn-outline-danger text-nowrap px-1" 
+                  (click)="deleteAdditionalFeature(i)" rippleEffect
+                >
+                  <i data-feather="x" class="mr-25"></i>
+                  <span>Delete</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <hr />
+        </div>
+     </div>
+
+    <div class="col-12">
+      <button class="btn btn-icon btn-primary" type="button" (click)="addAdditionalFeature()" rippleEffect>
+        <i data-feather="plus" class="mb-1"></i>
+        <span>Add Another Additional Feature</span>
+      </button>
+      <hr/>
+    </div> 
+  
+   
+
+
+    <form>
+      <!-- File Upload -->
+      <div class="form-group mt-2 col-12">
+        <label for="imageUpload" class="btn col-12 text-center font-medium-5 text-uppercase file-drop-zone">
+          {{ fileNames?.length ? fileNames.join(', ') : "No file uploaded yet." }}
+        </label>
+        <input
+          (change)="onFileUpload($event)"
+          type="file"
+          id="imageUpload"
+          accept="image/*"
+          multiple
+          style="display: none"
+          formControlName="images"
+          [ngClass]="{
+            'is-invalid': createProductFormSubmitted && createProductForm.get('images')?.errors
+          }"
+        />
+        <div *ngIf="createProductForm.get('images') && createProductFormSubmitted && createProductForm.get('images')?.errors" class="invalid-feedback">
+          <div *ngIf="createProductForm.get('images')?.errors?.required">
+            Image is required
+          </div>
+        </div>
       </div>
 
       <!-- Submit Button -->
@@ -415,8 +625,7 @@
         class="btn btn-primary btn-block"        
         (click)="createProductFormMethod()" 
         rippleEffect
-        [disabled]="createProductForm.invalid"
-        >
+        [disabled]="createProductForm.invalid || isLoading">
         <ng-container *ngIf="!isLoading">
           Create Product
         </ng-container>
@@ -428,207 +637,6 @@
       
       </div>
     </form>
-
-    <!-- Features -->
-    <div class="modal-body " tabindex="1" ngbAutofocus>
-      <div *ngFor="let feature of features; let i = index">
-        <div class="row">
-          <!-- First Feature Selection -->
-          <div class="form-group col-md-6">
-            <label for="firstFeature{{ i }}">Select First Feature {{ i + 1 }}</label>
-            <select 
-              class="form-control" 
-              [(ngModel)]="feature.firstFeature" 
-              name="firstFeature{{ i }}" 
-              id="firstFeature{{ i }}"
-              [value]="feature.firstFeature"
-            >
-              <option value="" >Select Feature</option>
-              
-              <ng-container *ngFor="let Feature of SubFeatures">
-                <ng-container *ngIf="Feature.is_color == false">
-                  <option *ngFor="let last of Feature.values" [value]="last.id">
-                    {{ last.value }} 
-                  </option>
-                </ng-container>
-              </ng-container>
-            </select>
-          </div>
-
-          <!-- Second Feature Selection -->
-          <div class="form-group col-md-6">
-            <label for="secondFeature{{ i }}">Select Second Feature {{ i + 1 }}</label>
-            <select 
-              class="form-control"
-              [(ngModel)]="feature.secondFeature" 
-              name="secondFeature{{ i }}" 
-              id="secondFeature{{ i }}"
-              [value]="feature.secondFeature"
-            >
-              <option value="" >Select Feature</option>
-              <ng-container *ngFor="let Feature of SubFeatures">
-                <ng-container *ngIf="Feature.is_color == true">
-                  <option 
-                    *ngFor="let last of Feature.values" 
-                    [value]="last.id"
-                    [ngStyle]="{ 'background-color': last.value }"
-                  >
-                    {{ last.value }}
-                  </option>
-                </ng-container>
-              </ng-container>
-            </select>
-          </div>
-          
-          <!-- Price Input -->
-          <div class="form-group col-md-6 w-100">
-            <label for="price{{ i }}">Price for Feature {{ i + 1 }} </label>
-            <input 
-            class="form-control" 
-            type="text" 
-            [(ngModel)]="feature.price" 
-            name="price{{ i }}" 
-            placeholder="Price" 
-            id="price{{ i }}"
-            [cpOutputFormat]="'hex'"
-            [cpPosition] ='auto'
-            [value]="feature.price"
-            >
-          </div>
-  
-          <!-- Quantity Input -->
-          <div class="form-group col-md-6">
-            <label for="quantity{{ i }}">Quantity for Feature{{ i + 1 }}</label>
-            <input class="form-control"
-             type="number" 
-             [(ngModel)]="feature.quantity" 
-             name="quantity{{ i }}" 
-             placeholder="Quantity" 
-             id="quantity{{ i }}"
-             [value]="feature.quantity"
-             >
-          </div>
-  
-          <!-- Delete Button -->
-          <div class="col-md-12">
-            <div class="form-group">
-              <button *ngIf="i != 0" 
-                class="btn btn-outline-danger text-nowrap px-1" 
-                (click)="deleteFeature(i)" rippleEffect
-              >
-                <i data-feather="x" class="mr-25"></i>
-                <span>Delete</span>
-              </button>
-            </div>
-          </div>
-        </div>
-        <hr />
-      </div>
-    </div>      
-
-    <div class="col-12">
-      <button class="btn btn-icon btn-primary" type="button" (click)="addFeature()" rippleEffect>
-        <i data-feather="plus" class="mb-1"></i>
-        <span>Add another feature</span>
-      </button>
-    </div> 
-    <hr/>
-
-    <!-- Additional Features -->
-    <div class="modal-body " tabindex="1" ngbAutofocus>
-      <div *ngFor="let additional of additional_features; let i = index">
-        <div class="row">
-
-          <!-- Additional Features Name En  Input -->
-          <div class="form-group col-md-6 w-100">
-            <label for="Name En{{ i }}">Additional Features Name En {{ i + 1 }} </label>
-            <input 
-            class="form-control" 
-            type="text" 
-            [(ngModel)]="additional.name_en" 
-            name="name_en{{ i }}" 
-            placeholder="name_en" 
-            id="price{{ i }}"
-            [cpOutputFormat]="'hex'"
-            [cpPosition] ='auto'
-            [value]="additional.name_en"
-            >
-          </div>
-
-          <!-- Additional Features Name Ar Input -->
-          <div class="form-group col-md-6 w-100">
-            <label for="Name En{{ i }}">Additional Features Name Ar{{ i + 1 }} </label>
-            <input 
-            class="form-control" 
-            type="text" 
-            [(ngModel)]="additional.name_ar" 
-            name="name_ar{{ i }}" 
-            placeholder="name_ar" 
-            id="price{{ i }}"
-            [cpOutputFormat]="'hex'"
-            [cpPosition] ='auto'
-            [value]="additional.name_ar"
-            >
-          </div>
-
-          <!-- Additional Features Value En Input -->
-          <div class="form-group col-md-6 w-100">
-            <label for="Name En{{ i }}">Additional Features Value En{{ i + 1 }} </label>
-            <input 
-            class="form-control" 
-            type="text" 
-            [(ngModel)]="additional.value_en" 
-            name="value_en{{ i }}" 
-            placeholder="value_en" 
-            id="price{{ i }}"
-            [cpOutputFormat]="'hex'"
-            [cpPosition] ='auto'
-            [value]="additional.value_en"
-            >
-          </div>
-
-          <!-- Additional Features Value Ar Input -->
-          <div class="form-group col-md-6 w-100">
-            <label for="Name En{{ i }}">Additional Features Value Ar{{ i + 1 }} </label>
-            <input 
-            class="form-control" 
-            type="text" 
-            [(ngModel)]="additional.value_ar" 
-            name="value_ar{{ i }}" 
-            placeholder="value_ar" 
-            id="price{{ i }}"
-            [cpOutputFormat]="'hex'"
-            [cpPosition] ='auto'
-            [value]="additional.value_ar"
-            >
-          </div>
-  
-  
-          <!-- Delete Button -->
-          <div class="col-md-12">
-            <div class="form-group">
-              <button *ngIf="i != 0" 
-                class="btn btn-outline-danger text-nowrap px-1" 
-                (click)="deleteAdditionalFeature(i)" rippleEffect
-              >
-                <i data-feather="x" class="mr-25"></i>
-                <span>Delete</span>
-              </button>
-            </div>
-          </div>
-        </div>
-        <hr />
-      </div>
-    </div>      
-
-    <div class="col-12">
-      <button class="btn btn-icon btn-primary" type="button" (click)="addAdditionalFeature()" rippleEffect>
-        <i data-feather="plus" class="mb-1"></i>
-        <span>Add Another Additional Feature</span>
-      </button>
-    </div> 
-    <hr/>
-
     
 
 
