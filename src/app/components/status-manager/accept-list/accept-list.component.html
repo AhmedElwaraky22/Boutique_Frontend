@@ -11,7 +11,7 @@
               <div class="d-flex justify-content-between align-items-center m-1">
                 <label class="d-flex align-items-center">
                   Show
-                  <select class="form-control mx-25" [(ngModel)]="selectedOption" (change)="updateLimit()">
+                  <select class="form-control mx-25" [(ngModel)]="selectedOption">
                     <option [value]="acceptData.length">All</option>
                     <option value="2">2</option>
                     <option value="10">10</option>
@@ -34,8 +34,8 @@
           </div>
         </div>
       </div>
-      <!-- users filter end -->
-
+      
+      <!-- Table of Contents -->
       <div class="card">
         <ngx-datatable
           [rows]="displayedData"
@@ -123,34 +123,38 @@
       </div>
     </section>
   </div>
-
   <div *ngIf="acceptData.length === 0">
     <h3 class="text-center">No Accepted Transactions</h3>
   </div>
 </div>
 
-
 <!-- Upload Photo Modal -->
-<div class="modal fade" id="uploadPhotoModal" tabindex="-1" role="dialog" [ngClass]="{ show: showModal }" [style]="showModal ? 'display:block' : 'display:none'">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Upload Photo</h5>
-        <button type="button" class="close" (click)="closeModal()">
-          <span>&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="photoInput">Select a photo to upload:</label>
-            <input type="file" id="photoInput" (change)="uploadPhoto($event)" class="form-control" accept="image/*" />
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+<ng-template #uploadPhotoModal let-showModal="showModal">
+  <div class="modal fade" [ngClass]="{ show: showModal }" [style]="showModal ? 'display:block' : 'display:none'">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Upload Photo</h5>
+          <button type="button" class="close" (click)="closeModal()">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="photoInput">Select a photo to upload:</label>
+              <input type="file" id="photoInput" (change)="uploadPhoto($event)" class="form-control" accept="image/*" />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        </div>
       </div>
     </div>
   </div>
+</ng-template>
+<div *ngIf="showModal; else noModal">
+  <ng-container *ngTemplateOutlet="uploadPhotoModal; context: { showModal: showModal }"></ng-container>
 </div>
+<ng-template #noModal></ng-template>
