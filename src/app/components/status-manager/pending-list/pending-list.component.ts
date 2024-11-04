@@ -41,25 +41,6 @@ export class PendingListComponent implements OnInit {
     );
   }
 
-  sortData(column: string): void {
-    this.sortDirection = this.sortColumn === column && this.sortDirection === "asc" ? "desc" : "asc";
-    this.sortColumn = column;
-
-    this.pendingData.sort((a, b) => {
-      const aValue = a[column];
-      const bValue = b[column];
-      const isANumber = !isNaN(Number(aValue));
-      const isBNumber = !isNaN(Number(bValue));
-
-      if (isANumber && isBNumber) {
-        return this.sortDirection === "asc" ? Number(aValue) - Number(bValue) : Number(bValue) - Number(aValue);
-      } else {
-        return this.sortDirection === "asc" ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
-      }
-    });
-    this.updateLimit();
-  }
-
   filterUpdate(): void {
     const searchLower = this.searchValue.toLowerCase();
     this.pendingData = this.pendingData.filter(item =>
@@ -120,41 +101,5 @@ export class PendingListComponent implements OnInit {
         Swal.fire({ position: "center", icon: "error", title: "An error occurred while rejecting!", showConfirmButton: false, timer: 1500 });
       }
     );
-  }
-
-  // Paginator
-  nextPage(): void {
-    if (this.currentPage * this.selectedOption < this.pendingData.length) {
-      this.currentPage++;
-      this.updateLimit();
-    }
-  }
-
-  prevPage(): void {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.updateLimit();
-    }
-  }
-
-  getPagesArray(): number[] {
-    const totalPages = Math.ceil(this.pendingData.length / this.selectedOption);
-    return Array.from({ length: totalPages }, (_, i) => i + 1);
-  }
-
-  goToPage(page: number): void {
-    this.currentPage = page;
-    this.updateLimit();
-  }
-
-  skipBack(): void {
-    this.currentPage = 1;
-    this.updateLimit();
-  }
-
-  skipForward(): void {
-    const totalPages = Math.ceil(this.pendingData.length / this.selectedOption);
-    this.currentPage = totalPages;
-    this.updateLimit();
   }
 }
