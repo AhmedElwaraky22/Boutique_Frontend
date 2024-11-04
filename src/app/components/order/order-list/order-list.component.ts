@@ -113,36 +113,34 @@ export class OrderListComponent implements OnInit {
     );
   }
 
-
-
-  filterUpdate(event) {
-    // Reset ng-select on search
-
+  filterUpdate(event: any) {
+    // Reset ng-select filters
     this.selectedVerified = this.IsVerified[0];
     this.selectedSuspend = this.IsSuspended[0];
     this.selectedDeleted = this.IsDeleted[0];
+  
+    // Get the search input value and convert to lowercase
     const val = event.target.value.toLowerCase();
-
-    // Filter Our Data
-    const temp = this.tempData.filter(function (d) {
+  
+    // Filter through tempData based on the search value
+    this.rows = this.tempData.filter((d) => {
       return (
-        d.store_name.toLowerCase().indexOf(val) !== -1 ||
-        d.shipment_uid.toLowerCase().indexOf(val) !== -1 ||
-        d.placed_on.toLowerCase().indexOf(val) !== -1 ||
-        d.client_name.toLowerCase().indexOf(val) !== -1 ||
-        d.client_phone.toLowerCase().indexOf(val) !== -1 ||
-        d.store_phone.toLowerCase().indexOf(val) !== -1 ||
-        d.order_status.toLowerCase().indexOf(val) !== -1 ||
-        !val
+        d.store_name?.toLowerCase().includes(val) ||
+        d.shipment_uid?.toLowerCase().includes(val) ||
+        d.placed_on?.toLowerCase().includes(val) ||
+        d.client_name?.toLowerCase().includes(val) ||
+        d.client_phone?.toLowerCase().includes(val) ||
+        d.store_phone?.toLowerCase().includes(val) ||
+        d.order_status?.toLowerCase().includes(val) ||
+        !val // Show all data if search value is empty
       );
     });
-
-    // Update The Rows
-    this.rows = temp;
-    // Whenever The Filter Changes, Always Go Back To The First Page
-    this.table.offset = 0;
+  
+    // Reset pagination to the first page after filtering
+    if (this.table) {
+      this.table.offset = 0;
+    }
   }
-
   filterRows(verifiedFilter, suspendFilter, deletedFilter): any[] {
     // Reset search on select change
     this.searchValue = "";

@@ -28,25 +28,25 @@ export class UserListComponent implements OnInit {
   }
 
 
-  filterUpdate(event) {
-    // Reset ng-select on search
+  filterUpdate(event: any) {
+    // Get the search input value and convert to lowercase
     const val = event.target.value.toLowerCase();
-
-    // Filter Our Data
-    const temp = this.tempData.filter(function (d) {
+  
+    // Filter through tempData based on the search value
+    this.rows = this.tempData.filter((d) => {
       return (
-        d.full_name.toLowerCase().indexOf(val) !== -1 ||
-        d.email.toLowerCase().indexOf(val) !== -1 ||
-        d.phone.toLowerCase().indexOf(val) !== -1 ||
-        d.created_at.toLowerCase().indexOf(val) !== -1 ||
-        !val
+        d.full_name?.toLowerCase().includes(val) ||
+        d.email?.toLowerCase().includes(val) ||
+        d.phone?.toLowerCase().includes(val) ||
+        d.created_at?.toLowerCase().includes(val) ||
+        !val // Show all data if search value is empty
       );
     });
-
-    // Update The Rows
-    this.rows = temp;
-    // Whenever The Filter Changes, Always Go Back To The First Page
-    this.table.offset = 0;
+  
+    // Reset pagination to the first page after filtering
+    if (this.table) {
+      this.table.offset = 0;
+    }
   }
 
   GetAllUsers() {

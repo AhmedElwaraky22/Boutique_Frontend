@@ -94,6 +94,34 @@ export class AllStoresComponent implements OnInit {
       }
     );
   }
+
+  filterUpdate(event: any) {
+    // Reset ng-select filters
+    this.selectedVerified = this.IsVerified[0];
+    this.selectedSuspend = this.IsSuspended[0];
+    this.selectedDeleted = this.IsDeleted[0];
+  
+    // Get the search input value and convert to lowercase
+    const val = event.target.value.toLowerCase();
+  
+    // Filter through tempData based on the search value
+    this.rows = this.tempData.filter((d) => {
+      return (
+        d.store_name?.toLowerCase().includes(val) ||
+        d.store_slug?.toLowerCase().includes(val) ||
+        d.email?.toLowerCase().includes(val) ||
+        d.store_url?.toLowerCase().includes(val) ||
+        d.store_phone?.toLowerCase().includes(val) ||
+        !val // Show all data if search value is empty
+      );
+    });
+  
+    // Reset pagination to the first page after filtering
+    if (this.table) {
+      this.table.offset = 0;
+    }
+  }
+
   // get all catgegory 
   getAllCategory() {
     this._storeServices.getAllCategory().subscribe(
@@ -105,8 +133,6 @@ export class AllStoresComponent implements OnInit {
       }
     );
   }
-
-
 
   // Model Add New Category to store
   addCategoryModel(editCategoryStore, id) {
@@ -293,32 +319,7 @@ export class AllStoresComponent implements OnInit {
     });
   }
 
-  filterUpdate(event) {
-    // Reset ng-select on search
-
-    this.selectedVerified = this.IsVerified[0];
-    this.selectedSuspend = this.IsSuspended[0];
-    this.selectedDeleted = this.IsDeleted[0];
-    const val = event.target.value.toLowerCase();
-
-    // Filter Our Data
-    const temp = this.tempData.filter(function (d) {
-      return (
-        d.store_name.toLowerCase().indexOf(val) !== -1 ||
-        d.store_slug.toLowerCase().indexOf(val) !== -1 ||
-        d.email.toLowerCase().indexOf(val) !== -1 ||
-        d.store_url.toLowerCase().indexOf(val) !== -1 ||
-        d.store_phone.toLowerCase().indexOf(val) !== -1 ||
-        !val
-      );
-    });
-
-    // Update The Rows
-    this.rows = temp;
-    // Whenever The Filter Changes, Always Go Back To The First Page
-    this.table.offset = 0;
-  }
-
+ 
   filterRows(verifiedFilter, suspendFilter, deletedFilter): any[] {
     // Reset search on select change
     this.searchValue = "";
