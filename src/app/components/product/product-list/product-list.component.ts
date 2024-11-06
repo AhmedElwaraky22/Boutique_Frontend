@@ -21,25 +21,18 @@ import { AllStores } from 'app/main/sample/modules/product';
 
 export class ProductListComponent implements OnInit {
   public isLoading = false;
-
   public contentHeader: object;
   public rows;
   public data;
   public subcategories;
-
   public SecSub;
   public SecondSubcategories;
-
-  public products: Product[] = [];
+  // public products;
   public shopSidebarToggle = false;
   public shopSidebarReset = false;
   public gridViewRef = true;
   public wishlist;
   public cartList;
-  public page = 1;
-  public pageSize = 12;
-  public searchText = '';
-  public loader:boolean = true;
   public createProductForm: FormGroup;
   public createProductFormSubmitted = false;
   public modalRefereence;
@@ -59,13 +52,20 @@ export class ProductListComponent implements OnInit {
   public price:number; 
   public quantity:number; 
   public showSecondSubCategory: boolean = false;
-  
   // public feature = { firstFeature: '', secondFeature: '' , quantity:'' , price:'' };
   public features = [{ firstFeature: '', secondFeature: '' , quantity:'' , price:'' }];
   public additional_features = [{ name_en: '', name_ar: '' , value_en:'' , value_ar:'' }];
 
-
-
+  // Pagination 
+  public page: number = 2;
+  public pageSize : number  = 9;
+  public searchText = '';
+  public loader:boolean = true;
+  public displayedProducts: any[] = []; 
+  public currentPage; 
+  public limit= 12; 
+  public products: any[] = [];
+  // public collectionSize: number = 0;  
 
 
   constructor(
@@ -74,9 +74,8 @@ export class ProductListComponent implements OnInit {
      private fb: FormBuilder,
      private modalService: NgbModal  ,
     ) 
-
-
     {
+      // create Product Form
       this.createProductForm = this.fb.group({
         store_id: [null, Validators.required],
         selectedCategoryId: [null, Validators.required],
@@ -93,16 +92,15 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllProduct();
     this.getAllStores();
+    this.getAllProduct();
+    this.loadProducts(this.limit,this.page);
   }
 
  
   toggle() {
     this.showSecondSubCategory = !this.showSecondSubCategory;
   }
-
-
 
   addFeature() {
     this.features.push({
@@ -112,7 +110,6 @@ export class ProductListComponent implements OnInit {
       quantity: '',
     });
   }
-
 
   deleteFeature(id) {
     for (let i = 0; i < this.features.length; i++) {
@@ -132,7 +129,6 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-
   deleteAdditionalFeature(id) {
     for (let i = 0; i < this. additional_features.length; i++) {
       if (this. additional_features.indexOf(this. additional_features[i]) === id) {
@@ -141,7 +137,7 @@ export class ProductListComponent implements OnInit {
       }
     }
   }
-  
+
 
   /**
    * Update to List View
@@ -149,8 +145,6 @@ export class ProductListComponent implements OnInit {
   listView() {
     this.gridViewRef = false;
   }
-
-
 
   /**
    * Update to Grid View
@@ -181,20 +175,14 @@ export class ProductListComponent implements OnInit {
   }
 
    // get All Product Method  
-  getAllProduct() {
+   getAllProduct() {
     this._productServices.GetAllProducts().subscribe(
       (res: any) => {
-        if (res && res.length > 0) {
-          this.products = res;
-          
-          const totalPages = Math.ceil(this.products.length / this.pageSize);
-          if (this.page > totalPages) {
-            this.page = totalPages;
-          }
-  
-          if ((this.page - 1) * this.pageSize >= this.products.length) {
-            this.page = Math.ceil(this.products.length / this.pageSize);
-          }
+        // this.products = res.data;
+        if (res.data && res.data.length > 0) {
+          // console.log("the Current Product :" ,this.products);
+
+          this.updateDisplayedProducts(); 
   
           this.loader = false;
         } else {
@@ -211,6 +199,43 @@ export class ProductListComponent implements OnInit {
       }
     );
   }
+
+
+  loadProducts(limit: number, page: number): void {
+    this._productServices.GetAllProductsByLimited(limit, page).subscribe(
+      (res: any) => {
+        if (res.data && res.data.length > 0) {
+          this.products = res.data;
+          console.log('Product By Pagination:', this.products);
+          this.updateDisplayedProducts(); 
+        }
+      },
+      (error: any) => {
+        Swal.fire({
+          position: 'center',
+          icon: 'info',
+          title: 'There Are No Products Added Yet',
+          showConfirmButton: true,
+        });
+        console.error('Error fetching products:', error);
+      }
+    );
+  }
+
+  changePage(page){
+    // alert("done")
+    console.log(page);
+    this.page =page
+    this.loadProducts(this.limit,this.page);
+  }
+
+  // Helper function to update displayed products based on current page
+  updateDisplayedProducts() {
+    const startIndex = (this.page - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.displayedProducts = this.products.slice(startIndex, endIndex);
+  }
+
 
   getAllStores(): void {
       this._productServices.viewAllStores().subscribe(
@@ -462,26 +487,3 @@ export class ProductListComponent implements OnInit {
 
 
 
-
-// const transformedFeatures = this.features.map(feature => {
-//   return {
-//     feature_values_ids: [feature.firstFeature, feature.secondFeature], 
-//     price: feature.price, 
-//     quantity: feature.quantity 
-//   };
-// });
-
-// // Append transformed features
-// transformedFeatures.forEach((feature, index) => { 
-//   if (feature.feature_values_ids && feature.feature_values_ids.length > 0) {
-//     feature.feature_values_ids.forEach((id, subIndex) => {
-//       formData.append(features[${index}][feature_values_ids][${subIndex}], String(id));
-//     });
-//   }
-//   if (feature.price) {
-//     formData.append(features[${index}][price], String(feature.price));
-//   }
-//   if (feature.quantity) {
-//     formData.append(features[${index}][quantity], String(feature.quantity));
-//   }
-// });

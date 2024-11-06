@@ -3,9 +3,9 @@
       <a [routerLink]="'/product-details/' + product?.product_id">
         <img class="img-fluid card-img-top " style="width: 600px; height: 500px; object-fit: cover;" [src]="product?.product_image" alt="img-placeholder" />
         <!-- Assuming 'product' is the object that contains the 'images' property -->
-
       </a>
     </div>
+
     <div class="card-body">
       <div class="item-wrapper">
         <div class="item-rating">
@@ -17,6 +17,7 @@
             </ngb-rating>
           </div>
         </div>
+
         <div class="item-cost">
           <h6 class="item-price">YER {{product.product_price }}</h6>
         </div>
@@ -24,8 +25,8 @@
       <h6 class="item-name">
         <a class="text-body" [routerLink]="'/product-details/' + product.product_id"> {{ product.product_name}}</a>
         <span class="card-text item-company"
-          >By <a href="javascript:void(0)" class="company-name">{{ product.category_name }}</a></span
-        >
+          >By <a href="javascript:void(0)" class="company-name">{{ product.category_name }}</a>
+          </span>
       </h6>
       <p class="card-text item-description">
         {{ product.overview }}
@@ -41,8 +42,7 @@
          </p>
        </div>
      </div>
-     <!-- remove product -->
-      
+     <!-- remove product -->   
      <a
        href="javascript:void(0)"
        class="btn btn-danger btn-wishlist"
@@ -52,6 +52,7 @@
        <i class="fa mr-25 fa-trash text-light mt-1"></i>
        <span>Remove </span>
      </a>
+     <!-- View Details -->
      <a
        href="javascript:void(0)"
        class="btn btn-primary btn-cart"

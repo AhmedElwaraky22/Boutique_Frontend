@@ -48,6 +48,16 @@ export class ProductsService implements Resolve<any> {
     return this._httpClient.get<Product>(`${environment.apiUrl}admin/all-products`);
   }
 
+  GetAllProductsByLimited(limit: number, page: number) {
+    return this._httpClient.get<Product>(`${environment.apiUrl}admin/all-products`, {
+      params: {
+        limit: limit.toString(),
+        page: page.toString()
+      }
+    });
+  }
+  
+
   /**
    * Delete product by id
    */

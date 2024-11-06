@@ -53,6 +53,7 @@ export class EcommerceItemComponent implements OnInit {
 
   
   ngOnInit(): void {
+    // this.loadProducts()
     // this.fetchAllProducts()
   }
 
@@ -68,17 +69,21 @@ export class EcommerceItemComponent implements OnInit {
    */
 
   loadProducts(): void {
-    this._ProductsService.GetAllProducts().subscribe((data: any) => {
-      this.products = data;   
-      // console.log(this.products);
+  //   console.log("loadProducts");
+    
+  //   this._ProductsService.GetAllProducts().subscribe((data: any) => {
+  //     this.products = data.data;   
+  //     console.log(this.products);
          
-    });
+  //   });
   }
 
 
-// 
+
 
   fetchAllProducts(): void {
+    // console.log("fetchAllProducts");
+
     this._ProductsService.GetAllProducts().subscribe(
       (response) => {
         this.ProductData= response;

@@ -108,35 +108,38 @@
    
          <!-- E-commerce Pagination Starts -->
          <section id="ecommerce-pagination">
-           <div class="row">
-             <div class="col-sm-12">
-               <div class="d-flex justify-content-center">
-                 <ngb-pagination
-                   [collectionSize]="(products | filter: searchText:'product_name').length"
-                   [(page)]="page"
-                   [maxSize]="5"
-                   [rotate]="true"
-                   [ellipses]="false"
-                   [boundaryLinks]="true"
-                 >
-                   <!-- Custom pagination icons -->
-                   <ng-template ngbPaginationPrevious
-                     ><span [data-feather]="'chevron-left'" [class]="'font-weight-bolder'" [size]="18"></span>
-                   </ng-template>
-                   <ng-template ngbPaginationFirst
-                     ><span [data-feather]="'chevrons-left'" [class]="'font-weight-bolder'" [size]="18"></span>
-                   </ng-template>
-                   <ng-template ngbPaginationNext
-                     ><span [data-feather]="'chevron-right'" [class]="'font-weight-bolder'" [size]="18"></span
-                   ></ng-template>
-                   <ng-template ngbPaginationLast
-                     ><span [data-feather]="'chevrons-right'" [class]="'font-weight-bolder'" [size]="18"></span>
-                   </ng-template>
-                 </ngb-pagination>
-               </div>
-             </div>
-           </div>
-         </section>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="d-flex justify-content-center">
+                <ngb-pagination
+                  [collectionSize]="(products | filter: searchText:'product_name').length"
+                  [(page)]="page"
+                  [pageSize]="pageSize"
+                  [maxSize]="5"
+                  [rotate]="true"
+                  [ellipses]="false"
+                  [boundaryLinks]="true"
+                  (pageChange)="changePage(page)"
+                >
+                  <!-- Custom pagination icons -->
+                  <ng-template ngbPaginationPrevious>
+                    <span [data-feather]="'chevron-left'" [class]="'font-weight-bolder'" [size]="18"></span>
+                  </ng-template>
+                  <ng-template ngbPaginationFirst
+                    ><span [data-feather]="'chevrons-left'" [class]="'font-weight-bolder'" [size]="18"></span>
+                  </ng-template>
+                  <ng-template ngbPaginationNext
+                    ><span [data-feather]="'chevron-right'" [class]="'font-weight-bolder'" [size]="18"></span
+                  ></ng-template>
+                  <ng-template ngbPaginationLast
+                    ><span [data-feather]="'chevrons-right'" [class]="'font-weight-bolder'" [size]="18"></span>
+                  </ng-template>
+                </ngb-pagination>
+              </div>
+            </div>
+          </div>
+        </section>
+        
          <!-- E-commerce Pagination Ends -->
        </div>
      </div>
