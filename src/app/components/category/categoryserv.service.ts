@@ -95,6 +95,10 @@ deleteCategory(id:number){
 }
 
  
+sortCategory(order:any) {
+  return this._httpClient.post(`${environment.apiUrl}admin/category/categories-sort`, { order });
+}
+
 
 
 }

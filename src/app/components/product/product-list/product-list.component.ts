@@ -57,13 +57,14 @@ export class ProductListComponent implements OnInit {
   public additional_features = [{ name_en: '', name_ar: '' , value_en:'' , value_ar:'' }];
 
   // Pagination 
-  public page: number = 2;
+  public page: number = 1;
   public pageSize : number  = 9;
+  public totalProducts : number;
   public searchText = '';
   public loader:boolean = true;
   public displayedProducts: any[] = []; 
   public currentPage; 
-  public limit= 12; 
+  public limit= 9; 
   public products: any[] = [];
   // public collectionSize: number = 0;  
 
@@ -93,8 +94,8 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllStores();
-    this.getAllProduct();
-    this.loadProducts(this.limit,this.page);
+    this.loadProducts(this.limit, this.page);
+    // this.loadProducts(this.limit,this.page);
   }
 
  
@@ -175,15 +176,13 @@ export class ProductListComponent implements OnInit {
   }
 
    // get All Product Method  
-   getAllProduct() {
-    this._productServices.GetAllProducts().subscribe(
+   loadProducts(limit: number, page: number) {
+    this._productServices.GetAllProductsByLimited(limit, page).subscribe(
       (res: any) => {
-        // this.products = res.data;
+        this.products = res.data;
+        this.totalProducts = res.total
         if (res.data && res.data.length > 0) {
-          // console.log("the Current Product :" ,this.products);
-
-          this.updateDisplayedProducts(); 
-  
+          console.log('Product By Pagination:', this.products);
           this.loader = false;
         } else {
           Swal.fire({
@@ -201,29 +200,9 @@ export class ProductListComponent implements OnInit {
   }
 
 
-  loadProducts(limit: number, page: number): void {
-    this._productServices.GetAllProductsByLimited(limit, page).subscribe(
-      (res: any) => {
-        if (res.data && res.data.length > 0) {
-          this.products = res.data;
-          console.log('Product By Pagination:', this.products);
-          this.updateDisplayedProducts(); 
-        }
-      },
-      (error: any) => {
-        Swal.fire({
-          position: 'center',
-          icon: 'info',
-          title: 'There Are No Products Added Yet',
-          showConfirmButton: true,
-        });
-        console.error('Error fetching products:', error);
-      }
-    );
-  }
+
 
   changePage(page){
-    // alert("done")
     console.log(page);
     this.page =page
     this.loadProducts(this.limit,this.page);
@@ -438,7 +417,7 @@ export class ProductListComponent implements OnInit {
     this._productServices.AddNewProduct(formData).subscribe(
       (re: any) => {
         this.isLoading = false;
-      this.getAllProduct();
+      // this.getAllProduct();
       this.modalReference.close();
         Swal.fire({
           position: "center",

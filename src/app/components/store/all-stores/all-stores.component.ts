@@ -36,9 +36,12 @@ export class AllStoresComponent implements OnInit {
   public catSelected:any;
   public temp: any;
   public modalReference: any;
+  public modalReference1: any;
   public searchValue = "";
   public CreateNewCategoryFormSubmitted = "";
   public CreateNewCategoryForm = "";
+
+
   private _unsubscribeAll: Subject<any>;
 
   public previousVerifiedFilter = "";
@@ -66,6 +69,7 @@ export class AllStoresComponent implements OnInit {
   public selectedVerified = [];
   public selectedDeleted = [];
   public storeId;
+  public storeName;
 
   constructor(
     private _storeServices: StoreSService,
@@ -75,6 +79,10 @@ export class AllStoresComponent implements OnInit {
     this.fo = this.fb.group({
       parent_id: [[]], 
     });
+
+   
+    
+    
   }
 
   ngOnInit(): void {
@@ -319,7 +327,6 @@ export class AllStoresComponent implements OnInit {
     });
   }
 
- 
   filterRows(verifiedFilter, suspendFilter, deletedFilter): any[] {
     // Reset search on select change
     this.searchValue = "";
@@ -380,4 +387,13 @@ export class AllStoresComponent implements OnInit {
   //   this._unsubscribeAll.next();
   //   this._unsubscribeAll.complete();
   // }
+
+
+
+
+
+
+
+
+
 }

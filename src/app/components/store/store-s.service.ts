@@ -45,44 +45,39 @@ export class StoreSService implements Resolve<any> {
   GetAllStore(){
     return this._httpClient.get<StoreInterface>(`${environment.apiUrl}admin/viewallstores`);
   }
+
   GetAllNewStoresRequest(){
     return this._httpClient.get<StoreInterface>(`${environment.apiUrl}admin/viewstorereq`);
   }
 
-
-
   BannedStore(id:number){
-
     return this._httpClient.post(`${environment.apiUrl}admin/banned-store`,{id});
-
   }
+
   ActiveStore(id:number){
-
     return this._httpClient.post(`${environment.apiUrl}admin/unbanned-store`,{id});
-
   }
+
   DeleteStore(id:number){
-
     return this._httpClient.post(`${environment.apiUrl}admin/delete-store`,{id});
-
   }
+
   RestoreStore(id:number){
-
     return this._httpClient.post(`${environment.apiUrl}admin/restore-store`,{id});
-
   }
+
   VerifyStore(id:number){
-
     return this._httpClient.post(`${environment.apiUrl}admin/accstorereq`,{id});
-
   }
-    //New Get All Categor
-    getAllCategory(){
-      return this._httpClient.get<Categoryinterface>(`${environment.apiUrl}admin/admin-category`);
-    }
-    addCategoryToStore(store_id:number,categories_ids:Array<any>) {
-      return this._httpClient.put(`${environment.apiUrl}admin/store-category`, { store_id, categories_ids });
-    }
+
+  //New Get All Categor
+  getAllCategory(){
+    return this._httpClient.get<Categoryinterface>(`${environment.apiUrl}admin/admin-category`);
+  }
+
+  addCategoryToStore(store_id:number,categories_ids:Array<any>) {
+    return this._httpClient.put(`${environment.apiUrl}admin/store-category`, { store_id, categories_ids });
+  }
 
 
 }

@@ -112,12 +112,12 @@
             <div class="col-sm-12">
               <div class="d-flex justify-content-center">
                 <ngb-pagination
-                  [collectionSize]="(products | filter: searchText:'product_name').length"
+                  [collectionSize]="totalProducts"
                   [(page)]="page"
                   [pageSize]="pageSize"
                   [maxSize]="5"
                   [rotate]="true"
-                  [ellipses]="false"
+                  [ellipses]="true"
                   [boundaryLinks]="true"
                   (pageChange)="changePage(page)"
                 >

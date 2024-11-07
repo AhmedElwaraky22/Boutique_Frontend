@@ -76,6 +76,13 @@ export class CategoryListComponent implements OnInit {
   public  category_name_ar=''
   public  category_name_en=''
 
+    // Sorting 
+    public sortCatForm ;
+    public sortCatFormSubmitted = false;
+    public modalReference1: any;
+    public categoryId; 
+  
+
 
 
   constructor(
@@ -113,6 +120,11 @@ export class CategoryListComponent implements OnInit {
       title: ['', [Validators.required,Validators.minLength(2),Validators.maxLength(50),]],
       category_id: ['', []],
     });
+
+    // sort Category Form 
+    this.sortCatForm = this.formBuilder.group({
+      order: [[], [Validators.required, Validators.pattern('^[0-9]+$')]] 
+    });
   
   
   }
@@ -121,6 +133,85 @@ export class CategoryListComponent implements OnInit {
     this.getAllCategory();
     this.getAllSubCategory();
   }
+
+  
+  // Modal Sort Category 
+  modalSortCategory(sortCategory , id) {
+    this.sortCatFormSubmitted = false;
+    this.sortCatForm.reset();
+   this.modalReference1 = this.modalService.open(sortCategory, {
+      backdrop: false,
+      centered: true,
+    });
+    this.categoryId =id
+    console.log(this.categoryId);
+  }
+
+  // Sort Category Methos 
+  makeSortCategory(): void {
+    this.isLoading = true;
+    const orderValue = this.sortCatForm.get('order').value;
+ 
+    console.log("Order :",orderValue);
+
+    if (this.sortCatForm.valid && this.categoryId && orderValue) {
+      const formData = new FormData();
+      // formData.append('Categories_ids', this.categoryId.toString());
+      formData.append('order', orderValue.toString());
+    
+      this.isLoading = true; // Set loading state before the request
+    
+      this._CategoryServ.sortCategory(formData).subscribe(
+        (res: any) => {
+          this.isLoading = false;
+          this.getAllCategory();
+          this.modalReference1.close();
+          console.log('Sorted categories:', res.data);
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Category added Successfully',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        },
+        (error: any) => {
+          this.isLoading = false;
+          console.error('Error fetching sorted categories:', error);
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'An Error Occurred While adding!',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      );
+    } else {
+      Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: 'Please provide valid Category ID and Order!',
+        showConfirmButton: true,
+      });
+    }
+    
+}
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Navigate and send row id
 navigateWithState(CategoryId: number): void {
@@ -167,10 +258,6 @@ navigateWithState(CategoryId: number): void {
     this.fileName2 = this.file2.name;
     console.log( this.fileName2 );
   }
-  
-
-   
-
 
   filterUpdate(event) {
     // Get the search input value and convert it to lowercase
@@ -190,7 +277,6 @@ navigateWithState(CategoryId: number): void {
       
   }
 
-   
 
   filterRows(verifiedFilter, suspendFilter, deletedFilter): any[] {
     // Reset search on select change

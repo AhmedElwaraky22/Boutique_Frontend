@@ -10,7 +10,7 @@
       <div class="item-wrapper">
         <div class="item-rating">
           <div class="rating rating-sm">
-            <ngb-rating [rate]="product.rate" [readonly]="true" [max]="5" class="outline-none">
+            <ngb-rating [rate]="product?.rate" [readonly]="true" [max]="5" class="outline-none">
               <ng-template let-fill="fill" let-index="index"
                 ><span class="fa fa-star-o mr-25" [class.fa-star]="fill === 100"></span
               ></ng-template>
@@ -19,25 +19,25 @@
         </div>
 
         <div class="item-cost">
-          <h6 class="item-price">YER {{product.product_price }}</h6>
+          <h6 class="item-price">YER {{product?.product_price }}</h6>
         </div>
       </div>
       <h6 class="item-name">
-        <a class="text-body" [routerLink]="'/product-details/' + product.product_id"> {{ product.product_name}}</a>
+        <a class="text-body" [routerLink]="'/product-details/' + product?.product_id"> {{ product?.product_name}}</a>
         <span class="card-text item-company"
-          >By <a href="javascript:void(0)" class="company-name">{{ product.category_name }}</a>
+          >By <a href="javascript:void(0)" class="company-name">{{ product?.category_name }}</a>
           </span>
       </h6>
       <p class="card-text item-description">
-        {{ product.overview }}
+        {{ product?.overview }}
       </p>
     </div>
 
    <div class="item-options text-center">
      <div class="item-wrapper">
        <div class="item-cost">
-         <h4 class="item-price">${{ product.product_price }}</h4>
-         <p class="card-text shipping" *ngIf="product.has_discount">
+         <h4 class="item-price">${{ product?.product_price }}</h4>
+         <p class="card-text shipping" *ngIf="product?.has_discount">
            <span class="badge badge-pill badge-light-success">Discount</span>
          </p>
        </div>
@@ -47,7 +47,7 @@
        href="javascript:void(0)"
        class="btn btn-danger btn-wishlist"
        rippleEffect
-       (click)="removeProduct(product.product_id , product.product_name)"
+       (click)="removeProduct(product?.product_id , product?.product_name)"
        >
        <i class="fa mr-25 fa-trash text-light mt-1"></i>
        <span>Remove </span>
@@ -57,14 +57,14 @@
        href="javascript:void(0)"
        class="btn btn-primary btn-cart"
        rippleEffect
-       [routerLink]="'/product-details/' + product.product_id"
+       [routerLink]="'/product-details/' + product?.product_id"
      >
        <i data-feather="award" class="mr-25 mt-1"></i>
        <span class="add-to-cart">View Details</span>
      </a>
      <button
        class="btn btn-success btn-cart"
-       (click)="modelAddTo(addToHome , product.product_id)"
+       (click)="modelAddTo(addToHome , product?.product_id)"
        rippleEffect
      >
        <i data-feather="info" class="mr-25 mt-1"></i>

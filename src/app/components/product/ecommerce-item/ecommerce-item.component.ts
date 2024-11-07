@@ -20,8 +20,9 @@ export class EcommerceItemComponent implements OnInit {
 
   // Public
   public isInCart = false;
-  public products: any[] = []; // To hold the refreshed product list
+  public products: any[] = []; 
   public ProductData;
+  // public product;
   public modalRefereence;
   public pageName :string;
   public index :number;
@@ -69,32 +70,32 @@ export class EcommerceItemComponent implements OnInit {
    */
 
   loadProducts(): void {
-  //   console.log("loadProducts");
+    console.log("loadProducts");
     
-  //   this._ProductsService.GetAllProducts().subscribe((data: any) => {
-  //     this.products = data.data;   
-  //     console.log(this.products);
+    this._ProductsService.GetAllProducts().subscribe((data: any) => {
+      // this.product = data.data;   
+      // console.log(this.product);
          
-  //   });
+    });
   }
 
 
 
 
-  fetchAllProducts(): void {
-    // console.log("fetchAllProducts");
+  // fetchAllProducts(): void {
+  //   // console.log("fetchAllProducts");
 
-    this._ProductsService.GetAllProducts().subscribe(
-      (response) => {
-        this.ProductData= response;
-        // console.log(this.ProductData);
+  //   this._ProductsService.GetAllProducts().subscribe(
+  //     (response) => {
+  //       this.ProductData= response;
+  //       // console.log(this.ProductData);
         
-      },
-      (error) => {
-        console.error('Error fetching products:', error);
-      }
-    );
-  }
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching products:', error);
+  //     }
+  //   );
+  // }
 
  
 
@@ -111,7 +112,7 @@ export class EcommerceItemComponent implements OnInit {
       if (result.isConfirmed) {
         this._ProductsService.DeleteProductById(id).subscribe(
           (re: any) => {
-            this.fetchAllProducts()
+            // this.fetchAllProducts()
             this.loadProducts()
             Swal.fire(
               "Deleted!",

@@ -184,6 +184,14 @@
                      ></span>
                    </button>
                    <div ngbDropdownMenu>
+                     <a ngbDropdownItem (click)="modalSortCategory(sortCategory , row.id  )">
+                      <span
+                         [data-feather]="'send'"
+                         [size]="16"
+                         [class]="'mr-50 text-success'"
+                       ></span>
+                       Sort Category</a
+                     >               
                      <a ngbDropdownItem
                        ><span
                          [data-feather]="'file-text'"
@@ -368,9 +376,7 @@
         </div>
       </ng-template>
    
-
-
-      <!-- update Category Model -->
+      <!-- Update Category Model -->
       <ng-template #updateCategoryModel let-modal>
         <div class="modal-header ">
           <h5 class="modal-title" id="exampleModalCenterTitle">
@@ -517,10 +523,7 @@
         </div>
       </ng-template>
 
-
-
-
-    <!-- add subCategory Model -->
+    <!-- Add subCategory Model -->
    <ng-template #modalAddSubCat let-modal>
         <div class="modal-header ">
           <h5 class="modal-title" id="exampleModalCenterTitle">
@@ -593,5 +596,85 @@
             Close
           </button>
         </div>
-      </ng-template>
+    </ng-template>
+
+    <!--  Sort Category Model -->
+    <ng-template #sortCategory let-modal>
+        <div class="modal-header ">
+          <h5 class="modal-title" id="exampleModalCenterTitle">
+            Sort Category  
+          </h5>
+          <button
+            id="clo"
+            type="button"
+            class="close"
+            (click)="modal.dismiss('Cross click')"
+            aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" tabindex="0" ngbAutofocus>
+          <form
+            id="sortCatForm"
+            [formGroup]="sortCatForm"
+            (ngSubmit)="makeSortCategory()"
+          >
+          <div class="form-group my-1">
+            <label>Enter Order</label>
+            <input
+              type="number"
+              formControlName="order"
+              class="form-control"
+              placeholder="Enter order"
+            />
+            <div
+              *ngIf="
+                sortCatForm.get('order').invalid && sortCatForm.get('order').touched"class="text-danger">
+                Please enter a valid number.
+            </div>
+          </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-success round ml-1"
+            (click)="makeSortCategory()"
+            rippleEffect 
+            [disabled]="sortCatForm.invalid || isLoading"
+          >
+          <ng-container *ngIf="!isLoading">
+            Add
+          </ng-container>
+          <ng-container *ngIf="isLoading">
+            <i class="fa fa-spinner fa-spin"></i>
+            Adding...
+          </ng-container>
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-outline-danger round ml-1"
+            (click)="modal.close('Accept click')"
+            rippleEffect>
+            Close
+          </button>
+        </div>
+    </ng-template>
+
+    <button
+            type="button"
+            class="btn btn-outline-success round ml-1"
+            (click)="CreateNewCategoryMethod()"
+            rippleEffect
+            [disabled]="CreateNewCategoryForm.invalid || isLoading">
+            <ng-container *ngIf="!isLoading">
+              Add
+            </ng-container>
+            <ng-container *ngIf="isLoading">
+              <i class="fa fa-spinner fa-spin"></i>
+              Adding...
+            </ng-container>
+          </button>
    
+
