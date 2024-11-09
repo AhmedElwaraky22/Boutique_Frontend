@@ -63,7 +63,7 @@ export class ProductListComponent implements OnInit {
   public searchText = '';
   public loader:boolean = true;
   public displayedProducts: any[] = []; 
-  public currentPage; 
+  // public currentPage; 
   public limit= 9; 
   public products: any[] = [];
   // public collectionSize: number = 0;  
@@ -201,7 +201,6 @@ export class ProductListComponent implements OnInit {
 
 
 
-
   changePage(page){
     console.log(page);
     this.page =page
@@ -209,11 +208,11 @@ export class ProductListComponent implements OnInit {
   }
 
   // Helper function to update displayed products based on current page
-  updateDisplayedProducts() {
-    const startIndex = (this.page - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    this.displayedProducts = this.products.slice(startIndex, endIndex);
-  }
+  // updateDisplayedProducts() {
+  //   const startIndex = (this.page - 1) * this.pageSize;
+  //   const endIndex = startIndex + this.pageSize;
+  //   this.displayedProducts = this.products.slice(startIndex, endIndex);
+  // }
 
 
   getAllStores(): void {

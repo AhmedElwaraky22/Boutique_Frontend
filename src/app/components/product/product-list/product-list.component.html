@@ -86,17 +86,21 @@
          <!-- E-commerce Head Section Starts -->
    
          <!-- E-commerce Products Starts -->
+         
          <section id="ecommerce-products" [ngClass]="gridViewRef === true ? 'grid-view' : 'list-view'">
-          <ng-container *ngIf="products.length > 0">
+        
+          <ng-container *ngIf="products.length > 0" >
             <app-ecommerce-item
               class="card ecommerce-card"
               [product]="product"
-              *ngFor="
-                let product of products
-                  | filter: searchText:'product_name'
-                  | slice: (page - 1) * pageSize:(page - 1) * pageSize + pageSize
-              "
-            ></app-ecommerce-item>
+              *ngFor=" let product of products
+                           | filter: searchText:'product_name'
+                           | slice: (1-1) * pageSize:(1 - 1) * pageSize + pageSize 
+                           
+                           
+     "
+              >
+              </app-ecommerce-item>
           </ng-container>
           <ng-container *ngIf="products.length === 0">
             <p>No products available on this page</p>
