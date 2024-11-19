@@ -262,6 +262,8 @@ export class SubcategoryListComponent implements OnInit {
       (res: any) => {
         this.rows = res;
         this.tempData = res;
+        console.log(this.rows );
+        
 
       },
       (er: any) => {

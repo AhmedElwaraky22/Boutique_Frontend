@@ -109,109 +109,44 @@ export class CategoryListComponent implements OnInit {
       image: ["", [Validators.required]],
     });
 
-
-
-    this.ReactiveUpdateCatForm = this.formBuilder.group({
-      name: ['', [Validators.required,Validators.minLength(2),Validators.maxLength(50),]],
-      image: ["", []],
-    });
-
-    this.ReactiveSubCatForm = this.formBuilder.group({
-      title: ['', [Validators.required,Validators.minLength(2),Validators.maxLength(50),]],
-      category_id: ['', []],
-    });
-
-    // sort Category Form 
-    this.sortCatForm = this.formBuilder.group({
+     // sort Category Form 
+     this.sortCatForm = this.formBuilder.group({
       order: [[], [Validators.required, Validators.pattern('^[0-9]+$')]] 
     });
   
-  
+
+    // this.ReactiveUpdateCatForm = this.formBuilder.group({
+    //   name: ['', [Validators.required,Validators.minLength(2),Validators.maxLength(50),]],
+    //   image: ["", []],
+    // });
+
+
+    // this.ReactiveSubCatForm = this.formBuilder.group({
+    //   title: ['', [Validators.required,Validators.minLength(2),Validators.maxLength(50),]],
+    //   category_id: ['', []],
+    // });
+
+  }
+ 
+  get NewCategoryForm() {
+    return this.CreateNewCategoryForm.controls;
+  }
+  get UpdateCategory() {
+    return this.UpdateCategoryForm.controls;
+  }
+
+  get ReactiveSubForm() {
+    return this.ReactiveSubCatForm.controls;
+  }
+
+  get ReactiveUpdForm() {
+    return this.ReactiveUpdateCatForm.controls;
   }
 
   ngOnInit(): void {
     this.getAllCategory();
     this.getAllSubCategory();
   }
-
-  
-  // Modal Sort Category 
-  modalSortCategory(sortCategory , id) {
-    this.sortCatFormSubmitted = false;
-    this.sortCatForm.reset();
-   this.modalReference1 = this.modalService.open(sortCategory, {
-      backdrop: false,
-      centered: true,
-    });
-    this.categoryId =id
-    console.log(this.categoryId);
-  }
-
-  // Sort Category Methos 
-  makeSortCategory(): void {
-    this.isLoading = true;
-    const orderValue = this.sortCatForm.get('order').value;
- 
-    console.log("Order :",orderValue);
-
-    if (this.sortCatForm.valid && this.categoryId && orderValue) {
-      const formData = new FormData();
-      // formData.append('Categories_ids', this.categoryId.toString());
-      formData.append('order', orderValue.toString());
-    
-      this.isLoading = true; // Set loading state before the request
-    
-      this._CategoryServ.sortCategory(formData).subscribe(
-        (res: any) => {
-          this.isLoading = false;
-          this.getAllCategory();
-          this.modalReference1.close();
-          console.log('Sorted categories:', res.data);
-          Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'Category added Successfully',
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        },
-        (error: any) => {
-          this.isLoading = false;
-          console.error('Error fetching sorted categories:', error);
-          Swal.fire({
-            position: 'center',
-            icon: 'error',
-            title: 'An Error Occurred While adding!',
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
-      );
-    } else {
-      Swal.fire({
-        position: 'center',
-        icon: 'warning',
-        title: 'Please provide valid Category ID and Order!',
-        showConfirmButton: true,
-      });
-    }
-    
-}
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Navigate and send row id
 navigateWithState(CategoryId: number): void {
@@ -221,15 +156,31 @@ navigateWithState(CategoryId: number): void {
 
   // Get all Catogray 
   getAllCategory() {
+
+    const startTime = new Date().getTime();
+
     this._CategoryServ.getAllCategory().subscribe(
       (res: any) => {
+        const endTime = new Date().getTime();
+        const duration = endTime - startTime;
+
         this.rows = res;
         this.tempData = res;
-        // console.log(this.rows);
+        console.log(this.rows);
+
+
+        console.log(`Request started at: ${new Date(startTime).toISOString()}`);
+        console.log(`Response received at: ${new Date(endTime).toISOString()}`);
+        console.log(`Time taken for request and response: ${duration} ms`);
         
       },
       (er: any) => {
         console.log(er);
+        const endTime = new Date().getTime();
+        const duration = endTime - startTime;
+        console.log(`Request started at: ${new Date(startTime).toISOString()}`);
+        console.log(`Error received at: ${new Date(endTime).toISOString()}`);
+        console.log(`Time taken for request and response (with error): ${duration} ms`);
       }
     );
   }
@@ -245,19 +196,7 @@ navigateWithState(CategoryId: number): void {
       }
     );
   }
-  
-  // photo at Add Cactegory 
-  onFilechange(event: any) {
-    this.file = event.target.files;
-    this.fileName = this.file.name;
-  }
-
-  // photo at Update Cactegory
-  onFileupdate(event: any) {
-    this.file2 = event.target.files[0];
-    this.fileName2 = this.file2.name;
-    console.log( this.fileName2 );
-  }
+   
 
   filterUpdate(event) {
     // Get the search input value and convert it to lowercase
@@ -301,22 +240,6 @@ navigateWithState(CategoryId: number): void {
   }
 
 
- 
-  get NewCategoryForm() {
-    return this.CreateNewCategoryForm.controls;
-  }
-  get UpdateCategory() {
-    return this.UpdateCategoryForm.controls;
-  }
-
-  get ReactiveSubForm() {
-    return this.ReactiveSubCatForm.controls;
-  }
-
-  get ReactiveUpdForm() {
-    return this.ReactiveUpdateCatForm.controls;
-  }
-
 
   // Modal Add SubCategory
   modalAddSubCategory(modalAddSubCat,id) {
@@ -345,7 +268,17 @@ navigateWithState(CategoryId: number): void {
        });
    
      }
-   
+  
+    // photo at Add Cactegory 
+  onFilechange(event: any) {
+    if (event.target.files && event.target.files.length > 0) {
+      this.file = event.target.files[0]; 
+      this.fileName = this.file.name; 
+      console.log(this.file);
+      console.log(this.fileName);
+    }
+  }
+
   //Add New Category 
   CreateNewCategoryMethod() {
     this.isLoading = true;
@@ -394,6 +327,8 @@ navigateWithState(CategoryId: number): void {
       );
   }
 
+
+
   //  Updata Category Modal
   modalUpdateCategory(modal , id , name_ar , name_en) {
   this.UpdateCategoryFormSubmitted = false;
@@ -403,8 +338,23 @@ navigateWithState(CategoryId: number): void {
       centered: true,
     });
     this.category_id=id;
-    console.log(this.category_id ,this.category_name_ar ,   this.category_name_en);
+    console.log(this.category_id ,name_ar , name_en);
   }
+
+   // photo at Update Cactegory
+   onFileupdate(event: any) {
+    if (event.target.files && event.target.files.length > 0) {
+      this.file2 = event.target.files[0];
+      this.fileName2 = this.file2.name; 
+      this.UpdateCategory.controls['image'].setValue(this.file2); 
+      console.log(this.file2);
+      console.log(this.fileName2);
+    } else {
+      console.error("لم يتم تحديد أي ملف");
+    }
+  }
+  
+  
 
   //Update Category Method
   UpdateCategoryMethod() {
@@ -467,17 +417,12 @@ navigateWithState(CategoryId: number): void {
       );
   }
 
-
   ReactiveSubFormOnSubmit() {
     this.ReactiveSubCatFormSubmitted = true;
-
-
     this.ReactiveSubForm.category_id.patchValue(this.category_id);
-
     if (this.ReactiveSubCatForm.invalid) {
       return;
     }
-
 
     this._CategoryServ
       .addSubCategory(this.ReactiveSubCatForm.value)
@@ -506,7 +451,7 @@ navigateWithState(CategoryId: number): void {
       );
   }
 
-  
+  // DeleteCategory
   DeleteCategory(id: number, name: string) {
     Swal.fire({
       title: `Are you sure Want To Delete Category : ${name} ?`,
@@ -540,6 +485,69 @@ navigateWithState(CategoryId: number): void {
       }
     });
   }
+
+   // Modal Sort Category 
+   modalSortCategory(sortCategory , id) {
+    this.sortCatFormSubmitted = false;
+    this.sortCatForm.reset();
+   this.modalReference1 = this.modalService.open(sortCategory, {
+      backdrop: false,
+      centered: true,
+    });
+    this.categoryId =id
+    console.log(this.categoryId);
+  }
+
+  // Sort Category Methos 
+  makeSortCategory(): void {
+    this.isLoading = true;
+    const orderValue = this.sortCatForm.get('order').value;
+
+    console.log("Order:", orderValue);
+
+    if (this.sortCatForm.valid && this.categoryId && orderValue) {
+        const payload = {
+            category_id: this.categoryId.toString(),
+            order: orderValue.toString(),
+        };
+
+        console.log('Payload:', payload);
+
+        this._CategoryServ.sortCategory(payload).subscribe(
+            (res: any) => {
+              this.getAllCategory();
+                this.isLoading = false;
+                this.modalReference1.close();
+                console.log('Sorted categories:', res.data);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Category added Successfully',
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            },
+            (error: any) => {
+                this.isLoading = false;
+                console.error('Error fetching sorted categories:', error);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'An Error Occurred While adding!',
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            }
+        );
+    } else {
+        Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: 'Please provide valid Category ID and Order!',
+            showConfirmButton: true,
+        });
+    }
+}
 
 
 }

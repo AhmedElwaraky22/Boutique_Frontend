@@ -184,6 +184,7 @@
                      ></span>
                    </button>
                    <div ngbDropdownMenu>
+                    <!-- Sort  -->
                      <a ngbDropdownItem (click)="modalSortCategory(sortCategory , row.id  )">
                       <span
                          [data-feather]="'send'"
@@ -192,6 +193,7 @@
                        ></span>
                        Sort Category</a
                      >               
+                     <!-- Details -->
                      <a ngbDropdownItem
                        ><span
                          [data-feather]="'file-text'"
@@ -200,6 +202,7 @@
                        ></span>
                        Details</a
                      >
+
                      <!-- <a
                        ngbDropdownItem
                        (click)="modalAddSubCategory(modalAddSubCat,row.id)"
@@ -210,7 +213,8 @@
                        ></span>
                        Add SubCategory</a> -->
                        
-                     <a (click)="modalUpdateCategory(updateCategoryModel , row.id , row.name_en , row.name_en)"
+                       <!-- Update -->
+                     <a (click)="modalUpdateCategory(updateCategoryModel , row.id , row.name_ar , row.name_en)"
                        ngbDropdownItem
                        ><span
                          [data-feather]="'edit-2'"
@@ -218,10 +222,11 @@
                          [class]="'mr-50 text-warning'"
                        ></span>
                        Update </a>
-                     <a
-                         (click)="DeleteCategory(row.id,row.name)"
-                       ngbDropdownItem
-                       ><span
+
+                       <!-- Delete -->
+                     <a (click)="DeleteCategory(row.id,row.name)"
+                       ngbDropdownItem>
+                       <span
                          [data-feather]="'trash-2'"
                          [size]="16"
                          [class]="'mr-50 text-danger'"
@@ -238,8 +243,6 @@
    </div>
    
    
-   
-
 
 
       <!-- Add New Category Model -->
@@ -461,8 +464,9 @@
         <!-- Upload Photo  -->
         <div class="form-group mt-2">
           <label for="imageUpload" class="btn col-12 text-center font-medium-5 text-uppercase file-drop-zone">
-            {{fileName || "No file uploaded yet."}}
+            {{ fileName2 || "No file uploaded yet." }}
           </label>
+          
           <input
             (change)="this.onFileupdate($event)"
             type="file"
@@ -486,7 +490,7 @@
         </div>
         </form>
         </div>
-        
+
         <div class="modal-footer">
           <button
             type="button"
@@ -503,15 +507,6 @@
             Updating...
           </ng-container>
           </button>
-
-
-
-
-
-
-
-
-
           <button
             type="button"
             class="btn btn-outline-danger round ml-1"
@@ -662,19 +657,4 @@
         </div>
     </ng-template>
 
-    <button
-            type="button"
-            class="btn btn-outline-success round ml-1"
-            (click)="CreateNewCategoryMethod()"
-            rippleEffect
-            [disabled]="CreateNewCategoryForm.invalid || isLoading">
-            <ng-container *ngIf="!isLoading">
-              Add
-            </ng-container>
-            <ng-container *ngIf="isLoading">
-              <i class="fa fa-spinner fa-spin"></i>
-              Adding...
-            </ng-container>
-          </button>
-   
 

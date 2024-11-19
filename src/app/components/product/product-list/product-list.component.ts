@@ -200,19 +200,11 @@ export class ProductListComponent implements OnInit {
   }
 
 
-
   changePage(page){
     console.log(page);
     this.page =page
     this.loadProducts(this.limit,this.page);
   }
-
-  // Helper function to update displayed products based on current page
-  // updateDisplayedProducts() {
-  //   const startIndex = (this.page - 1) * this.pageSize;
-  //   const endIndex = startIndex + this.pageSize;
-  //   this.displayedProducts = this.products.slice(startIndex, endIndex);
-  // }
 
 
   getAllStores(): void {
@@ -320,6 +312,8 @@ export class ProductListComponent implements OnInit {
   createProductFormMethod() {
     this.isLoading = true;
     console.log(this.features);
+    const startTime = new Date().getTime();
+
 
     this.createProductFormSubmitted = true;
     if (this.createProductForm.invalid) {
@@ -416,6 +410,11 @@ export class ProductListComponent implements OnInit {
     this._productServices.AddNewProduct(formData).subscribe(
       (re: any) => {
         this.isLoading = false;
+        const endTime = new Date().getTime();
+        const duration = endTime - startTime;
+        console.log(`Request started at: ${new Date(startTime).toISOString()}`);
+        console.log(`Error received at: ${new Date(endTime).toISOString()}`);
+        console.log(`Time taken for request and response (with error): ${duration} ms`);
       // this.getAllProduct();
       this.modalReference.close();
         Swal.fire({
@@ -442,6 +441,10 @@ export class ProductListComponent implements OnInit {
         this.additional_features = [{ name_en: '', name_ar: '' , value_en:'' , value_ar:'' }];
       },
       (er: any) => {
+        const endTime = new Date().getTime();
+        const duration = endTime - startTime;
+
+
         this.isLoading = false;
         Swal.fire({
           position: "center",
@@ -450,7 +453,12 @@ export class ProductListComponent implements OnInit {
           showConfirmButton: false,
           timer: 1500,
         });
+
+        console.log(`Request started at: ${new Date(startTime).toISOString()}`);
+      console.log(`Error received at: ${new Date(endTime).toISOString()}`);
+      console.log(`Time taken for request and response (with error): ${duration} ms`);
       }
+      
     );
   }
 
