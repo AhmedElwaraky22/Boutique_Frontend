@@ -24,6 +24,7 @@ export class OrderListComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @ViewChild("tableRowDetails") tableRowDetails: any;
 
+
   public sidebarToggleRef = false;
   public rows: OrderInterface;
   public selectedOption = 10;
@@ -40,13 +41,13 @@ export class OrderListComponent implements OnInit {
 
   public ReactiveOrderStatusForm: UntypedFormGroup;
   public ReactiveOrderStatusFormSubmitted = false;
+  public loaders:boolean = true;
 
   public IsSuspended: any = [
     { name: "All", value: "" },
     { name: "True", value: "true" },
     { name: "false", value: "false" },
   ];
-
 
   public OrderStatus: any = [
     { name: "New", value: "New" },
@@ -66,11 +67,6 @@ export class OrderListComponent implements OnInit {
     { name: "Canceled by User", value: 5 },
     { name: "Canceled by Store", value: 7},
   ];
-
-
-
-
-
 
   public IsVerified: any = [
     { name: "All", value: "" },
@@ -102,10 +98,15 @@ export class OrderListComponent implements OnInit {
   }
 
   getAllOrders() {
+    this.loaders = true;
     this._orderServices.getAllOrders().subscribe(
       (res: any) => {
-        this.rows = res;
+        this.loaders = false;
+
+        this.rows = res.data;
         this.tempData = res;
+        console.log( this.rows );
+        
       },
       (er: any) => {
         console.log(er);
@@ -141,6 +142,7 @@ export class OrderListComponent implements OnInit {
       this.table.offset = 0;
     }
   }
+
   filterRows(verifiedFilter, suspendFilter, deletedFilter): any[] {
     // Reset search on select change
     this.searchValue = "";
@@ -228,14 +230,6 @@ export class OrderListComponent implements OnInit {
       this.ReactiveOSForm.change_id.value.toString()
     );
 
-
-
-
-
-
-
-
-
     console.log(this.ReactiveOrderStatusForm.value);
 
     // return;
@@ -271,7 +265,7 @@ export class OrderListComponent implements OnInit {
 
 
   navigate(id:number){
-console.log(id);
+  console.log(id);
 
   }
 }

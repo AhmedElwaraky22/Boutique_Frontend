@@ -425,7 +425,23 @@
       </div>
     </section>
   </div>
+
+   <!-- ///////////////////////////////loader//////////////////// -->
+   <div *ngIf="loader" id="loader-wrapper">
+    <div id="loader"></div>
+    <span *ngIf="loader" class="loader"></span>
+   <div class="loader-section section-left"></div>
+   <div class="loader-section section-right"></div>
+ </div>
+
 </div>
+  
+
+
+
+
+
+
 
 <!-- Model edit Category Store    -->
 <ng-template #editCategoryStore let-modal>

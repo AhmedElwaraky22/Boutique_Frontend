@@ -14,9 +14,26 @@
               </div>
               <div class="card-body statistics-body">
                 <div class="row">
-                  <div class="col-md-3 col-sm-6 col-12 mb-2 mb-md-3 ">
+
+                  <!-- All Orders -->
+                  <div class="col-md-4 col-sm-6 col-12 mb-2 mb-md-3 ">
                     <div class="media">
                       <div class="avatar bg-light-primary mr-2">
+                        <div class="avatar-content">
+                          <i data-feather="shopping-cart" class="avatar-icon"  ></i>
+                        </div>
+                      </div>
+                      <div class="media-body my-auto">
+                        <h4 class="font-weight-bolder mb-0">{{ orders_count}}</h4>
+                        <p class="card-text font-small-3 mb-0">All Orders </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- All Store -->
+                  <div class="col-md-4 col-sm-6 col-12 mb-2 mb-md-3 ">
+                    <div class="media">
+                      <div class="avatar bg-light-warning mr-2">
                         <div class="avatar-content">
                           <i data-feather="shopping-bag" class="avatar-icon"></i>
                         </div>
@@ -27,7 +44,9 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-3 col-sm-6 col-12 mb-2 mb-md-3">
+
+                  <!-- New Store Request -->
+                  <div class="col-md-4 col-sm-6 col-12 mb-2 mb-md-3">
                     <div class="media">
                       <div class="avatar bg-light-warming mr-2">
                         <div class="avatar-content">
@@ -40,7 +59,9 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-3 col-sm-6 col-12 mb-2 mb-md-3">
+
+                  <!-- Customers -->
+                  <div class="col-md-4 col-sm-6 col-12 mb-2 mb-md-3">
                     <div class="media">
                       <div class="avatar bg-light-info mr-2">
                         <div class="avatar-content">
@@ -53,7 +74,9 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-3 col-sm-6 col-12 mb-2 mb-sm-0">
+
+                  <!-- Products -->
+                  <div class="col-md-4 col-sm-6 col-12 mb-2 mb-sm-0">
                     <div class="media">
                       <div class="avatar bg-light-danger mr-2">
                         <div class="avatar-content">
@@ -96,6 +119,7 @@
                     [responsive]="apexDonutChart?.responsive"
                     [colors]="apexDonutChart?.colors"
                     [legend]="apexDonutChart?.legend"
+                    
                   ></apx-chart>
                   
                 </div>

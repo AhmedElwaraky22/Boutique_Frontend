@@ -25,11 +25,9 @@ export class OrderDetailsComponent implements OnInit {
   getOrderDetails(id): void {  
     this.isLoading = true; 
     console.log(id);  
-
     this._orderServices.GetOrderById(id).subscribe(
       (response) => {
         this.orderDetails = response[0]; 
-
         this.isLoading = false;
         console.log('Order details:', this.orderDetails); 
       },

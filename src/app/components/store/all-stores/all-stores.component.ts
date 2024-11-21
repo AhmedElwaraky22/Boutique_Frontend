@@ -31,6 +31,8 @@ export class AllStoresComponent implements OnInit {
   public selectedStoreId:any;
   public selectedStoreName:any;
   public fo: FormGroup;
+  public loader:boolean = true;
+
   public category: any;
   public loadAddCat: any;
   public catSelected:any;
@@ -94,6 +96,8 @@ export class AllStoresComponent implements OnInit {
   getAllStoreData() {
     this._storeServices.GetAllStore().subscribe(
       (res: any) => {
+        this.loader = false;
+
         this.rows = res;
         this.tempData = res;
       },

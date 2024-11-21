@@ -29,36 +29,17 @@ export class NewStoreRequestComponent implements OnInit {
   ngOnInit(): void {
     this.getAllNewStoreReq();
   }
-  filterUpdate(event) {
-    // Reset ng-select on search
-    const val = event.target.value.toLowerCase();
 
-    // Filter Our Data
-    const temp = this.tempData.filter(function (d) {
-      return (
-        d.store_name.toLowerCase().indexOf(val) !== -1 ||
-        d.store_slug.toLowerCase().indexOf(val) !== -1 ||
-        d.email.toLowerCase().indexOf(val) !== -1 ||
-        d.store_url.toLowerCase().indexOf(val) !== -1 ||
-        d.store_phone.toLowerCase().indexOf(val) !== -1 ||
-        !val
-      );
-    });
-
-    // Update The Rows
-    this.rows = temp;
-    // Whenever The Filter Changes, Always Go Back To The First Page
-    this.table.offset = 0;
-  }
-  
+  // get All New Store Req
   getAllNewStoreReq() {
     this._storeServices.GetAllNewStoresRequest().subscribe(
       (res: any) => {
         this.rows = res;
         this.tempData = res;
+        console.log(this.rows);
+        
       },
       (er: any) => {
-
         Swal.fire({
           position: "center",
           icon: "info",
@@ -69,6 +50,31 @@ export class NewStoreRequestComponent implements OnInit {
       }
     );
   }
+
+
+// Search  
+  filterUpdate(event) {
+    const val = event.target.value.toLowerCase();
+    this.rows = this.tempData.filter(function (d) {
+      return (
+        d.store_name?.toLowerCase().indexOf(val) !== -1 ||
+        d.store_slug?.toLowerCase().indexOf(val) !== -1 ||
+        d.email?.toLowerCase().indexOf(val) !== -1 ||
+        d.store_url?.toLowerCase().indexOf(val) !== -1 ||
+        d.store_phone?.toLowerCase().indexOf(val) !== -1 ||
+        !val
+      );
+    });
+
+    // Update The Rows
+    // this.rows = temp;
+    // Whenever The Filter Changes, Always Go Back To The First Page
+    if (this.table) {
+      this.table.offset = 0;
+    }
+  }
+  
+
 
 
   VerifyStore(id: number, name: string) {

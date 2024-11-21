@@ -25,4 +25,10 @@ export class HomeService {
   GetOrderApex(){
     return this.HttpC.get(`${environment.apiUrl}admin/order-apex-chart`);
   }
+
+  getAllOrders(){
+    return this.HttpC.get(`${environment.apiUrl}admin/all-orders`);
+  }
+
+  
 }

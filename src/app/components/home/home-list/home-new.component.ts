@@ -62,11 +62,12 @@ export class HomeNewComponent implements OnInit {
   public productCount: number;
   public users_count: number;
   public stores_count: number;
+  public orders_count: number;
+  public orders;
   public requst_count: number;
   public contentHeader: object;
   public apexDonutChart: Partial<ChartOptions2>;
   public apexRadialChart: Partial<ChartOptions2>;
-
   public StoreReport: StoreReport;
   public UserReport: ApexChartInterFace;
   public OrderReport: any;
@@ -76,27 +77,27 @@ export class HomeNewComponent implements OnInit {
 
   chartColors = {
     column: {
-      series1: '#826af9',
+      series1: '#826a38DEE4f9',
       series2: '#d2b0ff',
-      bg: '#f8d3ff'
+      bg: '#ffffff'
     },
     success: {
       shade_100: '#7eefc7',
       shade_200: '#06774f'
     },
     donut: {
-      series1: '#3c4776',
-      series2: '#00d4bd',
+      series1: '#DC4848',
+      series2: '#A1DFA7',
       series3: '#826bf8',
       series4: '#2b9bf4',
       series5: '#FFA1A1',
-      series6: '#06177f',
+      series6: '#38DEE4',
       series7: '#FA663C',
     },
     area: {
-      series3: '#a4f8cd',
-      series2: '#60f2ca',
-      series1: '#2bdac7'
+      series3: '#38DEE4',
+      series2: '#38DEE4',
+      series1: '#38DEE4'
     }
   };
 
@@ -104,6 +105,7 @@ export class HomeNewComponent implements OnInit {
 
   ngOnInit() {
     this.get_data();
+
     this.contentHeader = {
       headerTitle: 'Home',
       actionButton: true,
@@ -141,21 +143,36 @@ export class HomeNewComponent implements OnInit {
         } as ApexChartInterFace;
       }
     );
+
   }
+
+  
 
   get_data() {
     this._homeServeice.GetAllData().subscribe(
       data => {
+        console.log('Data received from GetAllData:', data); // Log the entire response
+  
         this.stores_count = data[0].Total_Store;
         this.users_count = data[0].users_count;
         this.productCount = data[0].products_count;
         this.requst_count = data[0].new_request;
+        this.orders_count = data[0].Total_orders;
+
+  
+        console.log('Parsed values:');
+        console.log('Stores Count:', this.stores_count);
+        console.log('Users Count:', this.users_count);
+        console.log('Product Count:', this.productCount);
+        console.log('Request Count:', this.requst_count);
+        console.log('Orders Count:', this.orders_count);
       },
       error => {
-        // Handle error if needed
+        console.error('Error occurred while fetching data:', error); // Log the error
       }
     );
   }
+  
 
   Ratio() {
     const TotalStore = this.TotalStore;

@@ -7,7 +7,7 @@
           <div class="card-body">
             <div class="row my-2">
               <div class="col-12 col-md-5 d-flex align-items-center justify-content-center mb-2 mb-md-0">
-                <div class="d-flex align-items-center justify-content-center" *ngFor="let product of orderDetails.order_details">
+                <div class="d-flex align-items-center justify-content-center" *ngFor="let product of orderDetails?.order_details">
                   <!-- Next & Pervious Buttons -->
                   <!-- <div class="card-body">
                     <swiper class="swiper-coverflow swiper-container">
@@ -23,10 +23,11 @@
                   <img [src]="product?.product.product_image" class="img-fluid product-img" alt="product image" />
                 </div>
               </div>
+
               <div class="col-12 col-md-7">
                 <h1 class="text-success">{{ orderDetails?.store_name }}</h1>
 
-                <div class="" *ngFor="let product of orderDetails.order_details"> 
+                <div class="" *ngFor="let product of orderDetails?.order_details"> 
                    <span class="card-text item-company">
                     Product Name
                      <a href="javascript:void(0)" class="company-name">
@@ -46,7 +47,7 @@
                     <span class="card-text item-company mt-1">
                       client Phone
                       <ng-container>
-                        <a href="javascript:void(0)" class="text-info mx-2">{{orderDetails.client_phone}}</a>
+                        <a href="javascript:void(0)" class="text-info mx-2">{{orderDetails?.client_phone}}</a>
                       </ng-container>
                     </span>
                   </div>
@@ -54,7 +55,7 @@
                     <span class="card-text item-company mt-1">
                       Order status
                       <ng-container>
-                        <a href="javascript:void(0)" class="text-info mx-2">{{orderDetails.order_status}}</a>
+                        <a href="javascript:void(0)" class="text-info mx-2">{{orderDetails?.order_status}}</a>
                       </ng-container>
                     </span>
                   </div>
@@ -63,7 +64,7 @@
                   <span class="card-text item-company mt-1">
                     shipment Uid
                     <ng-container>
-                      <a href="javascript:void(0)" class="text-info mx-2">{{orderDetails.shipment_uid}}</a>
+                      <a href="javascript:void(0)" class="text-info mx-2">{{orderDetails?.shipment_uid}}</a>
                     </ng-container>
                   </span>
                 </div>
@@ -71,13 +72,13 @@
                   <span class="card-text item-company mt-1">
                     Store Phone
                     <ng-container>
-                      <a href="javascript:void(0)" class="text-info mx-2">{{orderDetails.store_phone}}</a>
+                      <a href="javascript:void(0)" class="text-info mx-2">{{orderDetails?.store_phone}}</a>
                     </ng-container>
                   </span>
                 </div>      
 
                 <!-- Price  -->
-                <div class="ecommerce-details-price d-flex flex-wrap mt-1" *ngFor="let x of orderDetails.order_details">
+                <div class="ecommerce-details-price d-flex flex-wrap mt-1" *ngFor="let x of orderDetails?.order_details">
                   <h4 class="item-price mr-1">YER {{ x?.order_price}}</h4>
                   <div class="rating rating-sm pl-1 border-left mb-1">
                     <ngb-rating
@@ -96,7 +97,7 @@
                   </div>
                 </div>
   
-                  <div *ngFor="let x of orderDetails.order_details">
+                  <div *ngFor="let x of orderDetails?.order_details">
                     <p class="card-text">
                       Quantity :
                       <span class="text-info">
@@ -117,7 +118,7 @@
                 </div>
   
                 <!-- Condition  has_discount -->
-                <div class="discount" *ngIf="orderDetails?.order_summary.discount > 0">
+                <div class="discount" *ngIf="orderDetails?.order_summary?.discount > 0">
                   <ul class="product-features list-unstyled">
                     <li>
                       <span class="text-success">Discount</span>
@@ -127,7 +128,7 @@
                       <span>
                         Discount Percentage: 
                         <span class="text-success">
-                          {{ orderDetails?.order_summary.discount}}%
+                          {{ orderDetails?.order_summary?.discount}}%
                         </span>
                       </span>
                     </li>
@@ -136,7 +137,7 @@
                         <i data-feather="smile"></i>
                         Price After Discount: YER 
                         <span class="text-success">
-                          {{ orderDetails?.order_summary.price_after_discount }}
+                          {{ orderDetails?.order_summary?.price_after_discount }}
                         </span>
                       </div>
                     </li>
@@ -148,7 +149,7 @@
                         <i data-feather="smile"></i>
                         delivery : 
                         <span class="text-success">
-                            {{ orderDetails?.order_summary.delivery}} YER 
+                            {{ orderDetails?.order_summary?.delivery}} YER 
                         </span>
                     </div>
                 </div>
@@ -176,7 +177,7 @@
                           <i data-feather="box" class="mx-2"></i> 
                           <h6 class="d-inline">Government:</h6> 
                         </td>
-                        <td><span class="text-info">{{ orderDetails.deliver_address.government }}</span></td>
+                        <td><span class="text-info">{{ orderDetails?.deliver_address?.government }}</span></td>
                       </tr>
                       
                     <tr>
@@ -184,53 +185,53 @@
                             <i data-feather="map-pin" class="mx-2"></i>
                             <h6 class="d-inline">City:</h6>
                         </td>
-                        <td><span class="text-info">{{ orderDetails.deliver_address.city }}</span></td>
+                        <td><span class="text-info">{{ orderDetails?.deliver_address?.city }}</span></td>
                     </tr>
                     <tr>
                         <td>
                             <i data-feather="map" class="mx-2"></i>
                             <h6 class="d-inline">Area:</h6>
                         </td>
-                        <td><span class="text-info">{{ orderDetails.deliver_address.area }}</span></td>
+                        <td><span class="text-info">{{ orderDetails?.deliver_address?.area }}</span></td>
                     </tr>
                     <tr>                       
                         <td>
                             <i data-feather="corner-down-right" class="mx-2"></i>
                             <h6 class="d-inline">Street:</h6>
                         </td>
-                        <td><span class="text-info">{{ orderDetails.deliver_address.street }}</span></td>
+                        <td><span class="text-info">{{ orderDetails?.deliver_address?.street }}</span></td>
                     </tr>
                     <tr>
                         <td>
                             <i data-feather="home" class="mx-2"></i>
                             <h6 class="d-inline">Building Number:</h6>
                         </td>
-                        <td><span class="text-info" class="mx-2">{{ orderDetails.deliver_address.building_number }}</span></td>
+                        <td><span class="text-info" class="mx-2">{{ orderDetails?.deliver_address?.building_number }}</span></td>
                     </tr>
                     <tr>
                         <td>
                             <i data-feather="phone" class="mx-2"></i>
                             <h6 class="d-inline">Apartment Number:</h6>
                         </td>
-                        <td><span class="text-info" class="mx-2">{{ orderDetails.deliver_address.apartment_number }}</span></td>
+                        <td><span class="text-info" class="mx-2">{{ orderDetails?.deliver_address?.apartment_number }}</span></td>
                     </tr>
                     <tr>
                         <td><i data-feather="phone-call" class="mx-2"></i>
                             <h6 class="d-inline">Phone:</h6>
                         </td>
-                        <td><span class="text-info">{{ orderDetails.deliver_address.phone }}</span></td>
+                        <td><span class="text-info">{{ orderDetails?.deliver_address?.phone }}</span></td>
                     </tr>
                     <tr>
                         <td><i data-feather="clock" class="mx-2"></i>
                             <h6 class="d-inline">Latitude:</h6>
                         </td>
-                        <td><span class="text-info">{{ orderDetails.deliver_address.latitude }}</span></td>
+                        <td><span class="text-info">{{ orderDetails?.deliver_address?.latitude }}</span></td>
                     </tr>
                     <tr>
                         <td><i data-feather="clock" class="mx-2"></i>
                             <h6 class="d-inline">Longitude:</h6>
                         </td>
-                        <td><span class="text-info">{{ orderDetails.deliver_address.longitude }}</span></td>
+                        <td><span class="text-info">{{ orderDetails?.deliver_address?.longitude }}</span></td>
                     </tr>
                     </tbody>
             </table>
