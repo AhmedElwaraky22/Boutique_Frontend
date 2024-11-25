@@ -17,6 +17,7 @@ import { CoreSidebarModule } from '@core/components';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SwiperConfigInterface, SwiperModule, SWIPER_CONFIG } from 'ngx-swiper-wrapper';
 import { OrderDetailsComponent } from './order-details/order-details.component';
+import { OrderStatusComponent } from './order-status/order-status.component';
 
 
 
@@ -29,7 +30,14 @@ const routes: Routes = [
       uls:OrderservService
     },
   },
-
+  {
+    path: 'view-orders-status',
+    component:OrderStatusComponent,
+    canActivate: [AuthGuard],
+    resolve: {
+      uls:OrderservService
+    },
+  },
   {
     path: 'order-details/:id',
     component:OrderDetailsComponent,
@@ -48,6 +56,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   declarations: [
     OrderListComponent,
     OrderDetailsComponent,
+    OrderStatusComponent,
  
   ],
   imports: [

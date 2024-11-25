@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ColumnMode, DatatableComponent } from "@swimlane/ngx-datatable";
 import Swal from "sweetalert2";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -7,7 +7,8 @@ import { HomeProductsService } from '../home-products.service';
 @Component({
   selector: 'app-new-arrival-list',
   templateUrl: './new-arrival-list.component.html',
-  styleUrls: ['./new-arrival-list.component.scss']
+  styleUrls: ['./new-arrival-list.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 
 export class NewArrivaListComponent implements OnInit {

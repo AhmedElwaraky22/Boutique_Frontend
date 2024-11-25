@@ -52,7 +52,7 @@ export class TopProductsListComponent implements OnInit {
   GetNewArrivalProducts(): void {
     this._HomeProductService.GetTopProducts().subscribe({
       next: (res) => {
-        // console.log(res);
+        console.log(res);
         
         this.products = res;  
         this.rows = this.products.data;  

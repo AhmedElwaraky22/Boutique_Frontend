@@ -15,8 +15,23 @@
               <div class="card-body statistics-body">
                 <div class="row">
 
+                  <!-- All Rufund -->
+                  <div class="col-md-4 col-sm-6 col-12 mb-2 mb-md-3 " [routerLink]="['']">
+                    <div class="media">
+                      <div class="avatar bg-light-danger mr-2">
+                        <div class="avatar-content">
+                          <i data-feather="refresh-ccw" class="avatar-icon"></i>
+                        </div>
+                      </div>
+                      <div class="media-body my-auto">
+                        <h4 class="font-weight-bolder mb-0">{{ orders_count}}</h4>
+                        <p class="card-text font-small-3 mb-0">All Refund </p>
+                      </div>
+                    </div>
+                  </div>
+
                   <!-- All Orders -->
-                  <div class="col-md-4 col-sm-6 col-12 mb-2 mb-md-3 ">
+                  <div class="col-md-4 col-sm-6 col-12 mb-2 mb-md-3 " [routerLink]="['/view-all-orders']">
                     <div class="media">
                       <div class="avatar bg-light-primary mr-2">
                         <div class="avatar-content">
@@ -31,7 +46,7 @@
                   </div>
 
                   <!-- All Store -->
-                  <div class="col-md-4 col-sm-6 col-12 mb-2 mb-md-3 ">
+                  <div class="col-md-4 col-sm-6 col-12 mb-2 mb-md-3"  [routerLink]="['/view-all-stores']">
                     <div class="media">
                       <div class="avatar bg-light-warning mr-2">
                         <div class="avatar-content">
@@ -46,11 +61,11 @@
                   </div>
 
                   <!-- New Store Request -->
-                  <div class="col-md-4 col-sm-6 col-12 mb-2 mb-md-3">
+                  <div class="col-md-4 col-sm-6 col-12 mb-2 mb-md-3" [routerLink]="['/view-stores-request']">
                     <div class="media">
-                      <div class="avatar bg-light-warming mr-2">
+                      <div class="avatar bg-light-warning mr-2">
                         <div class="avatar-content">
-                          <i data-feather="user-plus" class="avatar-icon"></i>
+                          <i data-feather="git-pull-request" class="avatar-icon"></i>
                         </div>
                       </div>
                       <div class="media-body my-auto">
@@ -61,7 +76,7 @@
                   </div>
 
                   <!-- Customers -->
-                  <div class="col-md-4 col-sm-6 col-12 mb-2 mb-md-3">
+                  <div class="col-md-4 col-sm-6 col-12 mb-2 mb-md-3" [routerLink]="['/view-all-user']">
                     <div class="media">
                       <div class="avatar bg-light-info mr-2">
                         <div class="avatar-content">
@@ -76,9 +91,9 @@
                   </div>
 
                   <!-- Products -->
-                  <div class="col-md-4 col-sm-6 col-12 mb-2 mb-sm-0">
+                  <div class="col-md-4 col-sm-6 col-12 mb-2 mb-sm-0" [routerLink]="['/view-all-products']">
                     <div class="media">
-                      <div class="avatar bg-light-danger mr-2">
+                      <div class="avatar bg-light-success mr-2">
                         <div class="avatar-content">
                           <i data-feather="box" class="avatar-icon"></i>
                         </div>

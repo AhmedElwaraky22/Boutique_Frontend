@@ -6,8 +6,11 @@
           <!-- Product Details starts -->
           <div class="card-body">
             <div class="row my-2">
+
+              <!-- left Side   -->
               <div class="col-12 col-md-5 d-flex align-items-center justify-content-center mb-2 mb-md-0">
                 <div class="d-flex align-items-center justify-content-center" *ngFor="let product of orderDetails?.order_details">
+
                   <!-- Next & Pervious Buttons -->
                   <!-- <div class="card-body">
                     <swiper class="swiper-coverflow swiper-container">
@@ -20,155 +23,226 @@
                       </ng-container>
                     </swiper>
                   </div> -->
+                  
                   <img [src]="product?.product.product_image" class="img-fluid product-img" alt="product image" />
                 </div>
               </div>
 
-              <div class="col-12 col-md-7">
-                <h1 class="text-success">{{ orderDetails?.store_name }}</h1>
 
-                <div class="" *ngFor="let product of orderDetails?.order_details"> 
-                   <span class="card-text item-company">
-                    Product Name
-                     <a href="javascript:void(0)" class="company-name">
-                       {{product?.product.product_name}}
-                     </a>
-                   </span>
-                </div>
-                <div class=""> 
-                   <span class="card-text item-company">
-                     client Name
-                     <a href="javascript:void(0)" class="company-name">
-                       {{orderDetails?.client_name}}
-                     </a>
-                   </span>
-                </div>
-                <div>
-                    <span class="card-text item-company mt-1">
-                      client Phone
+              <!-- Right Info  -->
+              <div class="col-12 col-md-7">
+                <!-- Client Info  -->
+                <div class="p-3 shadow-lg rounded border border-3 ">
+                  <!-- <h1 class="text-info">{{ orderDetails?.store_name }}</h1><br> -->
+                  
+  
+                  <!-- client Name -->
+                  <div class=""> 
+                     <span class="h3 lead card-text text-white item-company">
+                       Clint Name : 
+                       <a href="javascript:void(0)" class="company-name text-info">
+                         {{orderDetails?.client_name}}
+                       </a>
+                     </span>
+                  </div><br>
+                  
+                  <!-- client Phone -->
+                  <div>
+                    <span class="h3 lead card-text text-white item-company mt-1">
+                      Client Phone : 
                       <ng-container>
                         <a href="javascript:void(0)" class="text-info mx-2">{{orderDetails?.client_phone}}</a>
                       </ng-container>
                     </span>
+                  </div><br>
+
+                   <!-- shipment id -->
+                   <div>
+                    <span class="h3 lead card-text text-white item-company mt-1">
+                      Shipment Uid : 
+                      <ng-container>
+                        <a href="javascript:void(0)" class="text-info mx-2">{{orderDetails?.shipment_id}}</a>
+                      </ng-container>
+                    </span>
                   </div>
+                </div><br>
+
+
+                <!-- Store Info  -->
+                <div class="p-3 shadow-lg rounded border border-3 ">
+                  <h1 class="text-info"><span class="text-white">Store : </span>{{ orderDetails?.store_name }}</h1><br>
+
+                  <!-- Store Phone -->
                   <div>
-                    <span class="card-text item-company mt-1">
-                      Order status
+                    <span class="h3 lead card-text text-white item-company mt-1">
+                      Store Phone : 
+                      <ng-container>
+                        <a href="javascript:void(0)" class="text-info mx-2">{{orderDetails?.store_phone}}</a>
+                      </ng-container>
+                    </span>
+                  </div> <br>
+
+                   <!-- Store location -->
+                  <div>
+                    <span class="h3 lead card-text text-white item-company mt-1">
+                      Store Location : 
+                      <ng-container>
+                        <a href="javascript:void(0)" class="text-info mx-2">{{orderDetails?.store_phone}}</a>
+                      </ng-container>
+                    </span>
+                  </div> <br>
+                </div><br>
+
+                <!-- Order Info  -->
+                <div class="p-3 shadow-lg rounded border border-3 ">
+                  <h1 class="text-info"><span class="text-white">O</span>rder <span class="text-white">D</span>etails</h1><br>
+
+                 <!-- Product Name -->
+                  <div class="" *ngFor="let product of orderDetails?.order_details"> 
+                    <span class="h3 lead card-text text-white  item-company">
+                    Product Name : 
+                      <a href="javascript:void(0)" class="company-name text-info">
+                        {{product?.product.product_name}}
+                      </a>
+                    </span>
+                  </div><br>
+
+                  <!-- Order Status  -->
+                  <div>
+                    <span class="h3 lead card-text text-white item-company mt-1">
+                      Order status : 
                       <ng-container>
                         <a href="javascript:void(0)" class="text-info mx-2">{{orderDetails?.order_status}}</a>
                       </ng-container>
                     </span>
-                  </div>
-  
-                <div>
-                  <span class="card-text item-company mt-1">
-                    shipment Uid
-                    <ng-container>
-                      <a href="javascript:void(0)" class="text-info mx-2">{{orderDetails?.shipment_uid}}</a>
-                    </ng-container>
-                  </span>
-                </div>
-                <div>
-                  <span class="card-text item-company mt-1">
-                    Store Phone
-                    <ng-container>
-                      <a href="javascript:void(0)" class="text-info mx-2">{{orderDetails?.store_phone}}</a>
-                    </ng-container>
-                  </span>
-                </div>      
+                  </div><br>  
+                  
+                   <!-- Price  -->
+                  <div class="ecommerce-details-price d-flex flex-wrap mt-1" *ngFor="let x of orderDetails?.order_details">
+                    <h4 class="h3 lead card-text text-white item-price mr-1">Order Price :  <span class="text-info">YER {{ x?.order_price}}</span></h4>
+                    <!-- Tags  -->
+                    <div class="rating rating-sm pl-1 border-left mb-1">
+                      <ngb-rating
+                        [rate]="orderDetails?.rate"
+                        [readonly]="true"
+                        [max]="5"
+                        class="outline-none"
+                      >
+                        <ng-template let-fill="fill" let-index="index">
+                          <span
+                            class="fa fa-star-o mr-25 text-warning"
+                            [class.fa-star]="fill === 100">
+                          </span>
+                        </ng-template>
+                      </ngb-rating>
+                    </div>
+                  </div><br>
 
-                <!-- Price  -->
-                <div class="ecommerce-details-price d-flex flex-wrap mt-1" *ngFor="let x of orderDetails?.order_details">
-                  <h4 class="item-price mr-1">YER {{ x?.order_price}}</h4>
-                  <div class="rating rating-sm pl-1 border-left mb-1">
-                    <ngb-rating
-                      [rate]="orderDetails?.rate"
-                      [readonly]="true"
-                      [max]="5"
-                      class="outline-none"
-                    >
-                      <ng-template let-fill="fill" let-index="index">
-                        <span
-                          class="fa fa-star-o mr-25"
-                          [class.fa-star]="fill === 100">
-                        </span>
-                      </ng-template>
-                    </ngb-rating>
-                  </div>
-                </div>
-  
+                  <!-- Countity  -->
                   <div *ngFor="let x of orderDetails?.order_details">
-                    <p class="card-text">
+                    <p class=" h3 lead card-text text-white">
                       Quantity :
                       <span class="text-info">
                         {{ x?.product_quantity}}
                       </span>
                     </p>
+                  </div><br>
+
+
+                   <!-- Condition  has_discount -->
+                  <div class="discount h3 lead" *ngIf="orderDetails?.order_summary?.discount > 0">
+                    <ul class="product-features list-unstyled">
+                      <li>
+                        <span class="text-success">Discount</span>
+                      </li><br>
+                      <li>
+                        <!-- <i data-feather="smile"></i> -->
+                        <span class="h3 lead card-text text-white">
+                          Discount Percentage: 
+                          <span class="text-success">
+                            {{ orderDetails?.order_summary?.discount}}%
+                          </span>
+                        </span>
+                      </li><br>
+                      <li>
+                          <span class="h3 lead card-text text-white">
+                          <!-- <i data-feather="smile"></i> -->
+                          Price After Discount: YER 
+                          <span class="text-success">
+                            {{ orderDetails?.order_summary?.price_after_discount }}
+                          </span>
+                        </span>
+                      </li>
+                    </ul>
                   </div>
-                
-              
-  
-                <div class="Total Reviews">
-                  <p class="card-text">
-                    Total Reviews :
-                     <span class="text-info">
-                       <!-- {{orderDetails?.store.total_reviews}} -->
+
+                  <!-- Delivery  -->
+                  <div class="">
+                      <span class="h3 lead card-text text-white">
+                          <!-- <i data-feather="smile"></i> -->
+                          Delivery : 
+                          <span class="text-success">
+                              {{ orderDetails?.order_summary?.delivery}} YER 
+                          </span>
                       </span>
-                  </p>
-                </div>
-  
-                <!-- Condition  has_discount -->
-                <div class="discount" *ngIf="orderDetails?.order_summary?.discount > 0">
-                  <ul class="product-features list-unstyled">
-                    <li>
-                      <span class="text-success">Discount</span>
-                    </li>
-                    <li>
-                      <i data-feather="smile"></i>
-                      <span>
-                        Discount Percentage: 
-                        <span class="text-success">
-                          {{ orderDetails?.order_summary?.discount}}%
-                        </span>
+                  </div><br>
+
+                  <!-- Total Reviews  -->
+                  <div class="Total Reviews">
+                    <p class="card-text h3 lead card-text text-white">
+                      Total Reviews :
+                       <span class="text-info">
+                         <!-- {{orderDetails?.store.total_reviews}} -->
+                       </span>
+                    </p>
+                  </div><br>
+
+
+                  <!-- Total Reviews  -->
+                  <div class="Total Reviews">
+                    <p class="card-text h3 lead card-text text-white">
+                      Address :
+                      <span class="text-info">
+                        <span class="text-white">Government :</span> {{ orderDetails?.deliver_address?.government }} / 
+                        <span class="text-white">City :</span>{{ orderDetails?.deliver_address?.city }}/ 
+                        <span class="text-white">Area :</span>{{ orderDetails?.deliver_address?.area }} / 
+                        <span class="text-white">Street :</span>{{ orderDetails?.deliver_address?.street }} / 
+                        <span class="text-white">Floor :</span>{{ orderDetails?.deliver_address?.building_number }}
                       </span>
-                    </li>
-                    <li>
-                        <div>
-                        <i data-feather="smile"></i>
-                        Price After Discount: YER 
-                        <span class="text-success">
-                          {{ orderDetails?.order_summary?.price_after_discount }}
-                        </span>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-                
-                <div class="">
-                    <div>
-                        <i data-feather="smile"></i>
-                        delivery : 
-                        <span class="text-success">
-                            {{ orderDetails?.order_summary?.delivery}} YER 
-                        </span>
-                    </div>
+                    </p>
+                  </div><br>
+
+
+
+
+
                 </div>
 
+                <!-- Status Action  -->
                  <hr />
-                <div class="d-flex flex-column flex-sm-row pt-1">
-                  <a class="btn btn-outline-danger round" rippleEffect >
-                    <span class="">Delete Order</span>
-                  </a>
+                <div class="d-flex ">
+                  <div class="d-flex flex-column flex-sm-row pt-1 mx-2">
+                    <a class="btn btn-outline-success round" rippleEffect >
+                      <span class=""> Order Delivered</span>
+                    </a>
+                  </div>
+                  <div class="d-flex flex-column flex-sm-row pt-1 mx-2">
+                    <a class="btn btn-outline-warning round" rippleEffect >
+                      <span class=""> Order Not Delivered</span>
+                    </a>
+                  </div>
+                  <div class="d-flex flex-column flex-sm-row pt-1 mx-2">
+                    <a class="btn btn-outline-danger round" rippleEffect >
+                      <span class=""> Cancel Order </span>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <hr/>
-          
-          <!-- Product Details ends -->
+          </div>          
 
           <!-- Delivery Address -->
-        <div>
+        <!-- <div>
             <h2 class="text-primary text-center">Delivery Address</h2>
             <table class="table table-bordered">
                 <tbody>
@@ -235,13 +309,13 @@
                     </tr>
                     </tbody>
             </table>
-        </div>    
-            <hr>     
+        </div>     -->
+            <!-- <hr>      -->
          
           <!-- Item features starts -->
-          <div class="item-features">
-            <div class="row text-center">
-              <div class="col-12 col-md-4 mb-4 mb-md-0">
+          <!-- <div class="item-features"> -->
+            <!-- <div class="row text-center"> -->
+              <!-- <div class="col-12 col-md-4 mb-4 mb-md-0">
                 <div class="w-75 mx-auto">
                   <i data-feather="award"></i>
                   <h4 class="mt-2 mb-1">100% Original</h4>
@@ -251,19 +325,19 @@
                    </p>
                  </div>
                 </div>
-              </div>
+              </div> -->
   
-              <div class="col-12 col-md-4 mb-4 mb-md-0">
+              <!-- <div class="col-12 col-md-4 mb-4 mb-md-0">
                 <div class="w-75 mx-auto">
                   <i data-feather="clock"></i>
                   <h4 class="mt-2 mb-1">10 Day Replacement</h4>
                   <p class="card-text " *ngFor = "let items of orderDetails?.product_additional_features">
-                    <!-- {{items.value_en}} - {{items.value_ar}} -->
+                     {{items.value_en}} - {{items.value_ar}}
                   </p>
                 </div>
-              </div>
+              </div> -->
   
-              <div class="col-12 col-md-4 mb-4 mb-md-0">
+              <!-- <div class="col-12 col-md-4 mb-4 mb-md-0">
                 <div class="w-75 mx-auto">
                   <i data-feather="shield"></i>
                   <h4 class="mt-2 mb-1">1 Year Warranty</h4>
@@ -271,9 +345,9 @@
                    {{orderDetails?.description}}
                   </p>
                 </div>
-              </div>
-            </div>
-          </div>
+              </div> -->
+            <!-- </div> -->
+          <!-- </div> -->
   
           <!-- Related Products starts -->
   
