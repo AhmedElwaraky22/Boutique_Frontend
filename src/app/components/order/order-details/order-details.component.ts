@@ -20,6 +20,7 @@ export class OrderDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.orderId = this.route.snapshot.paramMap.get('id')!;
     this.getOrderDetails(this.orderId);  
+    // this.cancelOrder()
   }
 
   getOrderDetails(id): void {  
@@ -37,4 +38,33 @@ export class OrderDetailsComponent implements OnInit {
       }
     );
   }
+
+
+  Delivered(){
+    alert("Delivered")
+  }
+
+  notDelivered(){
+    alert("Not Delivered")
+  }
+  // cancelOrder
+  cancelOrder() {
+    // this.isLoading = true; 
+  
+    // this._orderServices.GetOrdersCancelled().subscribe(
+    //   (res) => {
+    //     this.isLoading = false; 
+    //     console.log(res); 
+    //     alert("Cancelled"); 
+    //   },
+    //   (err) => {
+    //     this.isLoading = false; 
+    //     console.error("Error:", err); 
+    //     // alert("An error occurred while cancelling the order."); 
+    //   }
+    // )
+  }
+
+
+
 }

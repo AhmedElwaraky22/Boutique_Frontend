@@ -33,9 +33,7 @@ import { SubDetailsModule } from './components/subcategoryDetails/sub-details.mo
 import { ModelDetailsModule } from './components/model-details/model-details.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HomeProductsModule } from './components/Home Products/home-products.module';
-import { StatusModule } from './components/status-manager/status.module';
-
-
+import { StatusModule } from './components/transactions/status.module';
 
 
 

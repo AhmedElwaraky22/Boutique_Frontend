@@ -5,7 +5,10 @@
 export const environment = {
   production: false,
   hmr: false,
-  apiUrl: 'https://yearexdeal.com/Boutique_Backend/public/api/'
+  // New 
+  apiUrl: 'https://backend.yearexboutique.com/api/'
+  // Old 
+  // apiUrl: 'https://yearexdeal.com/Boutique_Backend/public/api/'
   //  apiUrl: 'http://127.0.0.1:8000/api/'
 };
 

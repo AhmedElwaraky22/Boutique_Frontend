@@ -15,37 +15,16 @@ import { CorePipesModule } from '@core/pipes/pipes.module';
 import { CoreSidebarModule } from '@core/components';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SwiperConfigInterface, SwiperModule, SWIPER_CONFIG } from 'ngx-swiper-wrapper';
+import { TitleCasePipe  } from "@angular/common";
 import { TransactionsService } from './status.service';
-import { PendingListComponent } from './pending-list/pending-list.component';
-import { AcceptListComponent } from './accept-list/accept-list.component';
-import { RejectListComponent } from './reject-list/reject-list.component';
-// import { StatusManagerComponent } from './status-manager.component';
-// 
- 
-
+import { TransactionsListComponent } from './transactions-list/transactions-list.component';
 
 
 
 const routes: Routes = [
   {
-    path: 'view-pending',
-    component:PendingListComponent,
-    canActivate: [AuthGuard],
-    resolve: {
-      uls:TransactionsService
-    },
-  }, 
-  {
-    path: 'view-accepted',
-    component:AcceptListComponent,
-    canActivate: [AuthGuard],
-    resolve: {
-      uls:TransactionsService
-    },
-  },
-  {
-    path: 'view-rejected',
-    component:RejectListComponent,
+    path: 'view-all-transactions',
+    component:TransactionsListComponent,
     canActivate: [AuthGuard],
     resolve: {
       uls:TransactionsService
@@ -59,16 +38,12 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
 };
 @NgModule({
   declarations: [
-    // StatusManagerComponent,
- 
-  
-    PendingListComponent,
-    AcceptListComponent,
-    RejectListComponent
+    TransactionsListComponent,
   ],
   imports: [
     ReactiveFormsModule,
     NgxDatatableModule,
+    TitleCasePipe,
     CommonModule,
     RouterModule.forChild(routes),
     CommonModule,
@@ -79,7 +54,6 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     AvatarModule,
     NgSelectModule,
     Ng2FlatpickrModule,
-    NgxDatatableModule,
     CorePipesModule,
     CoreDirectivesModule,
     CoreSidebarModule,

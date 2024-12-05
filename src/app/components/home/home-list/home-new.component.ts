@@ -51,13 +51,6 @@ export interface ChartOptions2 {
   styleUrls: ['../home-list/home-new.component.scss']
 })
 export class HomeNewComponent implements OnInit {
-  seriess = [
-    {
-      name: 'Sessions',
-      data: [75, 125, 225, 175, 125, 75, 25]
-    }
-  ];
-
   public isMenuToggled = false;
   public productCount: number;
   public users_count: number;
@@ -74,6 +67,41 @@ export class HomeNewComponent implements OnInit {
   public TotalUser: number = 0;
   public TotalStore: number = 0;
 
+  
+  seriess = [
+    {
+      name: 'Sessions',
+      data: [75, 125, 225, 175, 125, 75, 25]
+    }
+  ];
+
+
+  apexLineChart = {
+    series: [
+      {
+        name: "Orders",
+        data: [10, 15, 20, 25, 30, 35] // Example data
+      }
+    ],
+    chart: {
+      type: 'line',
+      height: 400
+    },
+    xaxis: {
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'] // Example labels
+    },
+    colors: ['#7367F0'], // Line color
+    stroke: {
+      width: 2
+    },
+    dataLabels: {
+      enabled: true
+    },
+    legend: {
+      show: true
+    }
+  };
+  
 
   chartColors = {
     column: {
@@ -92,7 +120,7 @@ export class HomeNewComponent implements OnInit {
       series4: '#2b9bf4',
       series5: '#FFA1A1',
       series6: '#38DEE4',
-      series7: '#FA663C',
+      series7: '#09c',
     },
     area: {
       series3: '#38DEE4',
@@ -306,6 +334,6 @@ export class HomeNewComponent implements OnInit {
 //   providers: [HomeService],
 //   exports: [
 //     HomeNewComponent
-//   ]
+//   ]    
 // })
 // export class HomeModule { }

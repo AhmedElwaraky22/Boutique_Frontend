@@ -235,31 +235,17 @@ export const menu: CoreMenu[] = [
     children: [
       {
         id: "transaction",
-        title: "Transaction",
+        title: "Transactions",
         type: "collapsible",
-        icon: "file-text",
+        icon: "file",
         children: [
           {
-            id: "pending",
-            title: "Pending",
+            id: "allTransactions",
+            title: "All Transactions",
             type: "item",
-            icon: "loader",
-            url: "/view-pending",
-          },
-          {
-            id: "accepted",
-            title: "Accepted",
-            type: "item",
-            icon: "check",
-            url: "/view-accepted",
-          },
-          {
-            id: "rejected",
-            title: "Rejected",
-            type: "item",
-            icon: "x",
-            url: "/view-rejected",
-          },
+            icon: "file-text",
+            url: "/view-all-transactions",
+          }
         ],
       },
     ],

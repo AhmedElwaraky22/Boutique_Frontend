@@ -12,6 +12,7 @@ import {
 } from "@angular/forms";
 
 import { formatDate } from "@angular/common";
+import { subscribeOn } from "rxjs/operators";
 
 @Component({
   selector: "app-order-list",
@@ -49,6 +50,7 @@ export class OrderListComponent implements OnInit {
     { name: "false", value: "false" },
   ];
 
+  // OrderStatus
   public OrderStatus: any = [
     { name: "New", value: "New" },
     { name: "Preparing", value: "Preparing" },
@@ -58,6 +60,17 @@ export class OrderListComponent implements OnInit {
     { name: "Canceled by User", value: "Canceled by User" },
     { name: "Canceled by Store", value: "Canceled by Store"},
   ];
+  // New ///////////////////////////////////////////////////
+  public newOrderStatus: any = [
+    { name: "All Orders", value: "All Orders" },
+    { name: "On the way", value: "On the way"},
+    { name: "Delivered", value: "Delivered" },
+    { name: "Canceled ", value: "Canceled" },
+  ];
+
+  public selectedStatus: string = this.newOrderStatus[0]?.value || '';
+
+ // New ///////////////////////////////////////////////////
   public OrderStatuss: any = [
     { name: "New", value: 6 },
     { name: "Preparing", value: 1 },
@@ -88,6 +101,7 @@ export class OrderListComponent implements OnInit {
     private modalService: NgbModal,
     private formBuilder: UntypedFormBuilder
   ) {
+
     this.ReactiveOrderStatusForm = this.formBuilder.group({
       change_id: ["", [Validators.required]],
     });
@@ -95,6 +109,22 @@ export class OrderListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllOrders();
+    this.getCanceled();
+
+  }
+
+  onSelectStatus(status: string): void {
+    this.selectedStatus = status;
+
+    if (status === 'All Orders') {
+      this.getAllOrders();
+    } else if (status === 'On the way') {
+      this.getOnTheWay();
+    }else if( status === 'Delivered'){
+      this.getDelivered();
+    }else if(status === 'Canceled'){
+      // this.getCanceled();
+    }
   }
 
   getAllOrders() {
@@ -112,6 +142,24 @@ export class OrderListComponent implements OnInit {
         console.log(er);
       }
     );
+  }
+  getOnTheWay(){
+    alert('"one The way"');
+  }
+  getDelivered(){
+    alert("Delivered")
+  }
+
+  getCanceled(){
+    // alert("Canceled")
+    this._orderServices.GetOrdersCancelled().subscribe(
+      (res)=>{
+        console.log(res);
+      },
+      (err)=>{
+        console.log(err);
+      }
+    )
   }
 
   filterUpdate(event: any) {
@@ -198,6 +246,7 @@ export class OrderListComponent implements OnInit {
     this.rows = this.temp;
   }
 
+  // Model Change status 
   modalOpenVC(modalVC,id) {
     this.ReactiveOrderStatusFormSubmitted = false;
     this.ReactiveOrderStatusForm.reset();
@@ -213,6 +262,7 @@ export class OrderListComponent implements OnInit {
     return this.ReactiveOrderStatusForm.controls;
   }
 
+  // changeStatus 
   ReactiveOSFormOnSubmit() {
     this.ReactiveOrderStatusFormSubmitted = true;
 
@@ -229,37 +279,32 @@ export class OrderListComponent implements OnInit {
     this.ReactiveOSForm.change_id.patchValue(
       this.ReactiveOSForm.change_id.value.toString()
     );
-
     console.log(this.ReactiveOrderStatusForm.value);
-
     // return;
-
-    
-    this._orderServices
-      .ChangeStatus(this.ReactiveOrderStatusForm.value, this.shipment_id)
-      .subscribe(
-        (re: any) => {
-          this.getAllOrders();
-          this.modalReference.close();
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Order Status Has been Changed Successfully ",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        },
-
-        (er: any) => {
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: "An Error Occurred While change Order Status !",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
-      );
+    // this._orderServices
+    //   .ChangeStatus(this.ReactiveOrderStatusForm.value, this.shipment_id)
+    //   .subscribe(
+    //     (re: any) => {
+    //       this.getAllOrders();
+    //       this.modalReference.close();
+    //       Swal.fire({
+    //         position: "center",
+    //         icon: "success",
+    //         title: "Order Status Has been Changed Successfully ",
+    //         showConfirmButton: false,
+    //         timer: 1500,
+    //       });
+    //     },
+    //     (er: any) => {
+    //       Swal.fire({
+    //         position: "center",
+    //         icon: "error",
+    //         title: "An Error Occurred While change Order Status !",
+    //         showConfirmButton: false,
+    //         timer: 1500,
+    //       });
+    //     }
+      // );
   }
 
 

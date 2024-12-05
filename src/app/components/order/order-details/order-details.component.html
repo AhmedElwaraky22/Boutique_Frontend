@@ -24,7 +24,7 @@
                     </swiper>
                   </div> -->
                   
-                  <img [src]="product?.product.product_image" class="img-fluid product-img" alt="product image" />
+                  <!-- <img [src]="product?.product.product_image" class="img-fluid product-img" alt="product image" /> -->
                 </div>
               </div>
 
@@ -95,7 +95,7 @@
 
                 <!-- Order Info  -->
                 <div class="p-3 shadow-lg rounded border border-3 ">
-                  <h1 class="text-info"><span class="text-white">O</span>rder <span class="text-white">D</span>etails</h1><br>
+                  <h1 class="text-info"> Order Details</h1><br>
 
                  <!-- Product Name -->
                   <div class="" *ngFor="let product of orderDetails?.order_details"> 
@@ -211,27 +211,22 @@
                       </span>
                     </p>
                   </div><br>
-
-
-
-
-
                 </div>
 
                 <!-- Status Action  -->
                  <hr />
                 <div class="d-flex ">
-                  <div class="d-flex flex-column flex-sm-row pt-1 mx-2">
+                  <div class="d-flex flex-column flex-sm-row pt-1 mx-2" (click)="Delivered()">
                     <a class="btn btn-outline-success round" rippleEffect >
                       <span class=""> Order Delivered</span>
                     </a>
                   </div>
-                  <div class="d-flex flex-column flex-sm-row pt-1 mx-2">
+                  <div class="d-flex flex-column flex-sm-row pt-1 mx-2" (click)="notDelivered()">
                     <a class="btn btn-outline-warning round" rippleEffect >
                       <span class=""> Order Not Delivered</span>
                     </a>
                   </div>
-                  <div class="d-flex flex-column flex-sm-row pt-1 mx-2">
+                  <div class="d-flex flex-column flex-sm-row pt-1 mx-2" (click)="cancelOrder()">
                     <a class="btn btn-outline-danger round" rippleEffect >
                       <span class=""> Cancel Order </span>
                     </a>

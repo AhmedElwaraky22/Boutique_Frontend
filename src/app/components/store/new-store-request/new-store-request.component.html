@@ -248,6 +248,7 @@
                   ></span>
                 </button>
                 <div ngbDropdownMenu>
+                  <!-- Details -->
                   <a ngbDropdownItem
                     ><span
                       [data-feather]="'file-text'"
@@ -256,6 +257,7 @@
                     ></span>
                     Details</a
                   >
+                  <!-- Verify -->
                   <a
                     ngbDropdownItem
                     (click)="VerifyStore(row.id, row.store_name)"
@@ -266,7 +268,18 @@
                     ></span>
                     Verify</a
                   >
-
+                  <!-- Canceled -->
+                  <a
+                    ngbDropdownItem
+                    (click)="CancelRegister(row.id, row.store_name)"
+                    ><span
+                      [data-feather]="'user-x'"
+                      [size]="16"
+                      [class]="'mr-50 text-danger'"
+                    ></span>
+                    Cancel Register</a
+                  >
+                  <!-- Delete -->
                   <a
                     ngbDropdownItem
                     *ngIf="row.isDeleted == false"
@@ -277,7 +290,8 @@
                       [class]="'mr-50 text-danger'"
                     ></span>
                     Delete</a
-                  >            
+                  >      
+                  <!-- Restore       -->
                   <a
                   ngbDropdownItem
                   *ngIf="row.isDeleted== true "

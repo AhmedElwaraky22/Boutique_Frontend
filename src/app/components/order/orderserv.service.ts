@@ -55,11 +55,9 @@ ChangeStatus(data:any,id:number){
     return this._httpClient.get(`${environment.apiUrl}admin/order-details/${id}`);
   }
 
-  
-
-
-
-
+  GetOrdersCancelled(){
+    return this._httpClient.get(`${environment.apiUrl}store/cancel-by-customer`)
+  }
 
 
 }

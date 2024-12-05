@@ -159,11 +159,11 @@ export class ProductListComponent implements OnInit {
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
     if (file) {
-      console.log('Selected file:', file);
+      // console.log('Selected file:', file);
       this._productServices.uploadFile(file).subscribe(
         (response) => {
           if (response) {
-            console.log('File successfully uploaded!', response);
+            // console.log('File successfully uploaded!', response);
             Swal.fire('Success', 'File successfully uploaded!', 'success');
           }
         },
@@ -182,7 +182,7 @@ export class ProductListComponent implements OnInit {
         this.products = res.data;
         this.totalProducts = res.total
         if (res.data && res.data.length > 0) {
-          console.log('Product By Pagination:', this.products);
+          // console.log('Product By Pagination:', this.products);
           this.loader = false;
         } else {
           Swal.fire({
@@ -201,7 +201,7 @@ export class ProductListComponent implements OnInit {
 
 
   changePage(page){
-    console.log(page);
+    // console.log(page);
     this.page =page
     this.loadProducts(this.limit,this.page);
   }
@@ -220,12 +220,12 @@ export class ProductListComponent implements OnInit {
   }
 
   onStoreSelect(storeId): void {
-      console.log('Selected store ID:', storeId);
+      // console.log('Selected store ID:', storeId);
 
         this._productServices.AllCategoryById(storeId).subscribe(
         (res: any) => {
           this.rows = res;
-          console.log("Categories :",this.rows);
+          // console.log("Categories :",this.rows);
         },
         (er: any) => {
           console.log(er);
@@ -234,13 +234,13 @@ export class ProductListComponent implements OnInit {
   }
 
   getSubCategory(id: number ){
-    console.log("Category id :" , id);
+    // console.log("Category id :" , id);
 
       this._productServices.getSubCategory(id).subscribe(
         (res: any) => {
           this.data = res;
           this.subcategories = this.data[0].subcategories;
-          console.log("SubCategory :", this.data[0].subcategories);
+          // console.log("SubCategory :", this.data[0].subcategories);
         },
         (er: any) => {
           console.log(er);
@@ -253,7 +253,7 @@ export class ProductListComponent implements OnInit {
         (res: any) => {
           this.SecSub = res;
           this.SecondSubcategories = this.SecSub[0].subcategories;
-          console.log("Third Level :" , this.SecSub[0].subcategories);
+          // console.log("Third Level :" , this.SecSub[0].subcategories);
         },
         (er: any) => {
           console.log(er);
@@ -262,16 +262,16 @@ export class ProductListComponent implements OnInit {
   }
 
   getSubFeatures(id: number ){
-      console.log("SecSub id :",id);
+      // console.log("SecSub id :",id);
 
       this._productServices.getFeatures( id).subscribe(
         (res: any) => {
           this.Features = res;
-          console.log(this.Features);
+          // console.log(this.Features);
           
           // console.log(this.Features.features);
           this.SubFeatures= this.Features.features
-          console.log(this.SubFeatures);
+          // console.log(this.SubFeatures);
           
           
         },
@@ -284,12 +284,12 @@ export class ProductListComponent implements OnInit {
   // photo of Product
   onFileUpload(event: any) {
     const files = event.target.files;
-    console.log(files);
+    // console.log(files);
      
     if (files && files.length > 0) {
       this.files = Array.from(files); 
       this.fileNames = this.files.map(file => file.name);
-      console.log("photos : " , this.fileNames);
+      // console.log("photos : " , this.fileNames);
        this.createProductForm.patchValue({
         images: this.files
       });
@@ -311,7 +311,7 @@ export class ProductListComponent implements OnInit {
   //  Add Product Method 
   createProductFormMethod() {
     this.isLoading = true;
-    console.log(this.features);
+    // console.log(this.features);
     const startTime = new Date().getTime();
 
 
@@ -412,9 +412,9 @@ export class ProductListComponent implements OnInit {
         this.isLoading = false;
         const endTime = new Date().getTime();
         const duration = endTime - startTime;
-        console.log(`Request started at: ${new Date(startTime).toISOString()}`);
-        console.log(`Error received at: ${new Date(endTime).toISOString()}`);
-        console.log(`Time taken for request and response (with error): ${duration} ms`);
+        // console.log(`Request started at: ${new Date(startTime).toISOString()}`);
+        // console.log(`Error received at: ${new Date(endTime).toISOString()}`);
+        // console.log(`Time taken for request and response (with error): ${duration} ms`);
       // this.getAllProduct();
       this.modalReference.close();
         Swal.fire({
@@ -454,9 +454,9 @@ export class ProductListComponent implements OnInit {
           timer: 1500,
         });
 
-        console.log(`Request started at: ${new Date(startTime).toISOString()}`);
-      console.log(`Error received at: ${new Date(endTime).toISOString()}`);
-      console.log(`Time taken for request and response (with error): ${duration} ms`);
+      //   console.log(`Request started at: ${new Date(startTime).toISOString()}`);
+      // console.log(`Error received at: ${new Date(endTime).toISOString()}`);
+      // console.log(`Time taken for request and response (with error): ${duration} ms`);
       }
       
     );

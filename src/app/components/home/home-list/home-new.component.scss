@@ -1,3 +1,13 @@
 @import '@core/scss/base/plugins/charts/chart-apex';
 @import '@core/scss/angular/libs/flatpickr.component.scss';
 @import '@core/scss/base/plugins/charts/chart-apex.scss';
+
+
+.apexcharts-legend-text{
+    color: rgb(55, 61, 63);
+    font-size: 12px;
+    font-weight: 400;
+    font-family: Helvetica, Arial, sans-serif;
+    color: wheat !important;
+
+}

@@ -1,0 +1,78 @@
+@import '@core/scss/angular/libs/datatables.component.scss';
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.table {
+  min-width: 800px;
+}
+
+.nav-tabs {
+  border: none;
+  font-size: large;
+  border-radius: 20px !important;
+}
+// .main-bg{
+//   background-color: rgba(255, 248, 248, 0.638);
+//   border-radius: 15px !important;
+//   -webkit-border-radius: 15px !important;
+//   -moz-border-radius: 15px !important;
+//   -ms-border-radius: 15px !important;
+//   -o-border-radius: 15px !important;
+// }
+.nav-tabs .nav-link{
+  color:#6b66a8 !important;
+  border-radius: 15px !important;
+padding: 10px;
+  background-color: rgba(255, 248, 248, 0.638);
+
+}
+
+.nav-tabs .nav-link.active {
+  border: none;
+  color:white !important;
+  background-color:#6059C5 !important;
+}
+
+.nav-tabs .nav-link.active:hover{
+  border-radius: 0px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  -ms-border-radius: 0px;
+  -o-border-radius: 0px;
+}
+
+
+
+.spin {
+  animation: spin 3s linear infinite;
+  -webkit-animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.zoom {
+  animation: zoomIn 0.3s ease forwards;
+}
+
+.zoom:hover {
+  animation: zoomIn 0.3s ease forwards; /* Trigger animation on hover */
+}
+/* Define the zoom effect using keyframes */
+@keyframes zoomIn {
+  0% {
+    transform: scale(1); /* Start with the original size */
+  }
+  100% {
+    transform: scale(1.5); /* End with the element scaled by 1.5 */
+  }
+}
+

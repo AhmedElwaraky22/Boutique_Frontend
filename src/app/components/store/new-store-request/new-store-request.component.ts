@@ -144,6 +144,7 @@ export class NewStoreRequestComponent implements OnInit {
       }
     });
   }
+
   RestoreStore(id: number, name: string) {
     Swal.fire({
       title: `Are you sure Want To Restore Store : ${name} ?`,
@@ -178,4 +179,51 @@ export class NewStoreRequestComponent implements OnInit {
       }
     });
   }
+
+  CancelRegister(id: number, name: string) {
+    Swal.fire({
+      title: `Are you sure you want to cancel registration for store: ${name}?`,
+      html: `
+        <textarea id="cancelReason" class="swal2-textarea" placeholder="Enter the reason for cancellation" style="width: 100%;"></textarea>
+      `,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#117864",
+      confirmButtonText: "Yes, Cancel Registration",
+      cancelButtonText: "No, Keep Registration",
+      preConfirm: () => {
+        const reason = (document.getElementById("cancelReason") as HTMLTextAreaElement)?.value;
+        if (!reason) {
+          Swal.showValidationMessage("Please enter a reason for cancellation.");
+          return null;
+        }
+        return reason;
+      },
+    }).then((result) => {
+      if (result.isConfirmed && result.value) {
+        const reason = result.value; // Get the entered reason
+        this._storeServices.RestoreStore(id).subscribe(
+          (response: any) => {
+            this.getAllNewStoreReq(); // Refresh the store requests
+            Swal.fire(
+              "Cancelled!",
+              "Store registration has been cancelled successfully.",
+              "success"
+            );
+          },
+          (error: any) => {
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "An error occurred while cancelling the registration.",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        );
+      }
+    });
+  }
+  
 }

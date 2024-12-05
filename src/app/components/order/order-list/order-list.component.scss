@@ -3,3 +3,26 @@
 @import "@core/scss/angular/libs/select.component.scss";
 @import '@core/scss/angular/libs/toastr.component.scss';
 @import '@core/scss/base/pages/app-user.scss';
+
+
+.nav-link {
+    cursor: pointer;
+    padding: 0 5px;
+    transition: all 0.5s ease-in-out;
+    border-radius: 10px !important;
+  }
+  
+  .nav-link:hover {
+    background-color: #f8f9fa;
+    color: #6B66A8 !important;
+  }
+  .nav-link.active {
+    background-color: #6B66A8 !important;
+    color: white !important;
+  }
+
+
+  .tableeeeeee{
+    border-radius: 10px !important;
+    background-color: rgba(15, 61, 44, 0.205);
+  }
