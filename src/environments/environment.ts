@@ -7,8 +7,6 @@ export const environment = {
   hmr: false,
   // New 
   apiUrl: 'https://backend.yearexboutique.com/api/'
-  // Old 
-  // apiUrl: 'https://yearexdeal.com/Boutique_Backend/public/api/'
   //  apiUrl: 'http://127.0.0.1:8000/api/'
 };
 

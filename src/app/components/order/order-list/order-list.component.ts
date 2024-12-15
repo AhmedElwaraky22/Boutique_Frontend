@@ -109,7 +109,7 @@ export class OrderListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllOrders();
-    this.getCanceled();
+    // this.getCanceled();
 
   }
 
@@ -132,6 +132,8 @@ export class OrderListComponent implements OnInit {
     this._orderServices.getAllOrders().subscribe(
       (res: any) => {
         this.loaders = false;
+        console.log(res);
+        
 
         this.rows = res.data;
         this.tempData = res;

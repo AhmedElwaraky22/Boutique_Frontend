@@ -59,5 +59,8 @@ ChangeStatus(data:any,id:number){
     return this._httpClient.get(`${environment.apiUrl}store/cancel-by-customer`)
   }
 
+  getAllPerviousShipment(){
+    return this._httpClient.get(`${environment.apiUrl}store/privious_shipments`)
+  }
 
 }

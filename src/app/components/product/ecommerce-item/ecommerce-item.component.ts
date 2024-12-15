@@ -29,6 +29,19 @@ export class EcommerceItemComponent implements OnInit {
   public AddToHomeForm: FormGroup;
   public AddToHomeFormSubmitted = false;
   public productId : number ;
+  public isLoading = false;
+  public loader:boolean = true;
+  // Pagination 
+  public page: number = 1;
+  public pageSize : number  = 9;
+  public totalProducts : number;
+  public searchText = '';
+  public displayedProducts: any[] = []; 
+  // public currentPage; 
+  public limit= 9; 
+  // public collectionSize: number = 0;  
+
+
   
 
   /**
@@ -54,7 +67,7 @@ export class EcommerceItemComponent implements OnInit {
 
   
   ngOnInit(): void {
-    // this.loadProducts()
+    // this.refreshData()
     // this.fetchAllProducts()
   }
 
@@ -69,15 +82,6 @@ export class EcommerceItemComponent implements OnInit {
    * @param productId
    */
 
-  loadProducts(): void {
-    console.log("loadProducts");
-    
-    this._ProductsService.GetAllProducts().subscribe((data: any) => {
-      // this.product = data.data;   
-      // console.log(this.product);
-         
-    });
-  }
 
 
 
@@ -97,23 +101,69 @@ export class EcommerceItemComponent implements OnInit {
   //   );
   // }
 
+
+     // get All Product Method  
+     loadProducts(limit: number, page: number) {
+      this.loader = true;
+  
+      this._ProductsService.GetAllProductsByLimited(limit, page).subscribe(
+        (res: any) => {
+          this.products = res.data;
+          this.totalProducts = res.total
+          if (res.data && res.data.length > 0) {
+            // console.log('Product By Pagination:', this.products);
+            this.loader = false;
+          } else {
+            Swal.fire({
+              position: "center",
+              icon: "info",
+              title: "There Are No Products Added Yet",
+              showConfirmButton: true,
+            });
+          }
+        },
+        (er: any) => {
+          console.log(er);
+          this.loader = false;
+  
+        }
+      );
+    }
+  
+    // refreshData
+    refreshData(): void {
+      alert("hamada")
+      this.isLoading = true; 
+      // console.log(this.limit, this.page);
+      this.loadProducts(this.limit, this.page);
+      
+      // setTimeout(() => {
+      //   this.isLoading = false; 
+      // }, 500); 
+    }
+    
  
 
   removeProduct(id:number , name : string): void {
-   Swal.fire({
-      title: `Are you sure Want To Delete : ${name} ?`,
-      text: "You won't be able to revert this!",
-      icon: "error",
-      showCancelButton: true,
-      confirmButtonColor: "#4c54f5",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes , Delete it",
-    }).then((result) => {
+    this.isLoading = true 
+
+    Swal.fire({
+        title: `Are you sure Want To Delete : ${name} ?`,
+        text: "You won't be able to revert this!",
+        icon: "error",
+        showCancelButton: true,
+        confirmButtonColor: "#4c54f5",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes , Delete it",
+      }).then((result) => {
       if (result.isConfirmed) {
+        this.isLoading =true  
+        this.refreshData()
+
         this._ProductsService.DeleteProductById(id).subscribe(
           (re: any) => {
-            // this.fetchAllProducts()
-            this.loadProducts()
+            this.refreshData()
+            this.isLoading=false
             Swal.fire(
               "Deleted!",
               "Product has been Deleted Successfully .",
@@ -121,6 +171,7 @@ export class EcommerceItemComponent implements OnInit {
             );
           },
           (err: any) => {
+            this.isLoading=false
             Swal.fire({
               position: "center",
               icon: "error",
@@ -145,9 +196,6 @@ export class EcommerceItemComponent implements OnInit {
     this.productId = id;
     console.log(this.productId);    
   }
-
-
-
 
   addToPage() {
     this.AddToHomeFormSubmitted = true;

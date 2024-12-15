@@ -38,7 +38,6 @@ import { StatusModule } from './components/transactions/status.module';
 
 
 
-
 const appRoutes: Routes = [
   {
     path: 'pages',
@@ -89,7 +88,6 @@ const appRoutes: Routes = [
     UserModule,
     StoreModule,
     ProductModule,
-    OrderModule,
     CategoryModule,
     SubcategoryModule,
     TagModule,
@@ -98,6 +96,7 @@ const appRoutes: Routes = [
     SubDetailsModule,
     ModelDetailsModule,
     HomeProductsModule,
+    OrderModule,
     StatusModule
   ],
   providers: [

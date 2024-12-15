@@ -3,11 +3,13 @@ import { ProductsService } from "./../products.service";
 import Swal from "sweetalert2";
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { catchError, finalize } from 'rxjs/operators';
-import { of } from 'rxjs';
+import {  } from 'rxjs';
 import { Router, ResolveEnd } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AllStores } from 'app/main/sample/modules/product';
+import { timeout } from 'rxjs/operators';
+import { of , throwError } from 'rxjs';
 
 @Component({
   selector: "app-product-list",
@@ -98,7 +100,6 @@ export class ProductListComponent implements OnInit {
     // this.loadProducts(this.limit,this.page);
   }
 
- 
   toggle() {
     this.showSecondSubCategory = !this.showSecondSubCategory;
   }
@@ -154,7 +155,6 @@ export class ProductListComponent implements OnInit {
     this.gridViewRef = true;
   }
 
-
   //Upload Excl/
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
@@ -177,6 +177,8 @@ export class ProductListComponent implements OnInit {
 
    // get All Product Method  
    loadProducts(limit: number, page: number) {
+    this.loader = true;
+
     this._productServices.GetAllProductsByLimited(limit, page).subscribe(
       (res: any) => {
         this.products = res.data;
@@ -195,17 +197,29 @@ export class ProductListComponent implements OnInit {
       },
       (er: any) => {
         console.log(er);
+        this.loader = false;
+
       }
     );
   }
 
+  // refreshData
+  refreshData(): void {
+    this.isLoading = true; 
+    // console.log(this.limit, this.page);
+    
+    setTimeout(() => {
+      this.isLoading = false; 
+      this.loadProducts(this.limit, this.page);
+    }, 1000); 
+  }
+  
 
   changePage(page){
     // console.log(page);
     this.page =page
     this.loadProducts(this.limit,this.page);
   }
-
 
   getAllStores(): void {
       this._productServices.viewAllStores().subscribe(
@@ -311,18 +325,16 @@ export class ProductListComponent implements OnInit {
   //  Add Product Method 
   createProductFormMethod() {
     this.isLoading = true;
-    // console.log(this.features);
     const startTime = new Date().getTime();
-
-
+  
     this.createProductFormSubmitted = true;
     if (this.createProductForm.invalid) {
       return;
     }
-
-    if(this.createProductForm.get('product_discounted_price').value > 0){
+  
+    if (this.createProductForm.get('product_discounted_price').value > 0) {
       this.product_has_discount = 1;
-    }else{
+    } else {
       this.product_has_discount = 0;
     }
   
@@ -330,40 +342,34 @@ export class ProductListComponent implements OnInit {
     if (this.files) {
       images.push(this.files);
     }
-
-    // Features
-    const transformedFeatures = this.features.map(feature => {
-      return {
-        feature_values_ids: [feature.firstFeature, feature.secondFeature], 
-        price: feature.price, 
-        quantity: feature.quantity 
-      };
-    });
-
-    // AdditionalFeaterus
-    const transformAdditionalFeaterus = this.additional_features.map(additional => {
-      const feature = {
-        ...(additional.name_ar ? { name_ar: additional.name_ar } : {}),
-        ...(additional.name_en ? { name_en: additional.name_en } : {}),
-        ...(additional.value_en ? { value_en: additional.value_en } : {}),
-        ...(additional.value_ar ? { value_ar: additional.value_ar } : {})
-      };
-      if (Object.keys(feature).length > 0) {
-        return feature;
-      }
-      return null; 
-    }).filter(feature => feature !== null); 
-
-   
-      const productCategoryId = this.showSecondSubCategory 
-      ? this.createProductForm.get('product_category_id').value  
-      : this.createProductForm.get('selectedSubCategoryId').value;  
-      // : this.selectedSubCategoryId;  
-
-    
+  
+    const transformedFeatures = this.features.map((feature) => ({
+      feature_values_ids: [feature.firstFeature, feature.secondFeature],
+      price: feature.price,
+      quantity: feature.quantity,
+    }));
+  
+    const transformAdditionalFeaterus = this.additional_features
+      .map((additional) => {
+        const feature = {
+          ...(additional.name_ar ? { name_ar: additional.name_ar } : {}),
+          ...(additional.name_en ? { name_en: additional.name_en } : {}),
+          ...(additional.value_en ? { value_en: additional.value_en } : {}),
+          ...(additional.value_ar ? { value_ar: additional.value_ar } : {}),
+        };
+        if (Object.keys(feature).length > 0) {
+          return feature;
+        }
+        return null;
+      })
+      .filter((feature) => feature !== null);
+  
+    const productCategoryId = this.showSecondSubCategory
+      ? this.createProductForm.get('product_category_id').value
+      : this.createProductForm.get('selectedSubCategoryId').value;
+  
     let formData = new FormData();
     formData.append('product_category_id', productCategoryId);
-    // formData.append('product_category_id', this.createProductForm.get('product_category_id').value);
     formData.append('store_id', this.createProductForm.get('store_id').value);
     formData.append('name_en', this.createProductForm.get('name_en').value);
     formData.append('name_ar', this.createProductForm.get('name_ar').value);
@@ -371,9 +377,8 @@ export class ProductListComponent implements OnInit {
     formData.append('product_discounted_price', this.createProductForm.get('product_discounted_price').value);
     formData.append('description_en', this.createProductForm.get('description_en').value);
     formData.append('description_ar', this.createProductForm.get('description_ar').value);
-    formData.append('product_has_discount', (this.product_has_discount));
-    
-    // Append transformed features
+    formData.append('product_has_discount', String(this.product_has_discount));
+  
     transformedFeatures.forEach((feature, index) => {
       if (feature.feature_values_ids && feature.feature_values_ids.length > 0) {
         feature.feature_values_ids.forEach((id, subIndex) => {
@@ -382,85 +387,90 @@ export class ProductListComponent implements OnInit {
           }
         });
       }
-    if (feature.price !== null && feature.price !== undefined && feature.price !== '') {
+      if (feature.price !== null && feature.price !== undefined && feature.price !== '') {
         formData.append(`features[${index}][price]`, String(feature.price));
       }
-
+  
       if (feature.quantity !== null && feature.quantity !== undefined && feature.quantity !== '') {
         formData.append(`features[${index}][quantity]`, String(feature.quantity));
       }
-      
     });
-    
-    // Append transformed additional features
+  
     transformAdditionalFeaterus.forEach((additionalFeature, index) => {
       formData.append(`product_additional_features[${index}][name_ar]`, additionalFeature.name_ar);
       formData.append(`product_additional_features[${index}][name_en]`, additionalFeature.name_en);
       formData.append(`product_additional_features[${index}][value_ar]`, additionalFeature.value_ar);
       formData.append(`product_additional_features[${index}][value_en]`, additionalFeature.value_en);
     });
-    
-
+  
     if (this.files && this.files.length > 0) {
       this.files.forEach((file, index) => {
-        formData.append(`images[${index}]`, file, file.name); 
+        formData.append(`images[${index}]`, file, file.name);
       });
     }
 
-    this._productServices.AddNewProduct(formData).subscribe(
-      (re: any) => {
-        this.isLoading = false;
-        const endTime = new Date().getTime();
-        const duration = endTime - startTime;
-        // console.log(`Request started at: ${new Date(startTime).toISOString()}`);
-        // console.log(`Error received at: ${new Date(endTime).toISOString()}`);
-        // console.log(`Time taken for request and response (with error): ${duration} ms`);
-      // this.getAllProduct();
-      this.modalReference.close();
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "category added Successfully ",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        this.createProductForm.reset();
-        this.createProductFormSubmitted = false;
-        this.createProductForm.patchValue({ product_category_id: productCategoryId }); 
-        this.files = [];
-        this.fileNames = [];
-        (document.getElementById('fileInput') as HTMLInputElement).value = ''; // Reset the file input element
+    this._productServices.AddNewProduct(formData)
+      .pipe(
+        timeout(60000) 
+      )
+      .subscribe({
+        next: (re: any) => {
+          this.isLoading = false;
+          const endTime = new Date().getTime();
+          const duration = endTime - startTime;
+  
+          this.modalReference.close();
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Product added successfully',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          this.createProductForm.reset();
+          this.createProductFormSubmitted = false;
+          this.createProductForm.patchValue({ product_category_id: productCategoryId });
+          this.files = [];
+          this.fileNames = [];
+          (document.getElementById('fileInput') as HTMLInputElement).value = ''; // Reset the file input element
+  
+          this.features = this.features.map(() => ({
+            firstFeature: '',
+            secondFeature: '',
+            price: '',
+            quantity: '',
+          }));
+  
+          this.additional_features = [{ name_en: '', name_ar: '', value_en: '', value_ar: '' }];
+        },
 
-        this.features = this.features.map(() => ({
-          firstFeature: '',
-          secondFeature: '',
-          price: '',
-          quantity: ''
-        }));
-        
-        this.additional_features = [{ name_en: '', name_ar: '' , value_en:'' , value_ar:'' }];
-      },
-      (er: any) => {
-        const endTime = new Date().getTime();
-        const duration = endTime - startTime;
+        error: (er: any) => {
+          this.isLoading = false;
+          console.log(er.error.message);
+          let errorMessage = er.error.message || 'The request timed out. Please try again.';
+          if (er.name === 'TimeoutError') {
+            Swal.fire({
+              position: 'center',
+              icon: 'warning',
+              title: 'The request timed out. Please try again.',
+              showConfirmButton: true,    // Show the button
+              confirmButtonText: 'OK'    // Button text              confirmButtonText: 'OK'    // Button text,
 
-
-        this.isLoading = false;
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "An Error Occurred While adding  !",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-
-      //   console.log(`Request started at: ${new Date(startTime).toISOString()}`);
-      // console.log(`Error received at: ${new Date(endTime).toISOString()}`);
-      // console.log(`Time taken for request and response (with error): ${duration} ms`);
-      }
-      
-    );
+            });
+          } else {
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: errorMessage,
+              timer: 1500,
+              showConfirmButton: true,    // Show the button
+              confirmButtonText: 'OK'    // Button text
+            });
+          }
+        },
+      });
   }
+  
 
 }
 

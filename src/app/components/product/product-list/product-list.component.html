@@ -1,6 +1,4 @@
 <div  *ngIf="!loader" class="content-wrapper container-xxl overflow-hidden p-0 mt-3">
-
-   
      <div class="content-detached ">
        <div class="content-body">
          <!-- E-commerce Head Section Starts -->
@@ -14,12 +12,22 @@
                  </div>
                  
                  <div class="view-options d-flex me-1">
-              
+
+                  <!-- Refresh -->
+                  <button
+                  type="button"
+                  class="refresh-btn btn btn-outline-success"
+                  (click)="refreshData()"
+                  title="Refresh Data"
+                  >
+                  <i data-feather="refresh-cw" class="font-medium-3"></i>
+                  </button>
+
                   <!-- Add File  -->
                     <div class="btn-group " data-toggle="buttons">
                       <button 
                         type="submit"
-                        class="upload-btn btn btn-outline-primary " 
+                        class="upload-btn btn btn-outline-warning " 
                         (click)="fileInput.click()"
                         title="Upload File"
                         >
@@ -33,7 +41,7 @@
                     <div class="btn-group " data-toggle="buttons">
                       <button
                         type="button"
-                        class="upload-btn btn btn-outline-primary"
+                        class="upload-btn btn btn-outline-danger"
                         (click)="ModelAddNewProduct(modalAddProduct)"
                         title="Upload Product"
                       >
@@ -63,6 +71,7 @@
            </div>
          </section>
    
+        <!-- Search Sec tion  -->
          <section id="ecommerce-searchbar" class="ecommerce-searchbar">
            <div class="row mt-1">
              <div class="col-sm-12">
@@ -83,10 +92,11 @@
              </div>
            </div>
          </section>
+
+
          <!-- E-commerce Head Section Starts -->
    
          <!-- E-commerce Products Starts -->
-         
          <section id="ecommerce-products" [ngClass]="gridViewRef === true ? 'grid-view' : 'list-view'">
           <ng-container *ngIf="products.length > 0" >
             <app-ecommerce-item
@@ -94,18 +104,15 @@
               [product]="product"
               *ngFor=" let product of products
               | filter: searchText:'product_name'
-              | slice: (1-1) * pageSize:(1 - 1) * pageSize + pageSize 
-            ">
+              | slice: (1-1) * pageSize:(1 - 1) * pageSize + pageSize ">
             </app-ecommerce-item>
           </ng-container>
           <ng-container *ngIf="products.length === 0">
             <p>No products available on this page</p>
           </ng-container>
-        </section>
-        
-        
-         <!-- E-commerce Products Ends -->
+          </section>
    
+
          <!-- E-commerce Pagination Starts -->
          <section id="ecommerce-pagination">
           <div class="row">
@@ -139,8 +146,7 @@
             </div>
           </div>
         </section>
-        
-         <!-- E-commerce Pagination Ends -->
+
        </div>
      </div>
    </div>

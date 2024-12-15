@@ -18,6 +18,7 @@ import { CreatePipe } from "./pipes/create.pipe";
 import { AvatarModule } from "ngx-avatar";
 import { StoreProfileComponent } from "./Store/store-profile/store-profile.component";
 import { HomeComponent } from "./home.component";
+import { TruncateWordsPipe } from './pipes/truncate-words.pipe';
 
 // ///////////////////////Main Routes ///////////////
 const routes = [
@@ -65,7 +66,7 @@ const routes = [
 ];
 
 @NgModule({
-  declarations: [HomeComponent, CreatePipe, StoreProfileComponent],
+  declarations: [HomeComponent, CreatePipe, StoreProfileComponent, TruncateWordsPipe],
   imports: [
     RouterModule.forChild(routes),
     NgbPaginationModule,

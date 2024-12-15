@@ -19,11 +19,20 @@ import { EcommerceItemComponent } from './ecommerce-item/ecommerce-item.componen
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { SwiperConfigInterface, SwiperModule, SWIPER_CONFIG } from 'ngx-swiper-wrapper';
 import { CreateProductComponent } from './create-product/create-product.component';
-
+import { TempProductComponent } from './product-temp/temp-product.component';
 
 
 
 const routes: Routes = [
+  {
+    path: 'view-temp-products',
+    component:TempProductComponent,
+    canActivate: [AuthGuard],
+    resolve: {
+      uls:ProductsService
+    },
+  },
+
   {
     path: 'view-all-products',
     component:ProductListComponent,
@@ -41,6 +50,7 @@ const routes: Routes = [
       uls:ProductsService
     },
   },
+
   {
     path: 'create-product',
     component:CreateProductComponent,
@@ -49,7 +59,6 @@ const routes: Routes = [
       uls:ProductsService
     },
   }
-  
 ]
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
@@ -62,6 +71,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     ProductDetailComponent,
     EcommerceItemComponent,
     CreateProductComponent,
+    TempProductComponent
   ],
   imports: [
     CommonModule,
