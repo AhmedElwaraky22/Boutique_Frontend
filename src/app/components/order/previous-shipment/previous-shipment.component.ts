@@ -44,4 +44,17 @@ export class PreviousShipmentComponent implements OnInit {
 
   filterUpdate(e){}
 
+
+  getStatusClass(status: string): string {
+    switch (status) {
+      case 'Delivered':
+        return 'badge badge-success'; // لون أخضر للحالة "Delivered"
+      case 'Pending':
+        return 'badge badge-warning'; // لون أصفر للحالة "Pending"
+      case 'Canceled':
+        return 'badge badge-danger'; // لون أحمر للحالة "Canceled"
+      default:
+        return 'badge badge-secondary'; // لون رمادي للحالات الأخرى
+    }
+  }
 }
