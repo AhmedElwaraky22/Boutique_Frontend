@@ -18,7 +18,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SwiperConfigInterface, SwiperModule, SWIPER_CONFIG } from 'ngx-swiper-wrapper';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { OrderStatusComponent } from './order-status/order-status.component';
-import { PreviousShipmentComponent } from './previous-shipment/previous-shipment.component';
+
 
 
 
@@ -47,14 +47,7 @@ const routes: Routes = [
       uls:OrderservService
     },
   },
-  {
-    path: 'pervious-shipment',
-    component:PreviousShipmentComponent,
-    canActivate: [AuthGuard],
-    resolve: {
-      uls:OrderservService
-    },
-  }
+ 
 ]
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
@@ -66,7 +59,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     OrderListComponent,
     OrderDetailsComponent,
     OrderStatusComponent,
-    PreviousShipmentComponent,
+    
   ],
   imports: [
     CommonModule,

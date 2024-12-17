@@ -26,8 +26,13 @@ export class OrderListComponent implements OnInit {
   @ViewChild("tableRowDetails") tableRowDetails: any;
 
 
+  
+  public isLoading = false;
+  public id = 1;
+  public rows = []; // Data source for the table
+
   public sidebarToggleRef = false;
-  public rows: OrderInterface;
+  // public rows: OrderInterface;
   public selectedOption = 10;
   public ColumnMode = ColumnMode;
   public temp: any;
@@ -61,14 +66,19 @@ export class OrderListComponent implements OnInit {
     { name: "Canceled by Store", value: "Canceled by Store"},
   ];
   // New ///////////////////////////////////////////////////
-  public newOrderStatus: any = [
-    { name: "All Orders", value: "All Orders" },
-    { name: "On the way", value: "On the way"},
-    { name: "Delivered", value: "Delivered" },
-    { name: "Canceled ", value: "Canceled" },
+
+  // public isLoading = false;
+  // public rows = [];
+  // public selectedStatus: string = this.newOrderStatus[0]?.value || '';
+
+  public selectedStatus = 'All Orders'; // Default active status
+  public newOrderStatus = [
+    { name: 'All Orders', value: 'All Orders' },
+    { name: 'On the way', value: 'On the way' },
+    { name: 'Delivered', value: 'Delivered' },
+    { name: 'To Ware House', value: 'To Ware House' },
   ];
 
-  public selectedStatus: string = this.newOrderStatus[0]?.value || '';
 
  // New ///////////////////////////////////////////////////
   public OrderStatuss: any = [
@@ -109,32 +119,77 @@ export class OrderListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllOrders();
-    // this.getCanceled();
+    this.getAll();
+    this.onStatusChange(this.selectedStatus); // Load default status data
+    // this.getCanceled(); 
+
 
   }
 
-  onSelectStatus(status: string): void {
-    this.selectedStatus = status;
+  onStatusChange(status: string): void {
+    this.selectedStatus = status; // Update the selected status
+    this.isLoading = true;
 
-    if (status === 'All Orders') {
-      this.getAllOrders();
-    } else if (status === 'On the way') {
-      this.getOnTheWay();
-    }else if( status === 'Delivered'){
-      this.getDelivered();
-    }else if(status === 'Canceled'){
-      // this.getCanceled();
+    switch (status) {
+      case "All Orders":
+        this.getAllOrders();
+        break;
+      case "On the way":
+        this.getAllOnTheWayOrders();
+        break;
+      case "Delivered":
+        this.getAllDeliveredOrders();
+        break;
+      case "To Ware House":
+        this.getAlltoWareHouse();
+        break;
+      default:
+        this.isLoading = false;
+        console.log("Unknown status:", status);
     }
   }
 
+  // All Order 
   getAllOrders() {
     this.loaders = true;
     this._orderServices.getAllOrders().subscribe(
       (res: any) => {
         this.loaders = false;
-        console.log(res);
         
+        this.rows = res.data;
+        this.tempData = res;
+        console.log(this.rows);
+  
+      },
+      (er: any) => {
+        console.log(er);
+      }
+    );
+  }
 
+  // get All Pervious Orders
+  getAllDeliveredOrders(){
+    this.loaders = true;
+    this._orderServices.GetDeliveredOrders().subscribe(
+      (res: any) => {
+        this.loaders = false;
+           this.rows = res.data;
+        this.tempData = res;
+        
+      },
+      (er: any) => {
+        console.log(er);
+      }
+    );
+  }
+
+  // get All to WareHouse
+  getAlltoWareHouse(){
+    this.loaders = true;
+    this._orderServices.GetToWareHouse().subscribe(
+      (res: any) => {
+        this.loaders = false;
+        console.log(res)
         this.rows = res.data;
         this.tempData = res;
         console.log( this.rows );
@@ -145,12 +200,29 @@ export class OrderListComponent implements OnInit {
       }
     );
   }
-  getOnTheWay(){
-    alert('"one The way"');
+
+  getAll(){
+    this.loaders = true;
+    this._orderServices.getById(this.id).subscribe(
+      (res: any) => {
+        this.loaders = false;
+        console.log(res)
+        this.rows = res.data;
+        this.tempData = res;
+        console.log( this.rows );
+        
+      },
+      (er: any) => {
+        console.log(er);
+      }
+    );
   }
-  getDelivered(){
-    alert("Delivered")
-  }
+
+  getAllOnTheWayOrders(){}
+
+
+
+
 
   getCanceled(){
     // alert("Canceled")
@@ -310,9 +382,10 @@ export class OrderListComponent implements OnInit {
   }
 
 
-
   navigate(id:number){
   console.log(id);
-
   }
+
+
+  
 }

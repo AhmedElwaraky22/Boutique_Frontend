@@ -6,6 +6,7 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { environment } from 'environments/environment';
 
 import { BehaviorSubject, Observable } from 'rxjs';
+import { User } from 'app/auth/models';
 
 @Injectable()
 export class OrderservService implements Resolve<any> {
@@ -40,9 +41,20 @@ export class OrderservService implements Resolve<any> {
   /**
    * Get rows
    */
+  /////////////////// Orders ////////////////////////////
   getAllOrders(){
     return this._httpClient.get<Product>(`${environment.apiUrl}admin/all-orders`);
   }
+
+
+  GetDeliveredOrders(){
+    return this._httpClient.get(`${environment.apiUrl}admin/delivered`)
+  }
+  GetToWareHouse(){
+    return this._httpClient.get(`${environment.apiUrl}admin/delivered_to_warehouse`)
+  }
+  /////////////////// Orders ////////////////////////////
+
 
   
   
@@ -59,8 +71,15 @@ ChangeStatus(data:any,id:number){
     return this._httpClient.get(`${environment.apiUrl}store/cancel-by-customer`)
   }
 
-  getAllPerviousShipment(){
-    return this._httpClient.get(`${environment.apiUrl}store/privious_shipments`)
+  getAll() {
+    return this._httpClient.get<User[]>(`${environment.apiUrl}/users`);
+  }
+
+  /**
+   * Get user by id
+   */
+  getById(id: number) {
+    return this._httpClient.get<User>(`${environment.apiUrl}/users/${id}`);
   }
 
 }

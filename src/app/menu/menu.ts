@@ -156,17 +156,33 @@ export const menu: CoreMenu[] = [
             icon: "package",
             url: "view-all-orders",
           },
-          {
-            id: "all-previous-shipment",
-            title: "All Pervious Shipment",
-            type: "item",
-            icon: "package",
-            url: "pervious-shipment",
-          },
         ],
       },
     ],
   },
+{
+  id: "shipment-section",
+    type: "section",
+    title: "Shipment Section",
+    icon: "shopping-cart",
+    children:[
+      {
+        id: "shipments",
+        title: "Shipments",
+        type: "collapsible",
+        icon: "truck",
+        children: [
+          {
+            id: "all-shipments",
+            title: "All Shipments",
+            type: "item",
+            icon: "package",
+            url: "view-all-shipments",
+          },
+        ],
+      },
+    ]
+},
   {
     id: "category-subcategory-section",
     type: "section",
