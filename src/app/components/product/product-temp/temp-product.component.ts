@@ -19,6 +19,7 @@ export class TempProductComponent implements OnInit {
   public contentHeader: object;
   public rows;
   public data;
+  public tempProducts;
 
 
 
@@ -42,8 +43,8 @@ export class TempProductComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadProducts(this.limit, this.page);
-    // this.loadProducts(this.limit,this.page);
+    // this.loadProducts(this.limit, this.page);
+    this.getTemporaryProducts()
   }
 
   toggle() {
@@ -93,12 +94,35 @@ export class TempProductComponent implements OnInit {
     );
   }
 
+  getTemporaryProducts(): void {
+    this.loader = true
+    console.log("انا  جوه");
+    
+
+    this._productServices.getTempProduct().subscribe({
+      next: (response:any) => {
+        this.loader = false
+console.log("كويس");
+
+        this.tempProducts = response.data; 
+        console.log('Temp Products:', this.tempProducts)
+      },
+      error: (err) => {
+        this.loader = false
+        console.log("خراا");
+        
+        console.error('Error fetching products:', err);
+      }
+    });
+  }
+
   // refreshData
   refreshData(): void {
     console.log(this.limit,this.page);
     this.limit 
     this.page  
     this.loadProducts(this.limit,this.page); 
+    this.getTemporaryProducts
   }
 
   changePage(page){
@@ -110,17 +134,41 @@ export class TempProductComponent implements OnInit {
 
   getFirstFiveWords(name: string): string {
     if (!name) return '';
-    const words = name.split(' ');
-    console.log(words);
-    
+    const words = name.split(' ');    
     return words.slice(0, 5).join(' ') + (words.length > 5 ? '...' : '');
   }
 
-   AcceptAction() {
-    alert("Action Accepted!");
+  acceptAction(productId: number): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to accept this product?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Accept!',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Call the API if the user confirms
+        this._productServices.acceptTempProduct(productId).subscribe({
+          next: (response) => {
+            Swal.fire('Accepted!', 'The product has been accepted.', 'success');
+            console.log('Product accepted successfully:', response);
+            // Reload all temporary products
+            this.getTemporaryProducts();
+          },
+          error: (error) => {
+            Swal.fire('Error', 'There was an issue accepting the product.', 'error');
+            console.error('Error accepting product:', error);
+          },
+        });
+      } else {
+        Swal.fire('Cancelled', 'The product was not accepted.', 'info');
+      }
+    });
   }
   
-  RejectAction(name: string) {
+
+  RejectAction(id : number ,  name: string) {
     console.log('RejectAction called with name:', name);
     Swal.fire({
       title: `Are you sure you want to cancel this Temp Product: ${name}?`,
@@ -145,26 +193,39 @@ export class TempProductComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed && result.value) {
         console.log('Reason submitted:', result.value);
-        this._productServices.AddNewProduct(result.value).subscribe(
+        this._productServices.rejectedTempProduct(id , name ).subscribe(
           (response: any) => {
-            this.refreshData();
+        
             Swal.fire("Cancelled!", "Product has been cancelled successfully.", "success");
           },
           (error: any) => {
+       
             Swal.fire({
+              
               position: "center",
               icon: "error",
               title: "An error occurred while cancelling this product.",
               showConfirmButton: false,
               timer: 1500,
             });
+            this.refreshData();
+            this.getTemporaryProducts()
           }
         );
       }
     });
   }
+
+
+
+
+}
+
+
   
-  }
+
+  
+
   
   
 

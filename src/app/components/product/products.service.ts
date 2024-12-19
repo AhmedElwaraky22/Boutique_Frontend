@@ -139,4 +139,16 @@ export class ProductsService implements Resolve<any> {
   viewAllStores(){
     return this._httpClient.get<AllStores>(`${environment.apiUrl}admin/viewallstores`)
   }
+
+  getTempProduct(){
+    return this._httpClient.get(`${environment.apiUrl}admin/all-temp-products`)
+  }
+  acceptTempProduct(id: number) {
+    return this._httpClient.post(`${environment.apiUrl}admin/temp-products/accept/${id}`, {}); 
+  }
+  
+  rejectedTempProduct(id: number, data: any) {
+    return this._httpClient.post(`${environment.apiUrl}admin/temp-products/reject/${id}`, data);
+  }
+  
 }

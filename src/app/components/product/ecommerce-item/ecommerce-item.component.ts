@@ -132,77 +132,79 @@ export class EcommerceItemComponent implements OnInit {
   
     // refreshData
     refreshData(): void {
-      alert("hamada")
       this.isLoading = true; 
-      // console.log(this.limit, this.page);
       this.loadProducts(this.limit, this.page);
-      
-      // setTimeout(() => {
-      //   this.isLoading = false; 
-      // }, 500); 
     }
     
  
-
-  removeProduct(id:number , name : string): void {
-    this.isLoading = true 
-
-    Swal.fire({
-        title: `Are you sure Want To Delete : ${name} ?`,
+    // remove Product
+    removeProduct(id: number, name: string): void {
+      this.isLoading = true;
+    
+      Swal.fire({
+        title: `Are you sure you want to delete: ${name}?`,
         text: "You won't be able to revert this!",
         icon: "error",
         showCancelButton: true,
         confirmButtonColor: "#4c54f5",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes , Delete it",
+        confirmButtonText: "Yes, delete it",
       }).then((result) => {
-      if (result.isConfirmed) {
-        this.isLoading =true  
-        this.refreshData()
-
-        this._ProductsService.DeleteProductById(id).subscribe(
-          (re: any) => {
-            this.refreshData()
-            this.isLoading=false
-            Swal.fire(
-              "Deleted!",
-              "Product has been Deleted Successfully .",
-              "success"
-            );
-          },
-          (err: any) => {
-            this.isLoading=false
-            Swal.fire({
-              position: "center",
-              icon: "error",
-              title: "An Error Occurred While Deleting Product",
-              showConfirmButton: false,
-              timer: 1500,
-            });
-          }
-        );
-      }
-    });
-  }
-  
-  // Model Add To Home Product 
-  modelAddTo(addToHome , id){
-    this.AddToHomeFormSubmitted = false;
-    this.AddToHomeForm.reset();
-   this.modalRefereence = this.modalService.open(addToHome, {
-      backdrop: false,
-      centered: true,
-    });
-    this.productId = id;
-    console.log(this.productId);    
-  }
-
-  addToPage() {
-    this.AddToHomeFormSubmitted = true;
-
-    if (this.AddToHomeForm.invalid) {
-      return;
+        if (result.isConfirmed) {
+          this.isLoading = true;
+    
+          this._ProductsService.DeleteProductById(id).subscribe(
+            (response: any) => {
+              this.isLoading = false;
+    
+              // Show success message
+              Swal.fire(
+                "Deleted!",
+                "Product has been deleted successfully.",
+                "success"
+              );
+    
+              // Reload the product list
+              this.loadProducts(this.limit, this.page);
+            },
+            (error: any) => {
+              this.isLoading = false;
+    
+              // Show error message
+              Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "An error occurred while deleting the product.",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            }
+          );
+        } else {
+          this.isLoading = false; // Reset loading if canceled
+        }
+      });
     }
+    
+  
+    // Model Add To Home Product 
+    modelAddTo(addToHome , id){
+      this.AddToHomeFormSubmitted = false;
+      this.AddToHomeForm.reset();
+    this.modalRefereence = this.modalService.open(addToHome, {
+        backdrop: false,
+        centered: true,
+      });
+      this.productId = id;
+      console.log(this.productId);    
+    }
+
+    addToPage() {
+      this.AddToHomeFormSubmitted = true;
+
+      if (this.AddToHomeForm.invalid) {
+        return;
+      }
 
     // Get the form values
     let formValues = this.AddToHomeForm.value;

@@ -199,11 +199,20 @@
                 </ng-container>
               </div>  -->
 
-              <div class="d-flex flex-column flex-sm-row pt-1">
-                <a class="btn btn-outline-danger round" rippleEffect (click)="removeProduct(productData?.product_id , productData?.product_name)">
-                  <span class="">Delete Product</span>
-                </a>
+              <div class="d-flex">
+                <div class="d-flex flex-column flex-sm-row pt-1 mx-2">
+                  <a class="btn btn-outline-danger round" rippleEffect (click)="removeProduct(productData?.product_id , productData?.product_name)">
+                    <span class="">Delete Product</span>
+                  </a>
+                </div>
+                <div class="d-flex flex-column flex-sm-row pt-1">
+                  <a class="btn btn-outline-info round" rippleEffect (click)="modelEditProduct(modalEditProduct , productData?.product_id , productData?.product_name)">
+                    <span class="">Edit Product</span>
+                  </a>
+                </div>
+  
               </div>
+             
             </div>
           </div>
         </div>
@@ -308,4 +317,486 @@
 
 
 
+<!-- Add Product Model  -->
+<ng-template #modalEditProduct let-modal>
+  <div class="modal-header ">
+      <h5 class="modal-title" id="exampleModalCenterTitle">
+        New Product 
+      </h5>
+      <button
+        id="clo"
+        type="button"
+        class="close"
+        (click)="modal.dismiss('Cross click')"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <form *ngIf="createProductForm"  [formGroup]="createProductForm"novalidate autocomplete="off" id="fo">
+      <!-- Stores -->
+      <div class="form-group">
+        <label for="categorySelect">Select Stores</label>
+        <select
+          class="form-control"
+          formControlName="store_id"
+          id="store_id"
+          (change)="onStoreSelect($event.target.value)"
+        >
+          <option value="" disabled>Select a store</option>
+          <option *ngFor="let store of allStores" [value]="store.id">
+            {{ store.store_name }}
+          </option>
+        </select>
+        <div
+          *ngIf="createProductForm.get('store_id').invalid && createProductFormSubmitted"
+          class="invalid-feedback"
+        >
+          Please select a store.
+        </div>
+      </div>
+      
+      <!-- Category -->
+      <div class="form-group">
+        <label for="categorySelect">Select Category</label>
+        <select
+          class="form-control"
+          formControlName="selectedCategoryId"
+          id="categorySelect"
+          (change)="getSubCategory($event.target.value)"
+        >
+          <!-- <option value="" disabled>Select a category</option> -->
+          <option value="" >Select a category</option>
+          <option *ngFor="let category of rows" [value]="category.id">
+            {{ category.name_en }} - {{ category.name_ar }}
+          </option>
+        </select>
+        <div *ngIf="createProductForm.get('selectedCategoryId').invalid && createProductFormSubmitted" class="invalid-feedback">
+          Please select a category.
+        </div>
+      </div>
+      
+      <!-- Toggle Button  -->
+      <div class="toggle-container ms-2">
+        <input type="checkbox" id="toggle" class="toggle-checkbox form-group " [(ngModel)]="showSecondSubCategory" (click)="toggle()">
+        <label for="toggle" class="toggle-label">
+          <span class="toggle-dot"></span>
+        </label>
+      </div>  
 
+      <div class="row">
+        <!-- Subcategory -->
+        <div class="form-group col-md-6">
+          <label for="subCategorySelect">Select SubCategory</label>
+          <select
+            class="form-control"
+            formControlName="selectedSubCategoryId"
+            id="subCategorySelect"
+            (change)="getSecondSub($event.target.value)"
+            (change)="getSubFeatures($event.target.value)"
+          >
+            <!-- <option value="" disabled>Select a subcategory</option> -->
+            <option value="" >Select a subcategory</option>
+            <option *ngFor="let sub of subcategories" [value]="sub.id">
+              {{ sub.name_en }} - {{ sub.name_ar }}
+            </option>
+          </select>
+        </div>
+    
+          <!-- Second Subcategory -->
+          <div class="form-group col-md-6  Third_level" [ngClass]="{'third_level': showSecondSubCategory}" [ngStyle]="{'display': showSecondSubCategory ? 'block' : 'none'}"> 
+            <label for="secondSubCategorySelect">Select Second SubCategory</label>
+            <select
+              class="form-control"
+              formControlName="product_category_id"
+              id="secondSubCategorySelect"
+              (change)="getSubFeatures($event.target.value)"
+            >
+              <option value="" >Select a subcategory</option>
+              <option *ngFor="let sub of SecondSubcategories" [value]="sub.id">
+                {{ sub.name_en }} - {{ sub.name_ar }}
+              </option>
+            </select>
+          </div>
+      </div>
+
+      <div class="row">
+        <!-- Product Name English -->
+        <div class="form-group col-md-6">
+            <label>Product Name (English):</label>
+            <input
+              formControlName="name_en"
+              type="text"
+              placeholder="Name (English)"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': createProductFormSubmitted && createProductForm.get('name_en')?.errors
+              }"
+            />
+            <div *ngIf="createProductForm.get('name_en')?.invalid && createProductFormSubmitted" class="invalid-feedback">
+              <div *ngIf="createProductForm.get('name_en')?.errors?.required">
+                Product Name (English) is required.
+              </div>
+              <div *ngIf="createProductForm.get('name_en')?.errors?.minlength">
+                Product Name (English) must be at least 2 characters.
+              </div>
+              <div *ngIf="createProductForm.get('name_en')?.errors?.maxlength">
+                Product Name (English) must be at most 50 characters.
+              </div>
+            </div>
+        </div>
+        
+        <!-- Product Name Arabic -->
+        <div class="form-group col-md-6">
+            <label>Product Name (Arabic):</label>
+            <input
+              formControlName="name_ar"
+              type="text"
+              placeholder="Name (Arabic)"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': createProductFormSubmitted && createProductForm.get('name_ar')?.errors
+              }"
+            />
+            <div *ngIf="createProductForm.get('name_ar')?.invalid && createProductFormSubmitted" class="invalid-feedback">
+              <div *ngIf="createProductForm.get('name_ar')?.errors?.required">
+                Product Name (Arabic) is required.
+              </div>
+              <div *ngIf="createProductForm.get('name_ar')?.errors?.minlength">
+                Product Name (Arabic) must be at least 2 characters.
+              </div>
+              <div *ngIf="createProductForm.get('name_ar')?.errors?.maxlength">
+                Product Name (Arabic) must be at most 50 characters.
+              </div>
+            </div>
+        </div>
+    
+        <!-- Product Price -->
+        <div class="form-group col-md-6">
+            <label>Product Price:</label>
+            <input
+              formControlName="product_price"
+              type="number"
+              placeholder="Price"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': createProductFormSubmitted && createProductForm.get('product_price')?.errors
+              }"
+            />
+            <div *ngIf="createProductForm.get('product_price')?.invalid && createProductFormSubmitted" class="invalid-feedback">
+              <div *ngIf="createProductForm.get('product_price')?.errors?.required">
+                Price is required.
+              </div>
+            </div>
+        </div>
+      
+        <!-- Product Discounted Price -->
+        <div class="form-group col-md-6">
+            <label>Product Discounted Price:</label>
+            <input
+              formControlName="product_discounted_price"
+              type="number"
+              placeholder="Discounted Price"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': createProductFormSubmitted && createProductForm.get('product_discounted_price')?.errors
+              }"
+            />
+            <div *ngIf="createProductForm.get('product_discounted_price')?.invalid && createProductFormSubmitted" class="invalid-feedback">
+              <div *ngIf="createProductForm.get('product_discounted_price')?.errors?.required">
+                Discounted Price is required.
+              </div>
+            </div>
+        </div>
+    
+        <!-- Product Description (English) -->
+        <div class="form-group col-md-6">
+            <label>Product Description (English):</label>
+            <textarea
+              formControlName="description_en"
+              placeholder="Description (English)"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': createProductFormSubmitted && createProductForm.get('description_en')?.errors
+              }"
+            ></textarea>
+            <div *ngIf="createProductForm.get('description_en')?.invalid && createProductFormSubmitted" class="invalid-feedback">
+              <div *ngIf="createProductForm.get('description_en')?.errors?.required">
+                Product Description (English) is required.
+              </div>
+            </div>
+        </div>
+    
+        <!-- Product Description (Arabic) -->
+        <div class="form-group col-md-6">
+            <label>Product Description (Arabic):</label>
+            <textarea
+              formControlName="description_ar"
+              placeholder="Description (Arabic)"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': createProductFormSubmitted && createProductForm.get('description_ar')?.errors
+              }"
+            ></textarea>
+            <div *ngIf="createProductForm.get('description_ar')?.invalid && createProductFormSubmitted" class="invalid-feedback">
+              <div *ngIf="createProductForm.get('description_ar')?.errors?.required">
+                Product Description (Arabic) is required.
+              </div>
+            </div>
+        </div>
+
+      
+        
+      </div>
+
+     
+    </form>
+
+    <!-- Features -->
+    <div class="modal-body " tabindex="1" ngbAutofocus>
+      <div *ngFor="let feature of features; let i = index">
+        <div class="row">
+          <!-- First Feature Selection -->
+          <div class="form-group col-md-6">
+            <label for="firstFeature{{ i }}">Select First Feature {{ i + 1 }}</label>
+            <select 
+              class="form-control" 
+              [(ngModel)]="feature.firstFeature" 
+              name="firstFeature{{ i }}" 
+              id="firstFeature{{ i }}"
+              [value]="feature.firstFeature"
+            >
+              <option value="" >Select Feature</option>
+              
+              <ng-container *ngFor="let Feature of SubFeatures">
+                <ng-container *ngIf="Feature.is_color == false">
+                  <option *ngFor="let last of Feature.values" [value]="last.id">
+                    {{ last.value }} 
+                  </option>
+                </ng-container>
+              </ng-container>
+            </select>
+          </div>
+
+          <!-- Second Feature Selection -->
+          <div class="form-group col-md-6">
+            <label for="secondFeature{{ i }}">Select Second Feature {{ i + 1 }}</label>
+            <select 
+              class="form-control"
+              [(ngModel)]="feature.secondFeature" 
+              name="secondFeature{{ i }}" 
+              id="secondFeature{{ i }}"
+              [value]="feature.secondFeature"
+            >
+              <option value="" >Select Feature</option>
+              <ng-container *ngFor="let Feature of SubFeatures">
+                <ng-container *ngIf="Feature.is_color == true">
+                  <option 
+                    *ngFor="let last of Feature.values" 
+                    [value]="last.id"
+                    [ngStyle]="{ 'background-color': last.value }"
+                  >
+                    {{ last.value }}
+                  </option>
+                </ng-container>
+              </ng-container>
+            </select>
+          </div>
+          
+          <!-- Price Input -->
+          <div class="form-group col-md-6 w-100">
+            <label for="price{{ i }}">Price for Feature {{ i + 1 }} </label>
+            <input 
+            class="form-control" 
+            type="text" 
+            [(ngModel)]="feature.price" 
+            name="price{{ i }}" 
+            placeholder="Price" 
+            id="price{{ i }}"
+            [cpOutputFormat]="'hex'"
+            [cpPosition] ='auto'
+            [value]="feature.price"
+            >
+          </div>
+  
+          <!-- Quantity Input -->
+          <div class="form-group col-md-6">
+            <label for="quantity{{ i }}">Quantity for Feature{{ i + 1 }}</label>
+            <input class="form-control"
+             type="number" 
+             [(ngModel)]="feature.quantity" 
+             name="quantity{{ i }}" 
+             placeholder="Quantity" 
+             id="quantity{{ i }}"
+             [value]="feature.quantity"
+             >
+          </div>
+  
+          <!-- Delete Button -->
+          <div class="col-md-12">
+            <div class="form-group">
+              <button *ngIf="i != 0" 
+                class="btn btn-outline-danger text-nowrap px-1" 
+                (click)="deleteFeature(i)" rippleEffect
+              >
+                <i data-feather="x" class="mr-25"></i>
+                <span>Delete</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <hr />
+      </div>
+    </div>      
+
+    <div class="col-12">
+      <button class="btn btn-icon btn-primary" type="button" (click)="addFeature()" rippleEffect>
+        <i data-feather="plus" class="mb-1"></i>
+        <span>Add another feature</span>
+      </button>
+    </div> 
+    <hr/>
+
+    <!-- Additional Features -->
+    <div class="modal-body " tabindex="1" ngbAutofocus>
+      <div *ngFor="let additional of additional_features; let i = index">
+        <div class="row">
+
+          <!-- Additional Features Name En  Input -->
+          <div class="form-group col-md-6 w-100">
+            <label for="Name En{{ i }}">Additional Features Name En {{ i + 1 }} </label>
+            <input 
+            class="form-control" 
+            type="text" 
+            [(ngModel)]="additional.name_en" 
+            name="name_en{{ i }}" 
+            placeholder="name_en" 
+            id="price{{ i }}"
+            [cpOutputFormat]="'hex'"
+            [cpPosition] ='auto'
+            [value]="additional.name_en"
+            >
+          </div>
+
+          <!-- Additional Features Name Ar Input -->
+          <div class="form-group col-md-6 w-100">
+            <label for="Name En{{ i }}">Additional Features Name Ar{{ i + 1 }} </label>
+            <input 
+            class="form-control" 
+            type="text" 
+            [(ngModel)]="additional.name_ar" 
+            name="name_ar{{ i }}" 
+            placeholder="name_ar" 
+            id="price{{ i }}"
+            [cpOutputFormat]="'hex'"
+            [cpPosition] ='auto'
+            [value]="additional.name_ar"
+            >
+          </div>
+
+          <!-- Additional Features Value En Input -->
+          <div class="form-group col-md-6 w-100">
+            <label for="Name En{{ i }}">Additional Features Value En{{ i + 1 }} </label>
+            <input 
+            class="form-control" 
+            type="text" 
+            [(ngModel)]="additional.value_en" 
+            name="value_en{{ i }}" 
+            placeholder="value_en" 
+            id="price{{ i }}"
+            [cpOutputFormat]="'hex'"
+            [cpPosition] ='auto'
+            [value]="additional.value_en"
+            >
+          </div>
+
+          <!-- Additional Features Value Ar Input -->
+          <div class="form-group col-md-6 w-100">
+            <label for="Name En{{ i }}">Additional Features Value Ar{{ i + 1 }} </label>
+            <input 
+            class="form-control" 
+            type="text" 
+            [(ngModel)]="additional.value_ar" 
+            name="value_ar{{ i }}" 
+            placeholder="value_ar" 
+            id="price{{ i }}"
+            [cpOutputFormat]="'hex'"
+            [cpPosition] ='auto'
+            [value]="additional.value_ar"
+            >
+          </div>
+  
+  
+          <!-- Delete Button -->
+          <div class="col-md-12">
+            <div class="form-group">
+              <button *ngIf="i != 0" 
+                class="btn btn-outline-danger text-nowrap px-1" 
+                (click)="deleteAdditionalFeature(i)" rippleEffect
+              >
+                <i data-feather="x" class="mr-25"></i>
+                <span>Delete</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <hr />
+      </div>
+    </div>      
+
+    <div class="col-12">
+      <button class="btn btn-icon btn-primary" type="button" (click)="addAdditionalFeature()" rippleEffect>
+        <i data-feather="plus" class="mb-1"></i>
+        <span>Add Another Additional Feature</span>
+      </button>
+    </div> 
+    <hr/>
+
+    <form>
+        <!-- File Upload -->
+        <div class="form-group mt-2 col-12">
+          <label for="imageUpload" class="btn col-12 text-center font-medium-5 text-uppercase file-drop-zone">
+            {{ fileNames?.length ? fileNames.join(', ') : "No file uploaded yet." }}
+          </label>
+          <input
+            (change)="onFileUpload($event)"
+            type="file"
+            id="imageUpload"
+            accept="image/*"
+            multiple
+            style="display: none"
+            formControlName="images"
+            [ngClass]="{
+              'is-invalid': createProductFormSubmitted && createProductForm.get('images')?.errors
+            }"
+          />
+          <div *ngIf="createProductForm.get('images') && createProductFormSubmitted && createProductForm.get('images')?.errors" class="invalid-feedback">
+            <div *ngIf="createProductForm.get('images')?.errors?.required">
+              Image is required
+            </div>
+          </div>
+        </div> 
+
+         <!-- Submit Button -->
+        <div class="form-group">
+          <button 
+          type="submit" 
+          class="btn btn-primary btn-block"        
+          (click)="createProductFormMethod()" 
+          rippleEffect
+          [disabled]="createProductForm.invalid"
+          >
+          <ng-container *ngIf="!isLoading">
+            Create Product
+          </ng-container>
+          <ng-container *ngIf="isLoading">
+            <i class="fa fa-spinner fa-spin"></i> 
+            Loading...
+          </ng-container>
+          </button>
+        </div>
+    </form>
+  </div>
+    
+</ng-template>
