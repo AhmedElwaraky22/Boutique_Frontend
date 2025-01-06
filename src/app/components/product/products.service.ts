@@ -1,3 +1,4 @@
+import { TempProductResponse } from './../../main/sample/modules/temp-product-interface';
 import { Categoryinterface , Subcategoryinterface , AllStores} from 'app/main/sample/modules/product';
 import { Product, ProductDetails } from './../../main/sample/modules/product';
 import { UserData } from './../../main/sample/modules/user-data';
@@ -10,6 +11,11 @@ import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+
+
+
+
+
 
 @Injectable()
 export class ProductsService implements Resolve<any> {
@@ -140,15 +146,25 @@ export class ProductsService implements Resolve<any> {
     return this._httpClient.get<AllStores>(`${environment.apiUrl}admin/viewallstores`)
   }
 
-  getTempProduct(){
-    return this._httpClient.get(`${environment.apiUrl}admin/all-temp-products`)
+  
+  getTempProduct(): Observable<TempProductResponse> {
+    return this._httpClient.get<TempProductResponse>(`${environment.apiUrl}admin/all-temp-products`);
   }
+
   acceptTempProduct(id: number) {
     return this._httpClient.post(`${environment.apiUrl}admin/temp-products/accept/${id}`, {}); 
   }
   
   rejectedTempProduct(id: number, data: any) {
     return this._httpClient.post(`${environment.apiUrl}admin/temp-products/reject/${id}`, data);
+  }
+
+  UpdateProductData(id :number , data :any ){
+    return this._httpClient.put(`${environment.apiUrl}all/update-products/${id}` , data)
+  }
+
+  UpdateProductFeature(id :number , data :any ){
+    return this._httpClient.put(`${environment.apiUrl}all/product-feature/${id}` , data)
   }
   
 }

@@ -43,7 +43,8 @@ export interface Product {
  
  export interface ProductDetails {
   product_id: number;
-  product_name: string;
+  name_en: string;
+  name_ar: string;
   store: Store;
   category: Category;
   rate: number | null;
@@ -54,7 +55,8 @@ export interface Product {
   discounted_price: number;
   discount_percentage: number;
   images: string[];
-  description: string;
+  description_en: string;
+  description_ar: string;
   tags: string[];
   product_skus: ProductSku[];
   product_additional_features: {

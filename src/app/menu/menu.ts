@@ -137,6 +137,28 @@ export const menu: CoreMenu[] = [
       },
     ],
   },
+  // {
+  //   id: "reviews-section",
+  //   type: "section",
+  //   title: "Reviews Section",
+  //   children: [
+  //     {
+  //       id: "reviews",
+  //       title: "Reviews",
+  //       type: "collapsible",
+  //       icon: "bar-chart-2",
+  //       children: [
+  //         {
+  //           id: "all-reviews",
+  //           title: "All Reviews",
+  //           type: "item",
+  //           icon: "package",
+  //           url: "view-all-reviews",
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
   {
     id: "orders-section",
     type: "section",
@@ -160,12 +182,35 @@ export const menu: CoreMenu[] = [
       },
     ],
   },
-{
-  id: "shipment-section",
+  {
+    id: "reviews-section",
+    type: "section",
+    title: "Reviews Section",
+    icon: "bar-chart-2",
+    children: [
+      {
+        id: "Reviews",
+        title: "Reviews",
+        type: "collapsible",
+        icon: "bar-chart-2",
+        children: [
+          {
+            id: "all-reviews",
+            title: "All Reviews",
+            type: "item",
+            icon: "package",
+            url: "view-all-reviews",
+          },
+        ],
+      },
+    ]
+  },
+  {
+    id: "shipment-section",
     type: "section",
     title: "Shipment Section",
     icon: "shopping-cart",
-    children:[
+    children: [
       {
         id: "shipments",
         title: "Shipments",
@@ -182,7 +227,7 @@ export const menu: CoreMenu[] = [
         ],
       },
     ]
-},
+  },
   {
     id: "category-subcategory-section",
     type: "section",

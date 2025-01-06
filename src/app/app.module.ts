@@ -35,6 +35,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HomeProductsModule } from './components/Home Products/home-products.module';
 import { StatusModule } from './components/transactions/status.module';
 import { ShipmentModule } from './components/shipment/shipment.module';
+import { ReviewModule } from './components/reviews/review.module';
 
 
 
@@ -100,7 +101,8 @@ const appRoutes: Routes = [
     HomeProductsModule,
     OrderModule,
     StatusModule,
-    ShipmentModule
+    ShipmentModule,
+    ReviewModule,
   ],
   providers: [
     {

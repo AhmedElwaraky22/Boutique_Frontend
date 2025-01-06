@@ -91,21 +91,23 @@
                   <div class="d-flex justify-content-center">
                     <!-- Accept Button -->
                     <button
-                      *ngIf="product.status !== 'accepted'"
+                      *ngIf="product.status === 'new_create' || product.status === 'rejected'"
                       class="btn btn-success w-50 mx-1"
                       (click)="acceptAction(product.product_id)"
                     >
                       Accept
                     </button>
-        
+                  
                     <!-- Reject Button -->
                     <button
+                      *ngIf="product.status === 'new_create'"
                       class="btn btn-danger w-50 mx-1"
                       (click)="RejectAction(product.product_id, product.product_name)"
                     >
                       Reject
                     </button>
                   </div>
+                  
                 </div>
               </div>
             </div>
