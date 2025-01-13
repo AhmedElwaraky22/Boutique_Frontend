@@ -1,5 +1,5 @@
 import { TempProductResponse } from './../../main/sample/modules/temp-product-interface';
-import { Categoryinterface , Subcategoryinterface , AllStores} from 'app/main/sample/modules/product';
+import { Categoryinterface, Subcategoryinterface, AllStores } from 'app/main/sample/modules/product';
 import { Product, ProductDetails } from './../../main/sample/modules/product';
 import { UserData } from './../../main/sample/modules/user-data';
 
@@ -62,7 +62,7 @@ export class ProductsService implements Resolve<any> {
       }
     });
   }
-  
+
 
   /**
    * Delete product by id
@@ -106,7 +106,7 @@ export class ProductsService implements Resolve<any> {
   /**
    * Add product to home page
    */
-  GetProductById(id:number){
+  GetProductById(id: number) {
     return this._httpClient.get<ProductDetails>(`${environment.apiUrl}admin/product/${id}`);
   }
 
@@ -120,51 +120,57 @@ export class ProductsService implements Resolve<any> {
   AddNewProduct(data: any) {
     return this._httpClient.post(`${environment.apiUrl}admin/product`, data);
   }
-  
+
   //Get All Category
   // viewAllCategory(){
   //   return this._httpClient.get<Categoryinterface>(`${environment.apiUrl}admin/admin-category`);
   // }
 
   //Get All Category by Store Id
-  AllCategoryById(id:number){
+  AllCategoryById(id: number) {
     return this._httpClient.get(`${environment.apiUrl}admin/get-categories-by-store-id/${id}`);
   }
 
 
   //get Third Level Subcategory
-  getSubCategory(id:number){
+  getSubCategory(id: number) {
     return this._httpClient.get<Subcategoryinterface>(`${environment.apiUrl}admin/admin-third-level-category/${id}`);
   }
+
   // get Features
-  getFeatures(id:number){
+  getFeatures(id: number) {
     return this._httpClient.get<Subcategoryinterface>(`${environment.apiUrl}all/view-all-features-by-category-id/${id}`);
   }
-  
+
   // view All Stores
-  viewAllStores(){
+  viewAllStores() {
     return this._httpClient.get<AllStores>(`${environment.apiUrl}admin/viewallstores`)
   }
 
-  
+// Get Temp Product
   getTempProduct(): Observable<TempProductResponse> {
     return this._httpClient.get<TempProductResponse>(`${environment.apiUrl}admin/all-temp-products`);
   }
-
+  // Accept Temp Product
   acceptTempProduct(id: number) {
-    return this._httpClient.post(`${environment.apiUrl}admin/temp-products/accept/${id}`, {}); 
+    return this._httpClient.post(`${environment.apiUrl}admin/temp-products/accept/${id}`, {});
   }
-  
+
   rejectedTempProduct(id: number, data: any) {
     return this._httpClient.post(`${environment.apiUrl}admin/temp-products/reject/${id}`, data);
   }
-
-  UpdateProductData(id :number , data :any ){
-    return this._httpClient.put(`${environment.apiUrl}all/update-products/${id}` , data)
+  // Update Product Data
+  UpdateProductData(id: number, data: any) {
+    return this._httpClient.put(`${environment.apiUrl}all/update-products/${id}`, data)
   }
-
-  UpdateProductFeature(id :number , data :any ){
-    return this._httpClient.put(`${environment.apiUrl}all/product-feature/${id}` , data)
+  // Update Product Feature
+  UpdateProductFeature(id: number, data: any) {
+    return this._httpClient.put(`${environment.apiUrl}all/product-feature/${id}`, data)
+  }
+  // Update Product Image
+  UpdateProductImage(data) {
+    return this._httpClient.post(`${environment.apiUrl}all/update-images`, data);
   }
   
 }
+

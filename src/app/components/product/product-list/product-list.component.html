@@ -177,7 +177,7 @@
       </button>
   </div>
   <div class="modal-body" tabindex="0" ngbAutofocus>
-    <form *ngIf="createProductForm"  [formGroup]="createProductForm"novalidate autocomplete="off" id="fo">
+    <form *ngIf="createProductForm"  [formGroup]="createProductForm" novalidate autocomplete="off" id="fo">
       <!-- Stores -->
       <div class="form-group">
         <label for="categorySelect">Select Stores</label>
@@ -596,7 +596,7 @@
     </div> 
     <hr/>
 
-    <form>
+    <form *ngIf="createProductForm" [formGroup]="createProductForm" >
         <!-- File Upload -->
         <div class="form-group mt-2 col-12">
           <label for="imageUpload" class="btn col-12 text-center font-medium-5 text-uppercase file-drop-zone">

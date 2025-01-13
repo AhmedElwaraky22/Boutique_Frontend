@@ -1,149 +1,166 @@
 <!-- Ecommerce Item -->
-    <div class="item-img text-center">
-      <a [routerLink]="'/product-details/' + product?.product_id">
-        <img class="img-fluid card-img-top " style="width: 600px; height: 500px; object-fit: cover;" [src]="product?.product_image" alt="img-placeholder" />
-        <!-- Assuming 'product' is the object that contains the 'images' property -->
-      </a>
+<div class="item-img text-center">
+  <a [routerLink]="'/product-details/' + product?.product_id">
+    <img
+      class="img-fluid card-img-top"
+      style="width: 600px; height: 500px; object-fit: cover"
+      [src]="product?.product_image"
+      alt="img-placeholder"
+    />
+    <!-- Assuming 'product' is the object that contains the 'images' property -->
+  </a>
+</div>
+
+<div class="card-body">
+  <div class="item-wrapper">
+    <div class="item-rating">
+      <div class="rating rating-sm">
+        <ngb-rating
+          [rate]="product?.rate"
+          [readonly]="true"
+          [max]="5"
+          class="outline-none"
+        >
+          <ng-template let-fill="fill" let-index="index"
+            ><span
+              class="fa fa-star-o mr-25"
+              [class.fa-star]="fill === 100"
+            ></span
+          ></ng-template>
+        </ngb-rating>
+      </div>
     </div>
 
-    <div class="card-body">
-      <div class="item-wrapper">
-        <div class="item-rating">
-          <div class="rating rating-sm">
-            <ngb-rating [rate]="product?.rate" [readonly]="true" [max]="5" class="outline-none">
-              <ng-template let-fill="fill" let-index="index"
-                ><span class="fa fa-star-o mr-25" [class.fa-star]="fill === 100"></span
-              ></ng-template>
-            </ngb-rating>
-          </div>
-        </div>
+    <div class="item-cost">
+      <h6 class="item-price">YER {{ product?.product_price }}</h6>
+    </div>
+  </div>
+  <h6 class="item-name">
+    <a
+      class="text-body"
+      [routerLink]="'/product-details/' + product?.product_id"
+    >
+      {{ product?.product_name }}</a
+    >
+    <span class="card-text item-company"
+      >By
+      <a href="javascript:void(0)" class="company-name">{{
+        product?.category_name
+      }}</a>
+    </span>
+  </h6>
+  <p class="card-text item-description">
+    {{ product?.overview }}
+  </p>
+</div>
 
-        <div class="item-cost">
-          <h6 class="item-price">YER {{product?.product_price }}</h6>
-        </div>
-      </div>
-      <h6 class="item-name">
-        <a class="text-body" [routerLink]="'/product-details/' + product?.product_id"> {{ product?.product_name}}</a>
-        <span class="card-text item-company"
-          >By <a href="javascript:void(0)" class="company-name">{{ product?.category_name }}</a>
-          </span>
-      </h6>
-      <p class="card-text item-description">
-        {{ product?.overview }}
+<div class="item-options text-center">
+  <div class="item-wrapper">
+    <div class="item-cost">
+      <h4 class="item-price">${{ product?.product_price }}</h4>
+      <p class="card-text shipping" *ngIf="product?.has_discount">
+        <span class="badge badge-pill badge-light-success">Discount</span>
       </p>
     </div>
+  </div>
+  <!-- remove product -->
+  <a
+    href="javascript:void(0)"
+    class="btn btn-danger btn-wishlist"
+    rippleEffect
+    (click)="removeProduct(product?.product_id, product?.product_name)"
+  >
+    <i class="fa mr-25 fa-trash text-light mt-1"></i>
+    <span>Remove </span>
+  </a>
+  <!-- View Details -->
+  <a
+    href="javascript:void(0)"
+    class="btn btn-primary btn-cart"
+    rippleEffect
+    [routerLink]="'/product-details/' + product?.product_id"
+  >
+    <i data-feather="award" class="mr-25 mt-1"></i>
+    <span class="add-to-cart">View Details</span>
+  </a>
+  <button
+    class="btn btn-success btn-cart"
+    (click)="modelAddTo(addToHome, product?.product_id)"
+    rippleEffect
+  >
+    <i data-feather="info" class="mr-25 mt-1"></i>
+    <span class="add-to-cart">Action</span>
+  </button>
+</div>
+<!--/ Ecommerce Item -->
 
-   <div class="item-options text-center">
-     <div class="item-wrapper">
-       <div class="item-cost">
-         <h4 class="item-price">${{ product?.product_price }}</h4>
-         <p class="card-text shipping" *ngIf="product?.has_discount">
-           <span class="badge badge-pill badge-light-success">Discount</span>
-         </p>
-       </div>
-     </div>
-     <!-- remove product -->   
-     <a
-       href="javascript:void(0)"
-       class="btn btn-danger btn-wishlist"
-       rippleEffect
-       (click)="removeProduct(product?.product_id , product?.product_name)"
-       >
-       <i class="fa mr-25 fa-trash text-light mt-1"></i>
-       <span>Remove </span>
-     </a>
-     <!-- View Details -->
-     <a
-       href="javascript:void(0)"
-       class="btn btn-primary btn-cart"
-       rippleEffect
-       [routerLink]="'/product-details/' + product?.product_id"
-     >
-       <i data-feather="award" class="mr-25 mt-1"></i>
-       <span class="add-to-cart">View Details</span>
-     </a>
-     <button
-       class="btn btn-success btn-cart"
-       (click)="modelAddTo(addToHome , product?.product_id)"
-       rippleEffect
-     >
-       <i data-feather="info" class="mr-25 mt-1"></i>
-       <span class="add-to-cart">Action</span>
-     </button>
-   </div>
-   <!--/ Ecommerce Item -->
+<ng-template #addToHome let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalCenterTitle">Select Page</h5>
+    <button
+      id="clo"
+      type="button"
+      class="close"
+      (click)="modal.dismiss('Cross click')"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
 
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <form id="fo" [formGroup]="AddToHomeForm" (ngSubmit)="addToPage()">
+      <form [formGroup]="AddToHomeForm" (ngSubmit)="addToPage()">
+        <div class="form-group">
+          <label>Select Page: </label>
+          <select
+            formControlName="selectedPage"
+            [ngClass]="{
+              'is-invalid':
+                AddToHomeFormSubmitted && AddToHomeForm.selectedPage.errors
+            }"
+            class="form-control"
+          >
+            <option value="" disabled selected>Select Page</option>
+            <option value="new_arrivals">New Arrival</option>
+            <option value="top_products">Top Product</option>
+            <option value="discount_products">Discount</option>
+          </select>
+        </div>
 
-  <ng-template #addToHome let-modal>
-    <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalCenterTitle">
-        Select Page
-      </h5>
-      <button
-        id="clo"
-        type="button"
-        class="close"
-        (click)="modal.dismiss('Cross click')"
-        aria-label="Close"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    
-    <div class="modal-body" tabindex="0" ngbAutofocus>
-      <form
-        id="fo"
-        [formGroup]="AddToHomeForm"
-        (ngSubmit)="addToPage()">
-
-        <form [formGroup]="AddToHomeForm" (ngSubmit)="addToPage()">
-          <div class="form-group">
-            <label>Select Page: </label>
-            <select
-              formControlName="selectedPage"
-              [ngClass]="{'is-invalid': AddToHomeFormSubmitted && AddToHomeForm.selectedPage.errors}"
-              class="form-control"
-            >
-              <option value="" disabled selected>Select Page</option>
-              <option value="new_arrivals">New Arrival</option>
-              <option value="top_products">Top Product</option>
-              <option value="discount_products">Discount</option>
-            </select>
-          </div>
-        
-          <div class="form-group">
-            <label>Enter Index: </label>
-            <input
-              type="number"
-              formControlName="index"
-              class="form-control"
-              [ngClass]="{'is-invalid': AddToHomeFormSubmitted && AddToHomeForm.get('index').errors}"
-              placeholder="Enter Index"
-            />
-          </div>
-        </form>
-        
+        <div class="form-group">
+          <label>Enter Index: </label>
+          <input
+            type="number"
+            formControlName="index"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                AddToHomeFormSubmitted && AddToHomeForm.get('index').errors
+            }"
+            placeholder="Enter Index"
+          />
+        </div>
       </form>
-    </div>
-    
-    <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-outline-success round ml-1"
-        (click)="addToPage($event.target.value)"
-        rippleEffect>
-        Add
-      </button>
-      <button
-        type="button"
-        class="btn btn-outline-danger round ml-1"
-        (click)="modal.close('Accept click')"
-        rippleEffect>
-        Close
-      </button>
-    </div>
-  </ng-template>
-  
+    </form>
+  </div>
 
-  
-   
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-success round ml-1"
+      (click)="addToPage($event.target.value)"
+      rippleEffect
+    >
+      Add
+    </button>
+    <button
+      type="button"
+      class="btn btn-outline-danger round ml-1"
+      (click)="modal.close('Accept click')"
+      rippleEffect
+    >
+      Close
+    </button>
+  </div>
+</ng-template>

@@ -6,28 +6,16 @@
         <!-- Product Details starts -->
         <div class="card-body">
           <div class="row my-2">
-            <div
-              class="col-12 col-md-5 d-flex align-items-center justify-content-center mb-2 mb-md-0"
-            >
-              <div class="d-flex align-items-center justify-content-center">
-                <!-- Next & Pervious Buttons -->
-                <div class="card-body">
-                  <swiper
-                    class="swiper-coverflow swiper-container"
-                    [config]="swiperCoverflow"
-                  >
-                    <ng-container *ngFor="let image of productData?.images">
-                      <img
-                        class="img-fluid"
-                        [src]="image"
-                        alt="product image"
-                      />
-                    </ng-container>
-                  </swiper>
+            <!-- product Images  -->
+            <div class="image-grid col-md-5">
+              <ng-container *ngFor="let image of productData?.images">
+                <div class="image-item">
+                  <img class="img-fluid" [src]="image" alt="product image" />
                 </div>
-                <!-- <img [src]="productData?.images" class="img-fluid product-img" alt="product image" /> -->
-              </div>
+              </ng-container>
             </div>
+
+            <!-- Description Product  -->
             <div class="col-12 col-md-7">
               <div class="">
                 <h4>{{ productData?.name_en }}</h4>
@@ -241,7 +229,7 @@
                     <span class="">Delete Product</span>
                   </a>
                 </div>
-                <div class="d-flex flex-column flex-sm-row pt-1">
+                <div class="d-flex flex-column flex-sm-row pt-1 mx-2">
                   <a
                     class="btn btn-outline-info round"
                     rippleEffect
@@ -267,7 +255,7 @@
           </div>
         </div>
 
-        <!-- Product Details ends -->
+        <!-- Product Details  -->
         <table class="table table-bordered">
           <thead>
             <tr>
@@ -404,7 +392,7 @@
           >
             <option value="" disabled>Select an option</option>
             <option value="Data">Data</option>
-            <option value="feature">Feature</option>
+            <option value="feature" (click)="getSubFeatures()">Feature</option>
             <option value="addition-feature">addition Feature</option>
             <option value="image">Image</option>
           </select>
@@ -473,7 +461,7 @@
               formControlName="description_en"
               placeholder="Description (English)"
               class="form-control"
-              style="resize: none;"
+              style="resize: none"
               [ngClass]="{
                 'is-invalid':
                   updateProductFormSubmitted &&
@@ -503,9 +491,8 @@
             <textarea
               formControlName="description_ar"
               placeholder="Description (Arabic)"
-              class="form-control "
-              style="resize: none;"
-
+              class="form-control"
+              style="resize: none"
               [ngClass]="{
                 'is-invalid':
                   updateProductFormSubmitted &&
@@ -568,15 +555,64 @@
         <!-- Image  -->
         <ng-container *ngIf="selectedOption === 'image'">
           <!-- Image Upload -->
-          <div class="form-group col-md-6">
-            <label>Image:</label>
-            <input
-              formControlName="image"
-              type="file"
-              class="form-control"
-              (change)="onFileSelected($event)"
-            />
+          <div class="image-grid col-md-12">
+            <ng-container *ngFor="let image of productData?.images; let i = index">
+              <div class="image-item position-relative">
+                <!-- Trash Icon -->
+                <button
+                  class="btn btn-outline-danger btn-sm position-absolute top-0 end-0 m-2"
+                  (click)="removeImage(i)"
+                  *ngIf="selectedOption === 'image'"
+                >
+                  <i data-feather="trash" class="mb-1"></i>
+                </button>
+                
+                <!-- Image -->
+                <img class="img-fluid" [src]="image" alt="product image" />
+              </div>
+            </ng-container>
           </div>
+          
+          
+            <!-- File Upload -->
+            <div class=" mt-2 col-12">
+              <label
+                for="imageUpload"
+                class="btn col-12 text-center font-medium-5 text-uppercase file-drop-zone"
+              >
+                {{
+                  fileNames?.length
+                    ? fileNames.join(", ")
+                    : "No file uploaded yet."
+                }}
+              </label>
+              <input
+                (change)="onFileUpload($event)"
+                type="file"
+                id="imageUpload"
+                accept="image/*"
+                multiple
+                style="display: none"
+                [ngClass]="{
+                  'is-invalid':
+                    createProductFormSubmitted &&
+                    createProductForm.get('images')?.errors
+                }"
+              />
+              <!-- <div
+                *ngIf="
+                  createProductForm.get('images') &&
+                  createProductFormSubmitted &&
+                  createProductForm.get('images')?.errors
+                "
+                class="invalid-feedback"
+              >
+                <div *ngIf="createProductForm.get('images')?.errors?.required">
+                  Image is required
+                </div>
+              </div> -->
+            </div>
+       
         </ng-container>
       </div>
     </form>
@@ -813,9 +849,35 @@
       >
         Cancel
       </button>
-      <button type="button" class="btn btn-primary" (click)="onSubmit()">
-        Save Changes
+    
+      <!-- Save Changes Button -->
+      <button
+      *ngIf="selectedOption === 'Data' || selectedOption === 'addition-feature'"
+      type="button"
+        class="btn btn-success"
+        (click)="updateData()"
+      >
+        Save Data
+      </button>
+
+      <button
+      *ngIf="selectedOption === 'feature'"
+        type="button"
+        class="btn btn-info"
+        (click)="updateFeature()"
+      >
+        Save Features
+      </button>
+    
+      <button
+      *ngIf="selectedOption === 'image'"
+        type="button"
+        class="btn btn-warning"
+        (click)="updateImage()"
+      >
+        Update Image
       </button>
     </div>
+    
   </div>
 </ng-template>

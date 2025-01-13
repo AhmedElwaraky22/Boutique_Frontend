@@ -55,6 +55,7 @@ export interface Product {
   discounted_price: number;
   discount_percentage: number;
   images: string[];
+  images_ids: number[];
   description_en: string;
   description_ar: string;
   tags: string[];
@@ -156,13 +157,13 @@ export interface Store {
   feature_id: string;
 }
 
- interface ProductSku {
+export interface ProductSku {
   id: number;
   sku: string;
   product_id: string;
   price: number;
   quantity: string;
-  feature_values: FeatureValue[];
+  feature_values: any[]; // Adjust `any[]` based on the expected data type for feature_values
 }
 
 export interface AllStores {
@@ -176,6 +177,7 @@ export interface AllStores {
   banned: boolean;
   isDeleted: boolean;
 }
+
 
 
 

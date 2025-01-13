@@ -1,4 +1,4 @@
-import { Product } from './../../../main/sample/modules/product';
+import { Product, MainFeatureValue } from './../../../main/sample/modules/product';
 import { ProductDetails } from './../../../main/sample/modules/product';
 import { Router } from '@angular/router'; // Import the Router service
 import { ActivatedRoute } from '@angular/router';
@@ -49,28 +49,35 @@ export class ProductDetailComponent implements OnInit {
 
 
 
-  // public products;
+  // public products variables;
   public shopSidebarToggle = false;
   public shopSidebarReset = false;
   public gridViewRef = true;
   public wishlist;
   public cartList;
 
+  // Updata Data variables 
   public updateProductForm: FormGroup;
   public selectedOption: string = '';
   public updateProductFormSubmitted = false;
   public showPriceInput: boolean = false;
-  public features = [{ firstFeature: '', secondFeature: '', quantity: '', price: '' }];
   public additional_features = [{ name_en: '', name_ar: '', value_en: '', value_ar: '' }];
   public has_discount: any | null = null;
+  public files: File[] = [];
+  public fileNames: string[] = [];
 
 
-
-
+  // Updata Feature variables 
+  public features = [{ firstFeature: '', secondFeature: '', quantity: '', price: '' }];
   public categoryId: number
-  public getFeatures
   public Features
   public SubFeatures
+  public featureSku
+
+
+  // Update Images variables 
+  public imagesIds: number[] = [];
+  public imagefiles
 
 
 
@@ -88,6 +95,7 @@ export class ProductDetailComponent implements OnInit {
       name_ar: ['', [Validators.minLength(2)]],
       product_price: [null, []],
       discounted_price: [null,],
+      discount: [null,],
       description_en: ['', [Validators.minLength(2)]],
       description_ar: ['', [Validators.minLength(2)]],
       images: [null,],
@@ -98,17 +106,30 @@ export class ProductDetailComponent implements OnInit {
   ngOnInit(): void {
     this.productId = this.route.snapshot.paramMap.get('id');
     this.getProductDetails(this.productId);
-    // this.getSubFeatures()
   }
 
   // Product details 
   getProductDetails(id: number): void {
+    // console.log("this is url id :" , id);
+
     this._productServices.GetProductById(id).subscribe(
       (res: any) => {
         this.productData = res;
-        // console.log('Product Details:', this.productData);
+        console.log('Product Details:', this.productData);
+
+        this.featureSku = this.productData.product_skus[0].id;
+        // console.log(this.featureSku);
+
+
         this.categoryId = this.productData.category.id
-        console.log("Category Id :", this.categoryId);
+        // console.log("Category Id :", this.categoryId);
+
+        this.imagesIds = this.productData.images_ids
+        console.log(this.imagesIds);
+
+
+
+
       },
       (error) => {
         Swal.fire({
@@ -121,6 +142,7 @@ export class ProductDetailComponent implements OnInit {
       }
     );
   }
+
   // Total Quantity 
   getTotalQuantity(): number {
     if (!this.productData?.product_skus) {
@@ -172,6 +194,14 @@ export class ProductDetailComponent implements OnInit {
   onOptionChange(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
     this.selectedOption = selectElement.value;
+    console.log(this.selectedOption);
+
+    if (this.selectedOption === 'feature') {
+      this.getSubFeatures();
+    }
+
+    // if (this.selectedOption === 'image') {
+    // }
   }
 
   // Discount Change
@@ -184,7 +214,6 @@ export class ProductDetailComponent implements OnInit {
     console.log('has_discount:', this.has_discount);
 
   }
-
 
   // Add Feature
   addFeature() {
@@ -206,27 +235,19 @@ export class ProductDetailComponent implements OnInit {
   }
 
   // Get Features 
-  // getSubFeatures() {
-  //   console.log("أنا جوه ");
-
-  //   this._productServices.getFeatures(this.categoryId).subscribe(
-  //     (res: any) => {
-  //       console.log("أنا رجعت ");
-
-  //       this.Features = res;
-  //       console.log(this.Features);
-  //       console.log(this.Features.features[0].name);
-  //       this.SubFeatures = this.Features.features
-  //       console.log(this.SubFeatures);
-
-  //     },
-  //     (er: any) => {
-  //       console.log(er);
-  //       console.log("أنا مرجعتa  ");
-
-  //     }
-  //   );
-  // }
+  getSubFeatures() {
+    // console.log(this.categoryId);
+    this._productServices.getFeatures(this.categoryId).subscribe(
+      (res: any) => {
+        this.Features = res;
+        this.SubFeatures = this.Features.features
+        // console.log(this.SubFeatures)
+      },
+      (er: any) => {
+        console.log(er);
+      }
+    );
+  }
 
   // Add Additional Feature //
   addAdditionalFeature() {
@@ -247,7 +268,6 @@ export class ProductDetailComponent implements OnInit {
       }
     }
   }
-
 
   // modelEditProduct
   modelEditProduct(
@@ -284,30 +304,167 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-  // Method Edit Poduct 
-  onSubmit(): void {
-    console.log(this.productId);
+  // photo of Product
+  onFileUpload(event: any) {
+    const files = event.target.files;
+    // console.log(files);
 
+    if (files && files.length > 0) {
+      this.files = Array.from(files);
+      this.fileNames = this.files.map(file => file.name);
+      console.log("photos : ", this.files);
+      this.updateProductForm.patchValue({
+        images: this.files
+      });
+      this.updateProductForm.get('images')?.updateValueAndValidity();
+    }
+  }
+
+  // Delete Photo
+  removeImage(index: number, imageUrl: string) {
+    this.productData.images = this.productData.images.filter((_, i) => i !== index);
+    this.imagesIds = this.imagesIds.filter((_, i) => i !== index);
+    console.log(this.imagesIds);
+    console.log(this.productId);
+    console.log(this.fileNames);
+  }
+
+
+  // Method Edit Feature 
+  updateFeature(): void {
+    console.log("Product id:", this.productId);
     this.updateProductFormSubmitted = true;
 
+    // Check if the form is invalid
     if (this.updateProductForm.invalid) {
       console.log('Form is invalid');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Please fill in all the required fields!',
+        confirmButtonText: 'OK'
+      });
       return;
     }
-   
+
+    // Feature Payload
+    const payload = {
+      features: this.features.map((feature) => ({
+        feature_values_ids: [feature.firstFeature, feature.secondFeature].filter((id) => id),
+        price: feature.price,
+        quantity: feature.quantity,
+      })),
+    };
+
+    // Feature update
+    this._productServices.UpdateProductFeature(this.productId, payload).subscribe({
+      next: (response) => {
+        console.log('Product feature updated successfully', response);
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Product features updated successfully!',
+          confirmButtonText: 'OK'
+        });
+        this.modalReference.close();
+        this.getProductDetails(this.productId);
+      },
+      error: (error) => {
+        console.error('Error updating product feature', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Failed to update product features. Please try again.',
+          confirmButtonText: 'OK'
+        });
+      },
+    });
+  }
+
+  // Method Edit Images 
+  updateImage(): void {
+    console.log(this.productId);
+
+    const formData = new FormData();
+    formData.append('product_id', this.productId);
+
+    this.imagesIds.forEach((id, index) => {
+      formData.append(`image_ids[${index}]`, id.toString());
+    });
+
+    // File size validation
+    const MAX_FILE_SIZE_MB = 2; // Maximum file size in MB
+    const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024; // Convert MB to bytes
+    const oversizedFiles: string[] = [];
+
+    // Append files if they pass validation
+    if (this.files && this.files.length > 0) {
+      this.files.forEach((file, index) => {
+        if (file.size > MAX_FILE_SIZE_BYTES) {
+          oversizedFiles.push(file.name); // Collect names of oversized files
+        } else {
+          formData.append(`image_files[${index}]`, file, file.name);
+        }
+      });
+    }
+
+    // Handle oversized files
+    if (oversizedFiles.length > 0) {
+      console.error("The following files exceed the size limit:", oversizedFiles);
+      alert(
+        `The following files exceed the size limit of ${MAX_FILE_SIZE_MB} MB:\n${oversizedFiles.join(
+          '\n'
+        )}`
+      );
+      return; // Stop the process and avoid sending oversized files to the backend
+    }
+
+    // Debug: Log FormData entries
+    formData.forEach((value, key) => {
+      console.log(key, value);
+    });
+    this._productServices.UpdateProductImage(formData).subscribe(
+      (res) => {
+        console.log(res);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  // Method Edit Data 
+  updateData() {
+    console.log("Product id:", this.productId);
+    this.updateProductFormSubmitted = true;
+
+    // Check if the form is invalid
+    if (this.updateProductForm.invalid) {
+      console.log('Form is invalid');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Please fill in all the required fields!',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
+
+    // Data Payload 
     const discountedPrice = this.updateProductForm.get('discounted_price')?.value;
     console.log('Discounted Price from form:', discountedPrice);
-    
+
     const payload: any = {
+      ...this.productData,
       name_en: this.updateProductForm.get('name_en')?.value,
       name_ar: this.updateProductForm.get('name_ar')?.value,
       price: this.updateProductForm.get('product_price')?.value,
       description_ar: this.updateProductForm.get('description_ar')?.value,
       description_en: this.updateProductForm.get('description_en')?.value,
       has_discount: this.has_discount,
-      ...(this.has_discount === 1 && { discounted_price: discountedPrice }),
+      discounted_price: discountedPrice
     };
-    
+
     if (this.additional_features?.length > 0) {
       payload.product_additional_features = this.additional_features
         .filter((feature) => feature.name_en && feature.name_ar)
@@ -318,42 +475,32 @@ export class ProductDetailComponent implements OnInit {
           value_ar: feature.value_ar,
         }));
     }
-    
-    console.log('Payload just before sending:', payload);
 
-
-    // Call the service to save or update the product
+    // Data submission
     this._productServices.UpdateProductData(this.productId, payload).subscribe({
       next: (response) => {
         console.log('Product updated successfully', response);
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Product updated successfully!',
+          confirmButtonText: 'OK'
+        });
         this.modalReference.close();
         this.getProductDetails(this.productId);
       },
       error: (error) => {
         console.error('Error updating product', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Failed to update the product. Please try again.',
+          confirmButtonText: 'OK'
+        });
       },
     });
-
-
-    // this._productServices.UpdateProductFeature(this.productId, payload2).subscribe({
-    //   next: (response) => {
-    //     console.log('Product updated successfully', response);
-    //     this.modalReference.close();
-    //     this.getProductDetails(this.productId);
-    //   },
-    //   error: (error) => {
-    //     console.error('Error updating product', error);
-    //   },
-    // });
-
-
-
-
-
-
-
-
   }
+
 
 
 
