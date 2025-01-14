@@ -6,7 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { CoreConfigService } from '@core/services/config.service';
-import Swal from 'sweetalert2/dist/sweetalert2.js';  
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
   selector: 'app-auth-login-v2',
@@ -37,7 +37,7 @@ export class AuthLoginV2Component implements OnInit {
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
     private _router: Router,
-    private _userserve:AuthenticationService 
+    private _userserve: AuthenticationService
 
   ) {
     this._unsubscribeAll = new Subject();
@@ -74,44 +74,32 @@ export class AuthLoginV2Component implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-
     // stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
     }
-
-
     this.loading = true;
-this._userserve.login(this.f.email.value,this.f.password.value).subscribe(
-
-     x => {
-
+    this._userserve.login(this.f.email.value, this.f.password.value).subscribe(
+      x => {
         setTimeout(() => {
-
-      this._router.navigate(['/']);
-               }, 800);
+          this._router.navigate(['/']);
+        }, 800);
       },
-      y=>{
-        
+      y => {
         this.loading = false;
-  
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: 'Email Or Password incorrect',      
-           showClass: {
+          text: 'Email Or Password incorrect',
+          showClass: {
             popup: 'animate__animated animate__zoomInDown'
           },
           hideClass: {
             popup: 'animate__animated animate__backOutDown'
           }
         })
-
-        }
-
-);
-
-
+      }
+    );
   }
 
   // Lifecycle Hooks
@@ -120,15 +108,15 @@ this._userserve.login(this.f.email.value,this.f.password.value).subscribe(
   /**
    * On init
    */
+
   ngOnInit(): void {
     this.loginForm = this._formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
-
+    
     // get return url from route parameters or default to '/'
     this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
-
     // Subscribe to config changes
     this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
       this.coreConfig = config;

@@ -1,15 +1,135 @@
 @import '@core/scss/base/pages/app-ecommerce-details.scss';
 @import '@core/scss/angular/libs/swiper.component.scss';
 @import '@core/scss/angular/libs/ratings.component.scss';
+
 .image-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 10px;
+  display: flex;
+  flex-wrap: wrap; /* Allow items to wrap to the next row */
+  gap: 10px; /* Add spacing between items */
+}
+
+.image-item {
+  flex: 0 0 calc(50% - 10px); /* Three items per row with spacing */
+  box-sizing: border-box; /* Include padding and border in width calculation */
+}
+
+.image-item img {
+  width: 100%; /* Make the image fill the container */
+  height: auto;
+}
+
+/* Responsive behavior (optional) */
+@media (max-width: 768px) {
+  .image-item {
+    flex: 0 0 calc(50% - 10px); /* Two items per row on smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .image-item {
+    flex: 0 0 100%; /* One item per row on very small screens */
+  }
+}
+
+
+#loader-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  overflow: hidden;
+  
+  // Modernizr no-js fallback
+  .no-js & {
+    display: none;
+  }
+}
+
+
+#loader {
+  display: block;
+  position: relative;
+  left: 50%;
+  top: 50%;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #EB455F;
+  animation: spin 1.7s linear infinite;
+  z-index: 11;
+  
+  &:before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #FCFFE7;
+    animation: spin-reverse .6s linear infinite;
   }
   
-  .image-item img {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
+  &:after {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #BAD7E9;
+    animation: spin 1s linear infinite;
   }
-  
+}
+
+
+#loader-wrapper .loader-section {
+  position: fixed;
+  top: 0;
+  width: 51%;
+  height: 100%;
+  z-index: 10;
+}
+
+#loader-wrapper .loader-section.section-left {
+  left: 0;
+}
+
+#loader-wrapper .loader-section.section-right {
+  right: 0;
+}
+
+/* Loaded styles */
+
+.loaded #loader-wrapper .loader-section.section-left {
+  transform: translateX(-100%);
+  transition: all 0.7s 0.3s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+}
+
+.loaded #loader-wrapper .loader-section.section-right {
+  transform: translateX(100%);
+  transition: all 0.7s 0.3s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+}
+
+.loaded #loader {
+  opacity: 0;
+  transition: all 0.3s ease-out;
+}
+
+.loaded #loader-wrapper {
+  visibility: hidden;
+  transform: translateY(-100%);
+  transition: all 0.3s 1s ease-out;
+}
+.light-blue-backdrop {
+ background-color: #5cb3fd;
+}
+
+

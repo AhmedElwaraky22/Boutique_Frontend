@@ -65,6 +65,7 @@ export class ProductDetailComponent implements OnInit {
   public has_discount: any | null = null;
   public files: File[] = [];
   public fileNames: string[] = [];
+  public isLoading: boolean = false;
 
 
   // Updata Feature variables 
@@ -78,6 +79,9 @@ export class ProductDetailComponent implements OnInit {
   // Update Images variables 
   public imagesIds: number[] = [];
   public imagefiles
+  private requestSubscription: any; 
+  private abortController: AbortController = new AbortController(); 
+
 
 
 
@@ -332,6 +336,7 @@ export class ProductDetailComponent implements OnInit {
 
   // Method Edit Feature 
   updateFeature(): void {
+    this.isLoading = true;
     console.log("Product id:", this.productId);
     this.updateProductFormSubmitted = true;
 
@@ -359,6 +364,8 @@ export class ProductDetailComponent implements OnInit {
     // Feature update
     this._productServices.UpdateProductFeature(this.productId, payload).subscribe({
       next: (response) => {
+        this.isLoading = false;
+
         console.log('Product feature updated successfully', response);
         Swal.fire({
           icon: 'success',
@@ -370,6 +377,8 @@ export class ProductDetailComponent implements OnInit {
         this.getProductDetails(this.productId);
       },
       error: (error) => {
+        this.isLoading = false;
+
         console.error('Error updating product feature', error);
         Swal.fire({
           icon: 'error',
@@ -381,22 +390,22 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-  // Method Edit Images 
+  // Method to update images
   updateImage(): void {
+    this.isLoading = true;
     console.log(this.productId);
-
+  
     const formData = new FormData();
-    formData.append('product_id', this.productId);
-
+    formData.append('product_id', this.productId.toString());
     this.imagesIds.forEach((id, index) => {
       formData.append(`image_ids[${index}]`, id.toString());
     });
-
+  
     // File size validation
     const MAX_FILE_SIZE_MB = 2; // Maximum file size in MB
     const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024; // Convert MB to bytes
     const oversizedFiles: string[] = [];
-
+  
     // Append files if they pass validation
     if (this.files && this.files.length > 0) {
       this.files.forEach((file, index) => {
@@ -407,34 +416,64 @@ export class ProductDetailComponent implements OnInit {
         }
       });
     }
-
+  
     // Handle oversized files
     if (oversizedFiles.length > 0) {
-      console.error("The following files exceed the size limit:", oversizedFiles);
+      console.error('The following files exceed the size limit:', oversizedFiles);
       alert(
-        `The following files exceed the size limit of ${MAX_FILE_SIZE_MB} MB:\n${oversizedFiles.join(
-          '\n'
-        )}`
+        `The following files exceed the size limit of ${MAX_FILE_SIZE_MB} MB:\n${oversizedFiles.join('\n')}`
       );
+      this.isLoading = false; // Reset loading state
       return; // Stop the process and avoid sending oversized files to the backend
     }
-
-    // Debug: Log FormData entries
+  
+    // Add the AbortController's signal to the HTTP request
+    const options = {
+      signal: this.abortController.signal,
+    };
+  
+    // Log FormData for debugging purposes
     formData.forEach((value, key) => {
       console.log(key, value);
     });
-    this._productServices.UpdateProductImage(formData).subscribe(
+  
+    // Start the HTTP request
+    this.requestSubscription = this._productServices.UpdateProductImage(formData).subscribe(
       (res) => {
+        this.isLoading = false;
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Product image updated successfully!',
+          showConfirmButton: true,
+        }).then(() => {
+          // Reset file input and properties after success
+          this.files = [];  // Clear the files array
+          this.fileNames = [];  // Clear the fileNames array
+          this.updateProductForm.patchValue({ images: [] });  // Reset the form value
+          this.modalService.dismissAll();
+        });
+        this.ProductDetails();
         console.log(res);
       },
       (error) => {
+        this.isLoading = false;
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Failed to update product image. Please try again later.',
+          showConfirmButton: true,
+        });
         console.log(error);
       }
     );
   }
+  
 
   // Method Edit Data 
   updateData() {
+    this.isLoading = true;
+
     console.log("Product id:", this.productId);
     this.updateProductFormSubmitted = true;
 
@@ -479,6 +518,8 @@ export class ProductDetailComponent implements OnInit {
     // Data submission
     this._productServices.UpdateProductData(this.productId, payload).subscribe({
       next: (response) => {
+        this.isLoading = false;
+
         console.log('Product updated successfully', response);
         Swal.fire({
           icon: 'success',
@@ -487,9 +528,11 @@ export class ProductDetailComponent implements OnInit {
           confirmButtonText: 'OK'
         });
         this.modalReference.close();
-        this.getProductDetails(this.productId);
+        // this.getProductDetails(this.productId);
       },
       error: (error) => {
+        this.isLoading = false;
+
         console.error('Error updating product', error);
         Swal.fire({
           icon: 'error',
@@ -502,9 +545,33 @@ export class ProductDetailComponent implements OnInit {
   }
 
 
+  // refresh Data
+  refreshData(): void {
+    this.isLoading = true;
+    setTimeout(() => {
+      this.getProductDetails(this.productId);
+      this.isLoading = false;
+    }, 300);
+  }
 
+  // cancel Request
+  cancelRequest(): void {
+    this.abortController.abort(); // Cancel the HTTP request
+    console.log('Request canceled');
+    this.isLoading = false; // Reset loading state
 
+    // Unsubscribe from the ongoing request to stop any further actions in the subscription
+    if (this.requestSubscription) {
+      this.requestSubscription.unsubscribe();
+    }
 
+    Swal.fire({
+      icon: 'info',
+      title: 'Request Canceled',
+      text: 'The image update request has been canceled.',
+      showConfirmButton: true,
+    });
+  }
 
 
 

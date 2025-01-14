@@ -1,4 +1,15 @@
-<div class="content-wrapper container-xxl p-0 mt-5">
+<div class="view-options d-flex me-1 py-2">
+  <!-- Refresh -->
+  <button
+    type="button"
+    class="refresh-btn btn btn-outline-success"
+    (click)="refreshData()"
+    title="Refresh Data"
+  >
+    <i data-feather="refresh-cw" class="font-medium-3"></i>
+  </button>
+</div>
+<div class="content-wrapper container-xxl p-0">
   <div class="content-body">
     <!-- app e-commerce details start -->
     <section class="app-ecommerce-details">
@@ -8,7 +19,9 @@
           <div class="row my-2">
             <!-- product Images  -->
             <div class="image-grid col-md-5">
-              <ng-container *ngFor="let image of productData?.images">
+              <ng-container
+                *ngFor="let image of productData?.images; let i = index"
+              >
                 <div class="image-item">
                   <img class="img-fluid" [src]="image" alt="product image" />
                 </div>
@@ -556,50 +569,52 @@
         <ng-container *ngIf="selectedOption === 'image'">
           <!-- Image Upload -->
           <div class="image-grid col-md-12">
-            <ng-container *ngFor="let image of productData?.images; let i = index">
+            <ng-container
+              *ngFor="let image of productData?.images; let i = index"
+            >
               <div class="image-item position-relative">
                 <!-- Trash Icon -->
                 <button
                   class="btn btn-outline-danger btn-sm position-absolute top-0 end-0 m-2"
                   (click)="removeImage(i)"
                   *ngIf="selectedOption === 'image'"
+                  [disabled]="isLoading"
                 >
                   <i data-feather="trash" class="mb-1"></i>
                 </button>
-                
+
                 <!-- Image -->
                 <img class="img-fluid" [src]="image" alt="product image" />
               </div>
             </ng-container>
           </div>
-          
-          
-            <!-- File Upload -->
-            <div class=" mt-2 col-12">
-              <label
-                for="imageUpload"
-                class="btn col-12 text-center font-medium-5 text-uppercase file-drop-zone"
-              >
-                {{
-                  fileNames?.length
-                    ? fileNames.join(", ")
-                    : "No file uploaded yet."
-                }}
-              </label>
-              <input
-                (change)="onFileUpload($event)"
-                type="file"
-                id="imageUpload"
-                accept="image/*"
-                multiple
-                style="display: none"
-                [ngClass]="{
-                  'is-invalid':
-                    createProductFormSubmitted &&
-                    createProductForm.get('images')?.errors
-                }"
-              />
-              <!-- <div
+
+          <!-- File Upload -->
+          <div class="mt-2 col-12">
+            <label
+              for="imageUpload"
+              class="btn col-12 text-center font-medium-5 text-uppercase file-drop-zone"
+            >
+              {{
+                fileNames?.length
+                  ? fileNames.join(", ")
+                  : "No file uploaded yet."
+              }}
+            </label>
+            <input
+              (change)="onFileUpload($event)"
+              type="file"
+              id="imageUpload"
+              accept="image/*"
+              multiple
+              style="display: none"
+              [ngClass]="{
+                'is-invalid':
+                  createProductFormSubmitted &&
+                  createProductForm.get('images')?.errors
+              }"
+            />
+            <!-- <div
                 *ngIf="
                   createProductForm.get('images') &&
                   createProductFormSubmitted &&
@@ -611,8 +626,7 @@
                   Image is required
                 </div>
               </div> -->
-            </div>
-       
+          </div>
         </ng-container>
       </div>
     </form>
@@ -844,40 +858,69 @@
     <div class="modal-footer">
       <button
         type="button"
-        class="btn btn-secondary"
+        class="btn btn-outline-secondary"
         (click)="modal.dismiss('Cancel')"
+        (click)="cancelRequest()"
+
       >
         Cancel
       </button>
-    
-      <!-- Save Changes Button -->
+      <!-- Button for Save Data -->
       <button
-      *ngIf="selectedOption === 'Data' || selectedOption === 'addition-feature'"
-      type="button"
-        class="btn btn-success"
+        *ngIf="
+          selectedOption === 'Data' || selectedOption === 'addition-feature'
+        "
+        type="button"
+        class="btn btn-outline-success round ml-1"
         (click)="updateData()"
+        rippleEffect
+        [disabled]="isLoading"
       >
-        Save Data
+        <ng-container *ngIf="!isLoading"> Save Data </ng-container>
+        <ng-container *ngIf="isLoading">
+          <i class="fa fa-spinner fa-spin"></i>
+          Saving...
+        </ng-container>
       </button>
 
+      <!-- Button for Save Features -->
       <button
-      *ngIf="selectedOption === 'feature'"
+        *ngIf="selectedOption === 'feature'"
         type="button"
-        class="btn btn-info"
+        class="btn btn-outline-info round ml-1"
         (click)="updateFeature()"
+        rippleEffect
+        [disabled]="isLoading"
       >
-        Save Features
+        <ng-container *ngIf="!isLoading"> Save Features </ng-container>
+        <ng-container *ngIf="isLoading">
+          <i class="fa fa-spinner fa-spin"></i>
+          Saving...
+        </ng-container>
       </button>
-    
+
+      <!-- Button for Update Image -->
       <button
-      *ngIf="selectedOption === 'image'"
+        *ngIf="selectedOption === 'image'"
         type="button"
-        class="btn btn-warning"
+        class="btn btn-outline-warning round ml-1"
         (click)="updateImage()"
+        rippleEffect
+        [disabled]="isLoading"
       >
-        Update Image
+        <ng-container *ngIf="!isLoading"> Update Image </ng-container>
+        <ng-container *ngIf="isLoading">
+          <i class="fa fa-spinner fa-spin"></i>
+          Updating...
+        </ng-container>
       </button>
     </div>
-    
   </div>
 </ng-template>
+<!-- ///////////////////////////////loader//////////////////// -->
+<div *ngIf="isLoading" id="loader-wrapper">
+  <div id="loader"></div>
+  <span *ngIf="loader" class="loader"></span>
+  <div class="loader-section section-left"></div>
+  <div class="loader-section section-right"></div>
+</div>
