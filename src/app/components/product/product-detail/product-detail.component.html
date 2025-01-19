@@ -1,15 +1,15 @@
-<div class="view-options d-flex me-1 py-2">
-  <!-- Refresh -->
-  <button
-    type="button"
-    class="refresh-btn btn btn-outline-success"
-    (click)="refreshData()"
-    title="Refresh Data"
-  >
-    <i data-feather="refresh-cw" class="font-medium-3"></i>
-  </button>
-</div>
 <div class="content-wrapper container-xxl p-0">
+  <div class="view-options">
+    <!-- Refresh -->
+    <button
+      type="button"
+      class="refresh-btn btn btn-outline-success me-5"
+      (click)="refreshData()"
+      title="Refresh Data"
+    >
+      <i data-feather="refresh-cw" class="font-medium-3"></i>
+    </button>
+  </div>
   <div class="content-body">
     <!-- app e-commerce details start -->
     <section class="app-ecommerce-details">
@@ -861,7 +861,6 @@
         class="btn btn-outline-secondary"
         (click)="modal.dismiss('Cancel')"
         (click)="cancelRequest()"
-
       >
         Cancel
       </button>

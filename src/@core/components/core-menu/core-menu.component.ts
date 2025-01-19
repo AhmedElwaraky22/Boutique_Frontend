@@ -41,8 +41,11 @@ export class CoreMenuComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
+    console.log("شششششششششششششش");
+    
     // Set the menu either from the input or from the service
     this.menu = this.menu || this._coreMenuService.getCurrentMenu();
+    console.log(this.menu[0].id);
 
     // Subscribe to the current menu changes
     this._coreMenuService.onMenuChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(() => {

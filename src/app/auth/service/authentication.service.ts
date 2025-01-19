@@ -68,10 +68,14 @@ export class AuthenticationService {
             this.currentUserSubject.next(user.user);
           }
 
+          console.log("HELOOOOOO");
+          
           return user.user;
         })
       );
   }
+
+  
 
   /**
    * User logout
@@ -79,6 +83,8 @@ export class AuthenticationService {
    logout() {
     this._http.get<any>(`${environment.apiUrl}admin/logout`);
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('role');
+    localStorage.removeItem('restrictions');
     this.currentUserSubject.next(null);
   }
 }

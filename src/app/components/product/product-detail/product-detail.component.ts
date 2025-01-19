@@ -402,7 +402,7 @@ export class ProductDetailComponent implements OnInit {
     });
   
     // File size validation
-    const MAX_FILE_SIZE_MB = 2; // Maximum file size in MB
+    const MAX_FILE_SIZE_MB = 1; // Maximum file size in MB
     const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024; // Convert MB to bytes
     const oversizedFiles: string[] = [];
   

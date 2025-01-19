@@ -11,9 +11,7 @@
             <div class="ecommerce-header-items">
               <div class="result-toggler">
                 <div class="search-results">
-                  {{
-                    (products | filter : searchText : "product_name").length
-                  }}
+                  {{ (products | filter : searchText : "product_name").length }}
                   results found
                 </div>
               </div>
@@ -227,12 +225,19 @@
     >
       <!-- Stores -->
       <div class="form-group">
-        <label for="categorySelect">Select Stores</label>
+        <label for="store_id" id="storeLabel">Select Stores</label>
         <select
           class="form-control"
           formControlName="store_id"
           id="store_id"
           (change)="onStoreSelect($event.target.value)"
+          aria-labelledby="storeLabel"
+          [attr.aria-describedby]="
+            createProductForm.get('store_id').invalid &&
+            createProductFormSubmitted
+              ? 'storeError'
+              : null
+          "
         >
           <option value="" disabled>Select a store</option>
           <option *ngFor="let store of allStores" [value]="store.id">
@@ -245,6 +250,7 @@
             createProductFormSubmitted
           "
           class="invalid-feedback"
+          id="storeError"
         >
           Please select a store.
         </div>
@@ -284,6 +290,7 @@
           class="toggle-checkbox form-group"
           [(ngModel)]="showSecondSubCategory"
           (click)="toggle()"
+          aria-label="Show second subcategory"
         />
         <label for="toggle" class="toggle-label">
           <span class="toggle-dot"></span>

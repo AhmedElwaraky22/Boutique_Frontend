@@ -337,10 +337,28 @@ export class ProductListComponent implements OnInit {
       this.product_has_discount = 0;
     }
 
-    const images = [];
-    if (this.files) {
-      images.push(this.files);
-    }
+      // Check for files and their size limit
+  const maxFileSize = 1 * 1024 * 1024; // 1 MB in bytes
+  const validFiles: File[] = [];
+  if (this.files && this.files.length > 0) {
+    // Filter out files larger than 1 MB
+    this.files.forEach(file => {
+      if (file.size <= maxFileSize) {
+        validFiles.push(file);
+      } else {
+        alert(`File "${file.name}" is too large. Maximum size is 1 MB.`);
+      }
+    });
+  }
+
+  // If no valid files, prevent form submission
+  if (validFiles.length === 0) {
+    this.isLoading = false;
+    return;
+  }
+
+  const images = [];
+  images.push(...validFiles);
 
     const transformedFeatures = this.features.map((feature) => ({
       feature_values_ids: [feature.firstFeature, feature.secondFeature],
