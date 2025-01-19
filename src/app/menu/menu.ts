@@ -1,6 +1,10 @@
 import { CoreMenu } from "@core/types";
+import { SharedService } from 'app/components/Shared Servece/shared.service';
+import { Component, OnInit } from '@angular/core';
+ 
 
-export const menu: CoreMenu[] = [
+
+export const VirticalMenu: CoreMenu[] = [
   {
     id: "home-new",
     title: "Admin Home",
@@ -137,28 +141,6 @@ export const menu: CoreMenu[] = [
       },
     ],
   },
-  // {
-  //   id: "reviews-section",
-  //   type: "section",
-  //   title: "Reviews Section",
-  //   children: [
-  //     {
-  //       id: "reviews",
-  //       title: "Reviews",
-  //       type: "collapsible",
-  //       icon: "bar-chart-2",
-  //       children: [
-  //         {
-  //           id: "all-reviews",
-  //           title: "All Reviews",
-  //           type: "item",
-  //           icon: "package",
-  //           url: "view-all-reviews",
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // },
   {
     id: "orders-section",
     type: "section",
@@ -326,3 +308,4 @@ export const menu: CoreMenu[] = [
     ],
   },
 ];
+

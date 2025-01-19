@@ -66,8 +66,9 @@ export class HomeNewComponent implements OnInit {
   public OrderReport: any;
   public TotalUser: number = 0;
   public TotalStore: number = 0;
+  public Role: string;
+  public restrictions;
 
-  
   seriess = [
     {
       name: 'Sessions',
@@ -101,7 +102,7 @@ export class HomeNewComponent implements OnInit {
       show: true
     }
   };
-  
+
 
   chartColors = {
     column: {
@@ -129,10 +130,13 @@ export class HomeNewComponent implements OnInit {
     }
   };
 
-  constructor(private _homeServeice: HomeService) {}
+  constructor(private _homeServeice: HomeService) { }
 
   ngOnInit() {
+    
+    this.getRole();
     this.get_data();
+    this.getRestrictions();
 
     this.contentHeader = {
       headerTitle: 'Home',
@@ -174,33 +178,33 @@ export class HomeNewComponent implements OnInit {
 
   }
 
-  
+
 
   get_data() {
     this._homeServeice.GetAllData().subscribe(
       data => {
-        console.log('Data received from GetAllData:', data); // Log the entire response
-  
+        // console.log('Data received from GetAllData:', data); // Log the entire response
+
         this.stores_count = data[0].Total_Store;
         this.users_count = data[0].users_count;
         this.productCount = data[0].products_count;
         this.requst_count = data[0].new_request;
         this.orders_count = data[0].Total_orders;
 
-  
-        console.log('Parsed values:');
-        console.log('Stores Count:', this.stores_count);
-        console.log('Users Count:', this.users_count);
-        console.log('Product Count:', this.productCount);
-        console.log('Request Count:', this.requst_count);
-        console.log('Orders Count:', this.orders_count);
+
+        // console.log('Parsed values:');
+        // console.log('Stores Count:', this.stores_count);
+        // console.log('Users Count:', this.users_count);
+        // console.log('Product Count:', this.productCount);
+        // console.log('Request Count:', this.requst_count);
+        // console.log('Orders Count:', this.orders_count);
       },
       error => {
         console.error('Error occurred while fetching data:', error); // Log the error
       }
     );
   }
-  
+
 
   Ratio() {
     const TotalStore = this.TotalStore;
@@ -321,6 +325,23 @@ export class HomeNewComponent implements OnInit {
       }
     };
   }
+
+
+  getRestrictions(): any | null {
+    const restrictions = localStorage.getItem('restrictions');
+    this.restrictions = restrictions
+    console.log(this.restrictions);
+  }
+
+  getRole() {
+    const userRole = localStorage.getItem("role");
+    this.Role = userRole
+    console.log(this.Role );
+  
+  }
+
+
+
 }
 
 // // Define HomeModule

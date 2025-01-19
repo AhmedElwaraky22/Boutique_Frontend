@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { Category } from './../../../main/sample/modules/store-interface';
 import { TagServiceService } from './../../tag/tag-service.service';
 import { Value } from './../../../main/sample/modules/store-profile';
-import { Categoryinterface, Subcategory} from './../../../main/sample/modules/categoryinterface';
+import { Categoryinterface, Subcategory } from './../../../main/sample/modules/categoryinterface';
 import { CategoryservService } from './../categoryserv.service';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { ColumnMode, DatatableComponent } from "@swimlane/ngx-datatable";
@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 import { Subject } from "rxjs";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { environment } from 'environments/environment';
-import {UntypedFormGroup,UntypedFormBuilder,Validators} from "@angular/forms";
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from "@angular/forms";
 // import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 // Shared Service 
@@ -35,27 +35,27 @@ export class CategoryListComponent implements OnInit {
   public isLoading = false;
 
   public sidebarToggleRef = false;
-  public selectedOption: number = 10; 
-  public rows: any[] = []; 
+  public selectedOption: number = 10;
+  public rows: any[] = [];
   public ColumnMode = ColumnMode;
   public temp: any;
   public searchValue = "";
-  public modalReference:any;
-  public modalReference2:any;
-  public modalReference3:any;
+  public modalReference: any;
+  public modalReference2: any;
+  public modalReference3: any;
   private _unsubscribeAll: Subject<any>;
-  public file:File;
-  public file2:File;
-  public fileName2='';
-  public fileName=''
-  public category_id:number=0;
-  public shipment_id:number=0
-  public  category_name=''
+  public file: File;
+  public file2: File;
+  public fileName2 = '';
+  public fileName = ''
+  public category_id: number = 0;
+  public shipment_id: number = 0
+  public category_name = ''
   public previousVerifiedFilter = "";
   public previousSuspendedFilter = "";
   public previousDeletedFilter = "";
 
-  public loadAddCat= true;
+  public loadAddCat = true;
 
   public CreateNewCategoryForm: UntypedFormGroup;
   public CreateNewCategoryFormSubmitted = false;
@@ -73,47 +73,50 @@ export class CategoryListComponent implements OnInit {
 
   // New 
   // public subData :Subcategory[] = []; 
-  public  category_name_ar=''
-  public  category_name_en=''
+  public category_name_ar = ''
+  public category_name_en = ''
 
-    // Sorting 
-    public sortCatForm ;
-    public sortCatFormSubmitted = false;
-    public modalReference1: any;
-    public categoryId; 
-  
+  // Sorting 
+  public sortCatForm;
+  public sortCatFormSubmitted = false;
+  public modalReference1: any;
+  public categoryId;
+
+
+  // The Role 
+  public Role : string = ""
 
 
 
   constructor(
     private _CategoryServ: CategoryservService,
-    private http:HttpClient,
+    private http: HttpClient,
     private modalService: NgbModal,
     private formBuilder: UntypedFormBuilder,
     private router: Router,
     private sharedService: SharedService
   ) {
-    
 
-     // Form New Category 
+
+    // Form New Category 
     this.CreateNewCategoryForm = this.formBuilder.group({
-      name_en: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50),Validators.pattern(/^[A-Za-z0-9\s\-&()!'@_%$]+$/)]],
-      name_ar: ['', [ Validators.required, Validators.minLength(2),Validators.maxLength(50), Validators.pattern(/^[\u0600-\u06FF0-9\s\-&()!'@_%$]+$/)]],
+      name_en: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern(/^[A-Za-z0-9\s\-&()!'@_%$]+$/)]],
+      name_ar: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern(/^[\u0600-\u06FF0-9\s\-&()!'@_%$]+$/)]],
       image: ["", [Validators.required]],
     });
 
     // Form Update Category 
     this.UpdateCategoryForm = this.formBuilder.group({
-      name_en: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50),Validators.pattern(/^[A-Za-z0-9\s\-&()!'@_%$]+$/)]],
-      name_ar: ['', [ Validators.required, Validators.minLength(2),Validators.maxLength(50), Validators.pattern(/^[\u0600-\u06FF0-9\s\-&()!'@_%$]+$/)]],
+      name_en: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern(/^[A-Za-z0-9\s\-&()!'@_%$]+$/)]],
+      name_ar: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern(/^[\u0600-\u06FF0-9\s\-&()!'@_%$]+$/)]],
       image: ["", [Validators.required]],
     });
 
-     // sort Category Form 
-     this.sortCatForm = this.formBuilder.group({
-      order: [[], [Validators.required, Validators.pattern('^[0-9]+$')]] 
+    // sort Category Form 
+    this.sortCatForm = this.formBuilder.group({
+      order: [[], [Validators.required, Validators.pattern('^[0-9]+$')]]
     });
-  
+
 
     // this.ReactiveUpdateCatForm = this.formBuilder.group({
     //   name: ['', [Validators.required,Validators.minLength(2),Validators.maxLength(50),]],
@@ -127,7 +130,7 @@ export class CategoryListComponent implements OnInit {
     // });
 
   }
- 
+
   get NewCategoryForm() {
     return this.CreateNewCategoryForm.controls;
   }
@@ -146,13 +149,21 @@ export class CategoryListComponent implements OnInit {
   ngOnInit(): void {
     this.getAllCategory();
     this.getAllSubCategory();
+
+
+
+
+    const restrictions = this.sharedService.getRestrictions();
+    const role = this.sharedService.getRole();
+    console.log('Restrictions:', restrictions);
+    console.log('Role:', role);
   }
 
-// Navigate and send row id
-navigateWithState(CategoryId: number): void {
-  this.sharedService.changeId(CategoryId);
-  console.log(CategoryId);
-}
+  // Navigate and send row id
+  navigateWithState(CategoryId: number): void {
+    this.sharedService.changeId(CategoryId);
+    console.log(CategoryId);
+  }
 
   // Get all Catogray 
   getAllCategory() {
@@ -172,7 +183,7 @@ navigateWithState(CategoryId: number): void {
         console.log(`Request started at: ${new Date(startTime).toISOString()}`);
         console.log(`Response received at: ${new Date(endTime).toISOString()}`);
         console.log(`Time taken for request and response: ${duration} ms`);
-        
+
       },
       (er: any) => {
         console.log(er);
@@ -196,12 +207,12 @@ navigateWithState(CategoryId: number): void {
       }
     );
   }
-   
+
 
   filterUpdate(event) {
     // Get the search input value and convert it to lowercase
     const val = event.target.value.toLowerCase();
-  
+
     // Filter data based on the 'name_en' field
     const temp = this.tempData.filter(function (d) {
       return (
@@ -212,8 +223,8 @@ navigateWithState(CategoryId: number): void {
     });
 
     this.rows = temp;
-      this.table.offset = 0;
-      
+    this.table.offset = 0;
+
   }
 
 
@@ -239,41 +250,40 @@ navigateWithState(CategoryId: number): void {
     });
   }
 
-
-
   // Modal Add SubCategory
-  modalAddSubCategory(modalAddSubCat,id) {
+  modalAddSubCategory(modalAddSubCat, id) {
     this.ReactiveSubCatFormSubmitted = false;
     this.ReactiveSubCatForm.reset();
-   this.modalReference2 = this.modalService.open(modalAddSubCat, {
+    this.modalReference2 = this.modalService.open(modalAddSubCat, {
       backdrop: false,
       centered: true,
     });
 
-    this.category_id=id;
+    this.category_id = id;
 
   }
 
   // Model Add New Category
   addCategoryModel(modalAddCategory) {
-    this.loadAddCat= false;
-     setTimeout(() => {this.loadAddCat= true 
-     }, 300);
-   
-       this.CreateNewCategoryFormSubmitted = false;
-       this.CreateNewCategoryForm.reset();
-      this.modalReference = this.modalService.open(modalAddCategory, {
-         backdrop: false,
-         centered: true,
-       });
-   
-     }
-  
-    // photo at Add Cactegory 
+    this.loadAddCat = false;
+    setTimeout(() => {
+      this.loadAddCat = true
+    }, 300);
+
+    this.CreateNewCategoryFormSubmitted = false;
+    this.CreateNewCategoryForm.reset();
+    this.modalReference = this.modalService.open(modalAddCategory, {
+      backdrop: false,
+      centered: true,
+    });
+
+  }
+
+  // photo at Add Cactegory 
   onFilechange(event: any) {
     if (event.target.files && event.target.files.length > 0) {
-      this.file = event.target.files[0]; 
-      this.fileName = this.file.name; 
+      this.file = event.target.files[0];
+      this.fileName = this.file.name;
       console.log(this.file);
       console.log(this.fileName);
     }
@@ -293,68 +303,68 @@ navigateWithState(CategoryId: number): void {
 
     if (this.file) {
       var formData = new FormData();
-      formData.append("image",this.file);
-      formData.append("name_en",this.NewCategoryForm.name_en.value);
-      formData.append("name_ar",this.NewCategoryForm.name_ar.value);
+      formData.append("image", this.file);
+      formData.append("name_en", this.NewCategoryForm.name_en.value);
+      formData.append("name_ar", this.NewCategoryForm.name_ar.value);
     }
-   console.log("formData");
-   
-    this._CategoryServ.addCategory(formData).subscribe(
-        (re: any) => {
-          this.isLoading = false;
-          this.getAllCategory();
-          this.fileName='';
-          this.modalReference.close();
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "category added Successfully ",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        },
+    console.log("formData");
 
-        (er: any) => {
-          this.isLoading = false;
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: "An Error Occurred While adding  !",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
-      );
+    this._CategoryServ.addCategory(formData).subscribe(
+      (re: any) => {
+        this.isLoading = false;
+        this.getAllCategory();
+        this.fileName = '';
+        this.modalReference.close();
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "category added Successfully ",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      },
+
+      (er: any) => {
+        this.isLoading = false;
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "An Error Occurred While adding  !",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    );
   }
 
 
 
   //  Updata Category Modal
-  modalUpdateCategory(modal , id , name_ar , name_en) {
-  this.UpdateCategoryFormSubmitted = false;
-  // this. ReactiveUpdateCatForm.reset();
-   this.modalReference3 = this.modalService.open(modal, {
+  modalUpdateCategory(modal, id, name_ar, name_en) {
+    this.UpdateCategoryFormSubmitted = false;
+    // this. ReactiveUpdateCatForm.reset();
+    this.modalReference3 = this.modalService.open(modal, {
       backdrop: false,
       centered: true,
     });
-    this.category_id=id;
-    console.log(this.category_id ,name_ar , name_en);
+    this.category_id = id;
+    console.log(this.category_id, name_ar, name_en);
   }
 
-   // photo at Update Cactegory
-   onFileupdate(event: any) {
+  // photo at Update Cactegory
+  onFileupdate(event: any) {
     if (event.target.files && event.target.files.length > 0) {
       this.file2 = event.target.files[0];
-      this.fileName2 = this.file2.name; 
-      this.UpdateCategory.controls['image'].setValue(this.file2); 
+      this.fileName2 = this.file2.name;
+      this.UpdateCategory.controls['image'].setValue(this.file2);
       console.log(this.file2);
       console.log(this.fileName2);
     } else {
       console.error("لم يتم تحديد أي ملف");
     }
   }
-  
-  
+
+
 
   //Update Category Method
   UpdateCategoryMethod() {
@@ -363,37 +373,37 @@ navigateWithState(CategoryId: number): void {
     this.UpdateCategoryFormSubmitted = true;
 
     console.log("before if");
-    console.log(this. UpdateCategoryForm.controls.name_ar.value);
+    console.log(this.UpdateCategoryForm.controls.name_ar.value);
 
     if (this.UpdateCategoryForm.invalid) {
-      console.log("in if"); 
+      console.log("in if");
       return;
     }
 
     var formData = new FormData();
     if (this.file2) {
-      formData.append("image",this.file2);
-      formData.append("name_ar",this. UpdateCategoryForm.controls.name_ar.value);
-      formData.append("name_en",this. UpdateCategory.name_en.value);
+      formData.append("image", this.file2);
+      formData.append("name_ar", this.UpdateCategoryForm.controls.name_ar.value);
+      formData.append("name_en", this.UpdateCategory.name_en.value);
       // formData.append("_method", "PUT");
-  
-    }else{
-      
-      formData.append("name_ar",this. UpdateCategory.name_ar.value);
-      formData.append("name_en",this. UpdateCategory.name_en.value);
+
+    } else {
+
+      formData.append("name_ar", this.UpdateCategory.name_ar.value);
+      formData.append("name_en", this.UpdateCategory.name_en.value);
 
     }
     console.log(this.fileName2);
     console.log(formData);
-    
-    
-   this._CategoryServ
-     .updateCategory(formData,this.category_id)
-   .subscribe(
+
+
+    this._CategoryServ
+      .updateCategory(formData, this.category_id)
+      .subscribe(
         (re: any) => {
           this.isLoading = false;
           this.getAllCategory();
-          this.fileName2='';
+          this.fileName2 = '';
           this.modalReference3.close();
           Swal.fire({
             position: "center",
@@ -486,15 +496,15 @@ navigateWithState(CategoryId: number): void {
     });
   }
 
-   // Modal Sort Category 
-   modalSortCategory(sortCategory , id) {
+  // Modal Sort Category 
+  modalSortCategory(sortCategory, id) {
     this.sortCatFormSubmitted = false;
     this.sortCatForm.reset();
-   this.modalReference1 = this.modalService.open(sortCategory, {
+    this.modalReference1 = this.modalService.open(sortCategory, {
       backdrop: false,
       centered: true,
     });
-    this.categoryId =id
+    this.categoryId = id
     console.log(this.categoryId);
   }
 
@@ -506,48 +516,49 @@ navigateWithState(CategoryId: number): void {
     console.log("Order:", orderValue);
 
     if (this.sortCatForm.valid && this.categoryId && orderValue) {
-        const payload = {
-            category_id: this.categoryId.toString(),
-            order: orderValue.toString(),
-        };
+      const payload = {
+        category_id: this.categoryId.toString(),
+        order: orderValue.toString(),
+      };
 
-        console.log('Payload:', payload);
+      console.log('Payload:', payload);
 
-        this._CategoryServ.sortCategory(payload).subscribe(
-            (res: any) => {
-              this.getAllCategory();
-                this.isLoading = false;
-                this.modalReference1.close();
-                console.log('Sorted categories:', res.data);
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Category added Successfully',
-                    showConfirmButton: false,
-                    timer: 1500,
-                });
-            },
-            (error: any) => {
-                this.isLoading = false;
-                console.error('Error fetching sorted categories:', error);
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: 'An Error Occurred While adding!',
-                    showConfirmButton: false,
-                    timer: 1500,
-                });
-            }
-        );
-    } else {
-        Swal.fire({
+      this._CategoryServ.sortCategory(payload).subscribe(
+        (res: any) => {
+          this.getAllCategory();
+          this.isLoading = false;
+          this.modalReference1.close();
+          console.log('Sorted categories:', res.data);
+          Swal.fire({
             position: 'center',
-            icon: 'warning',
-            title: 'Please provide valid Category ID and Order!',
-            showConfirmButton: true,
-        });
+            icon: 'success',
+            title: 'Category added Successfully',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        },
+        (error: any) => {
+          this.isLoading = false;
+          console.error('Error fetching sorted categories:', error);
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'An Error Occurred While adding!',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      );
+    } else {
+      Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: 'Please provide valid Category ID and Order!',
+        showConfirmButton: true,
+      });
     }
-}
+  }
+
 
 
 }

@@ -12,6 +12,7 @@ export const CORE_CUSTOM_CONFIG = new InjectionToken('coreCustomConfig');
 @Injectable({
   providedIn: 'root'
 })
+
 export class CoreConfigService {
   // Private
   public localConfig: any;

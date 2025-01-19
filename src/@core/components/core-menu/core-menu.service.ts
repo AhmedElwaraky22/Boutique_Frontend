@@ -21,6 +21,8 @@ export class CoreMenuService {
   private _currentMenuKey: string;
   private _registry: { [key: string]: any } = {};
 
+
+  public Hamsa = "ahmed"
   /**
    * Constructor
    *
@@ -81,6 +83,16 @@ export class CoreMenuService {
    * @param menu
    */
   register(key, menu): void {
+    console.log(key);
+    console.log(menu);
+    // if (this.Hamsa === "ahmed") {
+    //   // Return the first object as an array
+    //   return menu[1];
+    // }
+    // // Otherwise, return the full menu
+    // return menu;
+
+    
     // Confirm if the key already used
     if (this._registry[key]) {
       console.error(`Menu with the key '${key}' already exists. Either unregister it first or use a unique key.`);

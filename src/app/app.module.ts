@@ -36,6 +36,8 @@ import { HomeProductsModule } from './components/Home Products/home-products.mod
 import { StatusModule } from './components/transactions/status.module';
 import { ShipmentModule } from './components/shipment/shipment.module';
 import { ReviewModule } from './components/reviews/review.module';
+import { MenuListComponent } from './components/menu/menu-list/menu-list.component';
+import { MenuModule } from './components/menu/menu.module';
 
 
 
@@ -103,6 +105,7 @@ const appRoutes: Routes = [
     StatusModule,
     ShipmentModule,
     ReviewModule,
+    MenuModule
   ],
   providers: [
     {
