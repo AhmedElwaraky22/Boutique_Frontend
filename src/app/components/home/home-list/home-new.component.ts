@@ -151,15 +151,14 @@ export class HomeNewComponent implements OnInit {
       private _homeServeice: HomeService
   ){ 
     this.createRoleForm=this.fb.group({
-      firstName: [null, ],
-      lastName: [null, ],
-      email: [null, ],
-      password: [null, ],
-      phone: [null, ],
-      role: ['', ],
-      restriction_name: [[],],
-      
-    })
+      firstName: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      lastName: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      email: [null, [Validators.required, Validators.email]],
+      password: [null, [Validators.required, Validators.minLength(8)]],
+      phone: [null, [Validators.pattern(/^(01[0-9]{9}|7[0-9]{7})$/)]],
+      role: ['', [Validators.required]],
+      restriction_name: [[], [Validators.required]]
+      })
   }
 
   ngOnInit() {

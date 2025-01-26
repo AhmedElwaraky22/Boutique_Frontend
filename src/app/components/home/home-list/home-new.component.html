@@ -527,6 +527,7 @@
         type="submit"
         class="btn btn-primary btn-block"
         (click)="createRoleFormMethod()"
+        [disabled]="isLoading || createRoleForm.invalid "
         rippleEffect
       >
         <ng-container *ngIf="!isLoading"> Create Account </ng-container>
