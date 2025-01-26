@@ -9,26 +9,36 @@ import { Injectable } from '@angular/core';
 })
 export class HomeService {
 
-  constructor(private HttpC:HttpClient) { }
+  constructor(private _http:HttpClient) { }
 
   GetAllStoreReport(){
-    return this.HttpC.get<StoreReport>(`${environment.apiUrl}admin/count-all-report`);
+    return this. _http.get<StoreReport>(`${environment.apiUrl}admin/count-all-report`);
   }
 
 
   GetAllData(){
-    return this.HttpC.get<any>(`${environment.apiUrl}admin/count-data`);}
+    return this._http.get<any>(`${environment.apiUrl}admin/count-data`);}
   
     GetUserApex(){
-    return this.HttpC.get<ApexChartInterFace>(`${environment.apiUrl}admin/user-apex-chart`);
+    return this._http.get<ApexChartInterFace>(`${environment.apiUrl}admin/user-apex-chart`);
   }
   GetOrderApex(){
-    return this.HttpC.get(`${environment.apiUrl}admin/order-apex-chart`);
+    return this._http.get(`${environment.apiUrl}admin/order-apex-chart`);
   }
 
   getAllOrders(){
-    return this.HttpC.get(`${environment.apiUrl}admin/all-orders`);
+    return this._http.get(`${environment.apiUrl}admin/all-orders`);
   }
 
+  getAllRoles(){
+    return this._http.get(`${environment.apiUrl}admin/roles`);
+  }
+
+  getAllRestrictions(){
+    return this._http.get(`${environment.apiUrl}admin/all-restrictions`);
+  }
+  Register(Data){
+    return this._http.post(`${environment.apiUrl}admin/register` , Data);
+  }
   
 }

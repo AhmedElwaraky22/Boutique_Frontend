@@ -11,7 +11,7 @@ export class MenuComponent {
 
   /**
    * Constructor
-   *
+
    * @param {ElementRef} _elementRef
    * @param {Renderer2} _renderer
    */

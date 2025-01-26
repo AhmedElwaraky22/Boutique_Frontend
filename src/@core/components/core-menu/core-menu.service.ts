@@ -83,8 +83,8 @@ export class CoreMenuService {
    * @param menu
    */
   register(key, menu): void {
-    console.log(key);
-    console.log(menu);
+    // console.log(key);
+    // console.log(menu);
     // if (this.Hamsa === "ahmed") {
     //   // Return the first object as an array
     //   return menu[1];

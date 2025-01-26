@@ -5,16 +5,18 @@ import { Component, OnInit } from '@angular/core';
 
 
 export const VirticalMenu: CoreMenu[] = [
+  // admin-home-section
   {
-    id: "home-new",
+    id: "admin-home-section",
     title: "Admin Home",
-    translate: "MENU.HOME",
+    translate: "Admin Home",
     type: "item",
     icon: "home",
     url: "home",
   },
+  // user-home-section
   {
-    id: "home-section",
+    id: "user-home-section",
     type: "section",
     title: "Home Section",
     icon: "home",
@@ -58,6 +60,7 @@ export const VirticalMenu: CoreMenu[] = [
       },
     ],
   },
+  // store-section
   {
     id: "store-section",
     type: "section",
@@ -88,6 +91,7 @@ export const VirticalMenu: CoreMenu[] = [
       },
     ],
   },
+  // user-section 
   {
     id: "user-section",
     type: "section",
@@ -111,6 +115,7 @@ export const VirticalMenu: CoreMenu[] = [
       },
     ],
   },
+  // product-section
   {
     id: "product-section",
     type: "section",
@@ -141,6 +146,7 @@ export const VirticalMenu: CoreMenu[] = [
       },
     ],
   },
+  // orders-section
   {
     id: "orders-section",
     type: "section",
@@ -164,6 +170,7 @@ export const VirticalMenu: CoreMenu[] = [
       },
     ],
   },
+  // reviews-section
   {
     id: "reviews-section",
     type: "section",
@@ -187,6 +194,7 @@ export const VirticalMenu: CoreMenu[] = [
       },
     ]
   },
+  // shipment-section
   {
     id: "shipment-section",
     type: "section",
@@ -210,6 +218,7 @@ export const VirticalMenu: CoreMenu[] = [
       },
     ]
   },
+  // category-subcategory-section
   {
     id: "category-subcategory-section",
     type: "section",
@@ -261,6 +270,7 @@ export const VirticalMenu: CoreMenu[] = [
       },
     ],
   },
+  // problems-section
   {
     id: "problems-section",
     type: "section",
@@ -284,6 +294,7 @@ export const VirticalMenu: CoreMenu[] = [
       },
     ],
   },
+  // transactions-section
   {
     id: "transactions-section",
     type: "section",

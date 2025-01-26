@@ -67,7 +67,6 @@ export class AuthenticationService {
             // notify
             this.currentUserSubject.next(user.user);
           }
-
           console.log("HELOOOOOO");
           
           return user.user;
@@ -75,7 +74,7 @@ export class AuthenticationService {
       );
   }
 
-  
+
 
   /**
    * User logout

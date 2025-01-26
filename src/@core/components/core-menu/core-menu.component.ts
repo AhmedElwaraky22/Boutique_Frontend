@@ -14,6 +14,7 @@ import { CoreMenuService } from '@core/components/core-menu/core-menu.service';
 })
 export class CoreMenuComponent implements OnInit {
   currentUser: any;
+  public AllRestrictions:any
 
   @Input()
   layout = 'vertical';
@@ -41,11 +42,9 @@ export class CoreMenuComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
-    console.log("شششششششششششششش");
     
     // Set the menu either from the input or from the service
     this.menu = this.menu || this._coreMenuService.getCurrentMenu();
-    console.log(this.menu[0].id);
 
     // Subscribe to the current menu changes
     this._coreMenuService.onMenuChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(() => {
@@ -53,8 +52,30 @@ export class CoreMenuComponent implements OnInit {
 
       // Load menu
       this.menu = this._coreMenuService.getCurrentMenu();
-
       this._changeDetectorRef.markForCheck();
     });
+
+
+
+
+     // Get and log user restrictions from localStorage
+     const userRestrictions = JSON.parse(localStorage.getItem("restrictions")) || [];
+    //  console.log('User Restrictions from localStorage:', userRestrictions);
+     
+     
+     // Initialize array to store all menu restrictions
+     let allMenuRestrictions = this.menu;
+     const menuIds = allMenuRestrictions.map(item => item.id);
+    //  console.log('restrictions in menu:', menuIds);
+      
+        // Filter out items from allMenuRestrictions that exist in userRestrictions
+      this.AllRestrictions = allMenuRestrictions.filter(item => 
+        userRestrictions.includes(item.id)
+      );
+      
+      // console.log('this.AllRestrictions:', this.AllRestrictions);
   }
+
+
+
 }

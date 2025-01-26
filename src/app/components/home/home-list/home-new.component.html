@@ -1,199 +1,540 @@
 <div class="content-wrapper container-xxl p-0">
-    <div class="content-body">
-      <!-- content-header component -->
-  
-      <!-- Basic Alerts start -->
-      <section id="statistics-card">
-        <div class="row match-height mt-3">
-          <div class="col-lg-12 col-12">
-            <div class="card card-statistics">
-              <div class="card-header ">
-                <h4 class="card-title">Statistics</h4>
-                <div class="d-flex align-items-center">
+  <div class="content-body">
+    <!-- content-header component -->
+
+    <!-- Basic Alerts start -->
+    <section id="statistics-card">
+      <div class="row match-height mt-3">
+        <div class="col-lg-12 col-12">
+          <div class="card card-statistics">
+            <div class="card-header">
+              <h4 class="card-title">Statistics</h4>
+              <div class="d-flex align-items-center"></div>
+            </div>
+            <div class="card-body statistics-body">
+              <div class="row">
+                <!-- All Rufund -->
+                <div
+                  class="col-md-4 col-sm-6 col-12 mb-2 mb-md-3"
+                  [routerLink]="['']"
+                >
+                  <div class="media">
+                    <div class="avatar bg-light-danger mr-2">
+                      <div class="avatar-content">
+                        <i data-feather="refresh-ccw" class="avatar-icon"></i>
+                      </div>
+                    </div>
+                    <div class="media-body my-auto">
+                      <h4 class="font-weight-bolder mb-0">
+                        {{ orders_count }}
+                      </h4>
+                      <p class="card-text font-small-3 mb-0">All Refund</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="card-body statistics-body">
-                <div class="row">
 
-                  <!-- All Rufund -->
-                  <div class="col-md-4 col-sm-6 col-12 mb-2 mb-md-3 " [routerLink]="['']">
-                    <div class="media">
-                      <div class="avatar bg-light-danger mr-2">
-                        <div class="avatar-content">
-                          <i data-feather="refresh-ccw" class="avatar-icon"></i>
-                        </div>
-                      </div>
-                      <div class="media-body my-auto">
-                        <h4 class="font-weight-bolder mb-0">{{ orders_count}}</h4>
-                        <p class="card-text font-small-3 mb-0">All Refund </p>
+                <!-- All Orders -->
+                <div
+                  class="col-md-4 col-sm-6 col-12 mb-2 mb-md-3"
+                  [routerLink]="['/view-all-orders']"
+                >
+                  <div class="media">
+                    <div class="avatar bg-light-primary mr-2">
+                      <div class="avatar-content">
+                        <i data-feather="shopping-cart" class="avatar-icon"></i>
                       </div>
                     </div>
-                  </div>
-
-                  <!-- All Orders -->
-                  <div class="col-md-4 col-sm-6 col-12 mb-2 mb-md-3 " [routerLink]="['/view-all-orders']">
-                    <div class="media">
-                      <div class="avatar bg-light-primary mr-2">
-                        <div class="avatar-content">
-                          <i data-feather="shopping-cart" class="avatar-icon"  ></i>
-                        </div>
-                      </div>
-                      <div class="media-body my-auto">
-                        <h4 class="font-weight-bolder mb-0">{{ orders_count}}</h4>
-                        <p class="card-text font-small-3 mb-0">All Orders </p>
-                      </div>
+                    <div class="media-body my-auto">
+                      <h4 class="font-weight-bolder mb-0">
+                        {{ orders_count }}
+                      </h4>
+                      <p class="card-text font-small-3 mb-0">All Orders</p>
                     </div>
                   </div>
+                </div>
 
-                  <!-- All Store -->
-                  <div class="col-md-4 col-sm-6 col-12 mb-2 mb-md-3"  [routerLink]="['/view-all-stores']">
-                    <div class="media">
-                      <div class="avatar bg-light-warning mr-2">
-                        <div class="avatar-content">
-                          <i data-feather="shopping-bag" class="avatar-icon"></i>
-                        </div>
-                      </div>
-                      <div class="media-body my-auto">
-                        <h4 class="font-weight-bolder mb-0">{{ stores_count}}</h4>
-                        <p class="card-text font-small-3 mb-0">All Store</p>
+                <!-- All Store -->
+                <div
+                  class="col-md-4 col-sm-6 col-12 mb-2 mb-md-3"
+                  [routerLink]="['/view-all-stores']"
+                >
+                  <div class="media">
+                    <div class="avatar bg-light-warning mr-2">
+                      <div class="avatar-content">
+                        <i data-feather="shopping-bag" class="avatar-icon"></i>
                       </div>
                     </div>
-                  </div>
-
-                  <!-- New Store Request -->
-                  <div class="col-md-4 col-sm-6 col-12 mb-2 mb-md-3" [routerLink]="['/view-stores-request']">
-                    <div class="media">
-                      <div class="avatar bg-light-warning mr-2">
-                        <div class="avatar-content">
-                          <i data-feather="git-pull-request" class="avatar-icon"></i>
-                        </div>
-                      </div>
-                      <div class="media-body my-auto">
-                        <h4 class="font-weight-bolder mb-0">{{requst_count}}</h4>
-                        <p class="card-text font-small-3 mb-0">New Store Request</p>
-                      </div>
+                    <div class="media-body my-auto">
+                      <h4 class="font-weight-bolder mb-0">
+                        {{ stores_count }}
+                      </h4>
+                      <p class="card-text font-small-3 mb-0">All Store</p>
                     </div>
                   </div>
+                </div>
 
-                  <!-- Customers -->
-                  <div class="col-md-4 col-sm-6 col-12 mb-2 mb-md-3" [routerLink]="['/view-all-user']">
-                    <div class="media">
-                      <div class="avatar bg-light-info mr-2">
-                        <div class="avatar-content">
-                          <i data-feather="user" class="avatar-icon"></i>
-                        </div>
-                      </div>
-                      <div class="media-body my-auto">
-                        <h4 class="font-weight-bolder mb-0">{{users_count}}</h4>
-                        <p class="card-text font-small-3 mb-0">Customers</p>
+                <!-- New Store Request -->
+                <div
+                  class="col-md-4 col-sm-6 col-12 mb-2 mb-md-3"
+                  [routerLink]="['/view-stores-request']"
+                >
+                  <div class="media">
+                    <div class="avatar bg-light-warning mr-2">
+                      <div class="avatar-content">
+                        <i
+                          data-feather="git-pull-request"
+                          class="avatar-icon"
+                        ></i>
                       </div>
                     </div>
-                  </div>
-
-                  <!-- Products -->
-                  <div class="col-md-4 col-sm-6 col-12 mb-2 mb-sm-0" [routerLink]="['/view-all-products']">
-                    <div class="media">
-                      <div class="avatar bg-light-success mr-2">
-                        <div class="avatar-content">
-                          <i data-feather="box" class="avatar-icon"></i>
-                        </div>
-                      </div>
-                      <div class="media-body my-auto">
-                        <h4 class="font-weight-bolder mb-0">{{ productCount}}</h4>
-                        <p class="card-text font-small-3 mb-0">Products</p>
-                      </div>
+                    <div class="media-body my-auto">
+                      <h4 class="font-weight-bolder mb-0">
+                        {{ requst_count }}
+                      </h4>
+                      <p class="card-text font-small-3 mb-0">
+                        New Store Request
+                      </p>
                     </div>
                   </div>
-                
+                </div>
+
+                <!-- Customers -->
+                <div
+                  class="col-md-4 col-sm-6 col-12 mb-2 mb-md-3"
+                  [routerLink]="['/view-all-user']"
+                >
+                  <div class="media">
+                    <div class="avatar bg-light-info mr-2">
+                      <div class="avatar-content">
+                        <i data-feather="user" class="avatar-icon"></i>
+                      </div>
+                    </div>
+                    <div class="media-body my-auto">
+                      <h4 class="font-weight-bolder mb-0">{{ users_count }}</h4>
+                      <p class="card-text font-small-3 mb-0">Customers</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Products -->
+                <div
+                  class="col-md-4 col-sm-6 col-12 mb-2 mb-sm-0"
+                  [routerLink]="['/view-all-products']"
+                >
+                  <div class="media">
+                    <div class="avatar bg-light-success mr-2">
+                      <div class="avatar-content">
+                        <i data-feather="box" class="avatar-icon"></i>
+                      </div>
+                    </div>
+                    <div class="media-body my-auto">
+                      <h4 class="font-weight-bolder mb-0">
+                        {{ productCount }}
+                      </h4>
+                      <p class="card-text font-small-3 mb-0">Products</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
-  
-      <section id="apex-radar-and-donut-charts">
-        <div class="row">
-        
-          <div class="col-xl-6 col-12">
-            <div class="card">
-              <div class="card-header flex-column align-items-start" >
-                <h4 class="card-title mb-75">Store </h4>
-                <span class="card-subtitle text-muted">Full report on stores </span>
-              </div>
-              <div class="card-body">
-                <div id="donut-chart" #apexDonutChartRef>
-                    <apx-chart
-                    [series]="apexDonutChart?.series"
-                    [chart]="{
-                      height: 350,
-                      type: 'donut'
-                    }"
-                    [labels]="apexDonutChart?.labels"
-                    [plotOptions]="apexDonutChart?.plotOptions"
-                    [responsive]="apexDonutChart?.responsive"
-                    [colors]="apexDonutChart?.colors"
-                    [legend]="apexDonutChart?.legend"
-                    
-                  ></apx-chart>
-                  
-                </div>
-              </div>
-            </div>
-          </div>
-  
-          <!-- ////////////////////////////////// -->
-  
-          <div class="col-xl-6 col-12">
-            <div class="card">
-              <div class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start">
-                <h4 class="card-title mb-sm-0 mb-1">Users</h4>
-              </div>
-              <div class="card-body">
-                <div id="radialbar-chart" #apexRadialChartRef>
-                  <apx-chart
-                    [series]="apexRadialChart?.series"
-                    [chart]="{height: 400,
-                    width: isMenuToggled === false ? apexRadialChartRef?.offsetWidth : apexRadialChart?.chart.width, type: 'radialBar'}" 
-                    [plotOptions]="apexRadialChart?.plotOptions"
-                    [labels]="apexRadialChart?.labels"
-                    [colors]="apexRadialChart?.colors"
-                    [stroke]="apexRadialChart?.stroke"
-                    [legend]="apexRadialChart?.legend"
-                  ></apx-chart>
-                </div>
-              </div>
-            </div>
-          </div>
+      </div>
+    </section>
 
+    <section class="pb-1">
+      <div class="btn-group" data-toggle="buttons">
+        <button
+          type="button"
+          class="upload-btn btn btn-outline-success"
+          (click)="ModelAddRole(modelCreateRole)"
+          title="Upload Product"
+        >
+          Create Account
+        </button>
+      </div>
+    </section>
 
-          <div class="col-xl-6 col-12">
-            <div class="card">
-              <div class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start">
-                <h4 class="card-title mb-sm-0 mb-1">All Orders</h4>
-              </div>
-              <div class="card-body">
-                <div id="line-chart" #apexLineChartRef>
-                  <apx-chart
-                    [series]="apexLineChart?.series"
-                    [chart]="{
-                      height: 400,
-                      width: isMenuToggled === false ? apexLineChartRef?.offsetWidth : apexLineChart?.chart.width, 
-                      type: 'line'
-                    }"
-                    [xaxis]="apexLineChart?.xaxis"
-                    [dataLabels]="apexLineChart?.dataLabels"
-                    [colors]="apexLineChart?.colors"
-                    [stroke]="apexLineChart?.stroke"
-                    [legend]="apexLineChart?.legend"
-                  ></apx-chart>
-                </div>
+    <!-- Charts  -->
+    <section id="apex-radar-and-donut-charts">
+      <div class="row">
+        <!-- Store Chart  -->
+        <div class="col-xl-6 col-12">
+          <div class="card">
+            <div class="card-header flex-column align-items-start">
+              <h4 class="card-title mb-75">Store</h4>
+              <span class="card-subtitle text-muted"
+                >Full report on stores
+              </span>
+            </div>
+            <div class="card-body">
+              <div id="donut-chart" #apexDonutChartRef>
+                <apx-chart
+                  [series]="apexDonutChart?.series"
+                  [chart]="{
+                    height: 350,
+                    type: 'donut'
+                  }"
+                  [labels]="apexDonutChart?.labels"
+                  [plotOptions]="apexDonutChart?.plotOptions"
+                  [responsive]="apexDonutChart?.responsive"
+                  [colors]="apexDonutChart?.colors"
+                  [legend]="apexDonutChart?.legend"
+                ></apx-chart>
               </div>
             </div>
           </div>
-          
         </div>
-      </section>
-      <!-- Basic Alerts end -->
+
+        <!-- User Chart  -->
+        <div class="col-xl-6 col-12">
+          <div class="card">
+            <div
+              class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start"
+            >
+              <h4 class="card-title mb-sm-0 mb-1">Users</h4>
+            </div>
+            <div class="card-body">
+              <div id="radialbar-chart" #apexRadialChartRef>
+                <apx-chart
+                  [series]="apexRadialChart?.series"
+                  [chart]="{
+                    height: 400,
+                    width:
+                      isMenuToggled === false
+                        ? apexRadialChartRef?.offsetWidth
+                        : apexRadialChart?.chart.width,
+                    type: 'radialBar'
+                  }"
+                  [plotOptions]="apexRadialChart?.plotOptions"
+                  [labels]="apexRadialChart?.labels"
+                  [colors]="apexRadialChart?.colors"
+                  [stroke]="apexRadialChart?.stroke"
+                  [legend]="apexRadialChart?.legend"
+                ></apx-chart>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- All Orders Chart  -->
+        <div class="col-xl-6 col-12">
+          <div class="card">
+            <div
+              class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start"
+            >
+              <h4 class="card-title mb-sm-0 mb-1">All Orders</h4>
+            </div>
+            <div class="card-body">
+              <div id="line-chart" #apexLineChartRef>
+                <apx-chart
+                  [series]="apexLineChart?.series"
+                  [chart]="{
+                    height: 400,
+                    width:
+                      isMenuToggled === false
+                        ? apexLineChartRef?.offsetWidth
+                        : apexLineChart?.chart.width,
+                    type: 'line'
+                  }"
+                  [xaxis]="apexLineChart?.xaxis"
+                  [dataLabels]="apexLineChart?.dataLabels"
+                  [colors]="apexLineChart?.colors"
+                  [stroke]="apexLineChart?.stroke"
+                  [legend]="apexLineChart?.legend"
+                ></apx-chart>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Basic Alerts end -->
+  </div>
+</div>
+
+<ng-template #modelCreateRole let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalCenterTitle">New Account</h5>
+    <button
+      id="clo"
+      type="button"
+      class="close"
+      (click)="modal.dismiss('Cross click')"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <form
+      *ngIf="createRoleForm"
+      [formGroup]="createRoleForm"
+      novalidate
+      autocomplete="off"
+      id="fo"
+    >
+      <div class="row">
+        <!-- First Name  -->
+        <div class="form-group col-md-6">
+          <label>First Name:</label>
+          <input
+            formControlName="firstName"
+            type="text"
+            placeholder="First Name"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                createRoleFormSubmitted &&
+                createRoleForm.get('firstName')?.errors
+            }"
+          />
+          <div
+            *ngIf="
+              createRoleForm.get('firstName')?.invalid &&
+              createRoleFormSubmitted
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="createRoleForm.get('firstName')?.errors?.required">
+              First Name is required.
+            </div>
+            <div *ngIf="createRoleForm.get('firstName')?.errors?.minlength">
+              First Name must be at least 2 characters.
+            </div>
+            <div *ngIf="createRoleForm.get('firstName')?.errors?.maxlength">
+              First Name must be at most 50 characters.
+            </div>
+          </div>
+        </div>
+
+        <!-- Last Name  -->
+        <div class="form-group col-md-6">
+          <label>Last Name:</label>
+          <input
+            formControlName="lastName"
+            type="text"
+            placeholder="Last Name"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                createRoleFormSubmitted &&
+                createRoleForm.get('lastName')?.errors
+            }"
+          />
+          <div
+            *ngIf="
+              createRoleForm.get('lastName')?.invalid && createRoleFormSubmitted
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="createRoleForm.get('lastName')?.errors?.required">
+              Last Name is required.
+            </div>
+            <div *ngIf="createRoleForm.get('lastName')?.errors?.minlength">
+              Last Name must be at least 2 characters.
+            </div>
+            <div *ngIf="createRoleForm.get('lastName')?.errors?.maxlength">
+              Last Name must be at most 50 characters.
+            </div>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group col-md-6">
+          <label>Email:</label>
+          <input
+            formControlName="email"
+            type="email"
+            placeholder="Email"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                createRoleFormSubmitted && createRoleForm.get('email')?.errors
+            }"
+          />
+          <div
+            *ngIf="
+              createRoleForm.get('email')?.invalid && createRoleFormSubmitted
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="createRoleForm.get('email')?.errors?.required">
+              Email is required.
+            </div>
+            <div *ngIf="createRoleForm.get('email')?.errors?.email">
+              Please enter a valid email address.
+            </div>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group col-md-6">
+          <label>Password:</label>
+          <input
+            formControlName="password"
+            type="password"
+            placeholder="Password"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                createRoleFormSubmitted &&
+                createRoleForm.get('password')?.errors
+            }"
+          />
+          <div
+            *ngIf="
+              createRoleForm.get('password')?.invalid && createRoleFormSubmitted
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="createRoleForm.get('password')?.errors?.required">
+              Password is required.
+            </div>
+            <div *ngIf="createRoleForm.get('password')?.errors?.minlength">
+              Password must be at least 8 characters long.
+            </div>
+            <div *ngIf="createRoleForm.get('password')?.errors?.pattern">
+              Password must contain at least one uppercase letter, one lowercase
+              letter, one number, and one special character.
+            </div>
+          </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="form-group col-md-6">
+          <label>Phone:</label>
+          <input
+            formControlName="phone"
+            type="tel"
+            placeholder="Phone Number"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                createRoleFormSubmitted && createRoleForm.get('phone')?.errors
+            }"
+          />
+          <div
+            *ngIf="
+              createRoleForm.get('phone')?.invalid && createRoleFormSubmitted
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="createRoleForm.get('phone')?.errors?.required">
+              Phone number is required.
+            </div>
+            <div *ngIf="createRoleForm.get('phone')?.errors?.pattern">
+              Please enter a valid phone number.
+            </div>
+          </div>
+        </div>
+
+        <!-- Role -->
+        <div class="form-group col-md-6">
+          <label>Role:</label>
+          <select
+            formControlName="role"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                createRoleFormSubmitted && createRoleForm.get('role')?.errors
+            }"
+          >
+            <option value="" disabled selected>Select Role</option>
+            <option *ngFor="let role of roles" [value]="role.name">
+              {{ role.name }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              createRoleForm.get('role')?.invalid && createRoleFormSubmitted
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="createRoleForm.get('role')?.errors?.required">
+              Role is required.
+            </div>
+          </div>
+        </div>
+
+        <!-- Restrictions -->
+        <div class="form-group col-md-6">
+          <label>Restrictions:</label>
+          <select
+            formControlName="restriction_name"
+            class="form-control"
+            multiple
+            [ngClass]="{
+              'is-invalid':
+                createRoleFormSubmitted &&
+                createRoleForm.get('restriction_name')?.errors
+            }"
+          >
+            <option value="" disabled selected>Select restrictions</option>
+            <option
+              *ngFor="let restriction of restrictions"
+              [value]="restriction.name"
+            >
+              {{ restriction.name }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              createRoleForm.get('restriction_name')?.invalid &&
+              createRoleFormSubmitted
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="createRoleForm.get('restriction_name')?.errors?.required">
+              restriction is required.
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <!-- Restrictions -->
+    <!-- <div class="form-group col-md-6">
+      <label>Restrictions:</label>
+      <div
+        *ngFor="let restriction of restrictions; let i = index"
+        class="form-check"
+      >
+        <input
+          type="checkbox"
+          [formControlName]="restriction"
+          class="form-check-input"
+          [id]="'restriction' + i"
+        />
+        <label [for]="'restriction' + i" class="form-check-label">
+          {{ restriction.name }}
+        </label>
+      </div>
+      <div
+        *ngIf="
+          createRoleForm.get('restrictions')?.invalid && createRoleFormSubmitted
+        "
+        class="invalid-feedback d-block"
+      >
+        <div *ngIf="createRoleForm.get('restrictions')?.errors?.required">
+          At least one restriction must be selected.
+        </div>
+      </div>
+    </div> -->
+
+    <!-- Submit Button -->
+    <div class="form-group">
+      <button
+        type="submit"
+        class="btn btn-primary btn-block"
+        (click)="createRoleFormMethod()"
+        rippleEffect
+      >
+        <ng-container *ngIf="!isLoading"> Create Account </ng-container>
+        <ng-container *ngIf="isLoading">
+          <i class="fa fa-spinner fa-spin"></i>
+          Loading...
+        </ng-container>
+      </button>
     </div>
   </div>
+</ng-template>

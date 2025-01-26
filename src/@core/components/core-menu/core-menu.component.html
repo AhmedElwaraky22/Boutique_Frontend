@@ -1,6 +1,6 @@
 <!-- Vertical Menu -->
 <ng-container *ngIf="layout === 'vertical' && currentUser">
-  <ng-container *ngFor="let item of menu">
+  <ng-container *ngFor="let item of AllRestrictions">
     <!-- section -->
     <li
       core-menu-vertical-section
@@ -66,7 +66,7 @@
 
 <!-- Horizontal Menu -->
 <ng-container *ngIf="layout === 'horizontal' && currentUser">
-  <ng-container *ngFor="let item of menu">
+  <ng-container *ngFor="let item of AllRestrictions">
     <!-- section -->
     <li
       core-menu-horizontal-collapsible
