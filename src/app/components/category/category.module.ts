@@ -41,7 +41,6 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    CommonModule,
     CoreCommonModule,
     SwiperModule,
     FormsModule,

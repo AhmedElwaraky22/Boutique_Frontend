@@ -19,8 +19,7 @@
             </nav>
           </div>   
         </div>
-      
-  
+       
         <div class="card tableeeeeee p-3">
           <div class="row">
             <div class="col-md-6 col-12 ">
@@ -109,7 +108,7 @@
                 let-name="value"
                 ngx-datatable-cell-template
               >
-                <div class="d-flex align-items-center"  [routerLink]="'/order-details/' + row.order_id"
+                <div class="d-flex align-items-center"  [routerLink]="'/shipment-details/' + row.product_shipment_id"
                 >
                   <div class="mr-2">
                     <ngx-avatar
@@ -143,7 +142,7 @@
                 let-name="value"
                 ngx-datatable-cell-template
               >
-                <div class="d-flex align-items-center" [routerLink]="'/order-details/' + row.order_id">
+                <div class="d-flex align-items-center" [routerLink]="'/shipment-details/' + row.product_shipment_id">
                   <div class="mr-2">
                     <ngx-avatar
                       class="m-1"

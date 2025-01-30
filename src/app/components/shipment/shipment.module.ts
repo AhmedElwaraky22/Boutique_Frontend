@@ -16,6 +16,7 @@ import { CorePipesModule } from '@core/pipes/pipes.module';
 import { CoreDirectivesModule } from '@core/directives/directives';
 import { CoreSidebarModule } from '@core/components';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { ShipmentDetailsComponent } from './shipment-details/shipment-details.component';
 
 
 
@@ -26,6 +27,14 @@ const routes: Routes = [
   {
     path: 'view-all-shipments',
     component:ShipmentListComponent,
+    canActivate: [AuthGuard],
+    resolve: {
+      uls:ShipmentservService
+    },
+  },
+  {
+    path: 'shipment-details/:id',
+    component:ShipmentDetailsComponent,
     canActivate: [AuthGuard],
     resolve: {
       uls:ShipmentservService
@@ -42,7 +51,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
 
 
 @NgModule({
-  declarations: [ShipmentListComponent],
+  declarations: [ShipmentListComponent, ShipmentDetailsComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

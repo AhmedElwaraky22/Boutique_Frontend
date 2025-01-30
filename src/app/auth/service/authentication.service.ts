@@ -68,6 +68,8 @@ export class AuthenticationService {
             this.currentUserSubject.next(user.user);
           }
           console.log("HELOOOOOO");
+          localStorage.getItem('role');
+          console.log(localStorage.getItem('role'));
           
           return user.user;
         })

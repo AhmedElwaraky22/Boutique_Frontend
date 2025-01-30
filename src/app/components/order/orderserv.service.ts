@@ -58,7 +58,7 @@ export class OrderservService implements Resolve<any> {
 
   
   
-ChangeStatus(data:any,id:number){
+  ChangeStatus(data:any,id:number){
     return this._httpClient.post(`${environment.apiUrl}admin/change-shipment-statue/${id}`,data);
   }
   
@@ -69,6 +69,10 @@ ChangeStatus(data:any,id:number){
 
   GetOrdersCancelled(){
     return this._httpClient.get(`${environment.apiUrl}store/cancel-by-customer`)
+  }
+
+  GetOrdersPending(){
+    return  this._httpClient.get(`${environment.apiUrl}admin/ViewPendingOrders`)
   }
 
   getAll() {

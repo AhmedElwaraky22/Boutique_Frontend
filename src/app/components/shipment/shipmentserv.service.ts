@@ -57,7 +57,9 @@ export class ShipmentservService  implements Resolve<any> {
   getAllOnTheWayShipment(){
     return this._httpClient.get(`${environment.apiUrl}admin/view_on_way_shipments`)
   }
-
+getShipmentDetails(id){
+  return this._httpClient.get(`${environment.apiUrl}admin/view_shipment_details/${id}`)
+}
 
 
 

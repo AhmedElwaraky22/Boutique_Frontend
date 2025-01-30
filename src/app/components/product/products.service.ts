@@ -165,7 +165,7 @@ export class ProductsService implements Resolve<any> {
   }
   // Update Product Feature
   UpdateProductFeature(id: number, data: any) {
-    return this._httpClient.put(`${environment.apiUrl}all/product-feature/${id}`, data)
+    return this._httpClient.post(`${environment.apiUrl}all/product-feature/${id}`, data)
   }
   // Update Product Image
   UpdateProductImage(data) {

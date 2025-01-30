@@ -1,0 +1,316 @@
+<div class="content-wrapper container-xxl p-0 mt-3">
+    <div class="content-body">
+      <!-- User List -->
+      <section class="users-list-wrapper">
+        <!-- users filter start -->
+        <div class="card">
+          <h5 class="card-header font-weight-bold text-primary display-4">
+            All Category
+          </h5>
+          <div class="card-body"></div>
+        </div>
+        <!-- users filter end -->
+  
+        <div class="card">
+          <div class="row">
+            <div class="col-md-6 col-12">
+              <div class="d-flex justify-content-between align-items-center m-1">
+                <label class="d-flex align-items-center">
+                  Show
+                  <select class="form-control mx-25" >
+                    <option value="9999999999999999999999">All</option>
+                    <option value="2">2</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="250">250</option>
+                    <option value="500">500</option>
+                    <option value="500">1000</option>
+                    <option value="500">2500</option>
+                    <option value="500">5000</option>
+                    <option value="500">10000</option>
+                  </select>
+                  entries</label
+                >
+              </div>
+            </div>
+  
+            <div
+              class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end"
+            >
+              <div
+                class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0"
+              >
+                <label class="d-flex align-items-center ml-1 ml-md-0"
+                  >Search:<input
+                    name="searchValue"
+                    type="search"
+                    class="form-control ml-25"
+                    (keyup)="filterUpdate($event)"
+                    (search)="filterUpdate($event)"
+                /></label>
+  
+                <!-- <button
+                   (click)="addCategoryModel(modalAddCategory)"
+                   class="btn btn-primary ml-3" rippleEffect
+                   >
+                   
+                     <span class="d-sm-inline-block">Add New Category</span>
+                   </button> -->
+  
+                <button
+                  [disabled]="!loadAddCat"
+                  (click)="addCategoryModel()"
+                  class="btn btn-primary ml-3"
+                  rippleEffect
+                >
+                  <span
+                    *ngIf="!loadAddCat"
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                  <span *ngIf="!loadAddCat" class="ml-25 align-middle"
+                    >Loading...</span
+                  >
+                  <span *ngIf="loadAddCat" class="d-sm-inline-block"
+                    >Add New Category</span
+                  >
+                </button>
+              </div>
+            </div>
+          </div>
+  
+          <ngx-datatable
+            [rows]="rows"
+            [rowHeight]="'auto'"
+            class="bootstrap core-bootstrap"
+            [limit]="selectedOption"
+            [columnMode]="ColumnMode.force"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [scrollbarH]="true"
+          >
+            <!--Category ID-->
+            <ngx-datatable-column name="ID" prop="id" [width]="100">
+              <ng-template
+                let-id="value"
+                let-isDeleted="row.isDeleted"
+                let-isVerified="row.verified"
+                ngx-datatable-cell-template
+              >
+                <div class="badge badge-pill badge-glow px-3">
+                  {{ id }}
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+  
+            <!--Category English Name  -->
+            <ngx-datatable-column
+              name="Category Name En"
+              prop="name"
+              [width]="220"
+            >
+              <ng-template
+                let-row="row"
+                let-name="value"
+                ngx-datatable-cell-template
+              >
+                <div
+                  class="d-flex align-items-center"
+                  [routerLink]="['/view-Category-datails']"
+                  (click)="navigateWithState(row.id)"
+                >
+                  <div class="mr-2">
+                    <ngx-avatar
+                      class="m-1"
+                      src="{{ row.image }}"
+                      name="{{ row.name_en }}"
+                      value="28%"
+                      size="40"
+                      [round]="true"
+                    >
+                    </ngx-avatar>
+                  </div>
+                  <div class="cell-line-height">
+                    <a class="font-medium-1 d-block"
+                      ><span class="font-weight-bold">{{ row.name_en }}</span></a
+                    >
+                  </div>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+  
+            <!-- Category Arabic Name  -->
+            <ngx-datatable-column
+              name="Category Name Ar"
+              prop="name"
+              [width]="220"
+            >
+              <ng-template
+                let-row="row"
+                let-name="value"
+                ngx-datatable-cell-template
+              >
+                <div
+                  class="d-flex align-items-center"
+                  [routerLink]="['/view-Category-datails']"
+                  (click)="navigateWithState(row.id)"
+                >
+                  <div class="mr-2">
+                    <ngx-avatar
+                      class="m-1"
+                      src="{{ row.image }}"
+                      name="{{ row.name_ar }}"
+                      value="28%"
+                      size="40"
+                      [round]="true"
+                    >
+                    </ngx-avatar>
+                  </div>
+                  <div class="cell-line-height">
+                    <a class="font-medium-1 d-block">
+                      <span class="font-weight-bold">{{ row.name_ar }}</span>
+                    </a>
+                  </div>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+  
+            <!--subcategory English Name  -->
+            <ngx-datatable-column
+              name="SubCategories En"
+              prop="subcategories"
+              [width]="200"
+            >
+              <ng-template
+                let-row="row"
+                let-name="row.subcategories"
+                ngx-datatable-cell-template
+              >
+                <div *ngFor="let item of row.subcategories">
+                  <div class="row" [routerLink]="['/view-all-subcategory']">
+                    <i
+                      class="feather font-medium-3 mr-2"
+                      [ngClass]="{ 'icon-command  text-info ': item !== '' }"
+                    ></i>
+                    {{ item.name_en }}
+                  </div>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+  
+            <!--subcategory Arabic Name  -->
+            <ngx-datatable-column
+              name="SubCategories Ar"
+              prop="subcategories"
+              [width]="200"
+            >
+              <ng-template
+                let-row="row"
+                let-name="row.subcategories"
+                ngx-datatable-cell-template
+              >
+                <div *ngFor="let item of row.subcategories">
+                  <div class="row" [routerLink]="['/view-all-subcategory']">
+                    <i
+                      class="feather font-medium-3 mr-2"
+                      [ngClass]="{ 'icon-command  text-info ': item !== '' }"
+                    ></i>
+                    {{ item.name_ar }}
+                  </div>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+  
+            <!--Category Actions-->
+            <ngx-datatable-column name="Actions" [width]="100" [sortable]="false">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                <div ngbDropdown container="body">
+                  <button
+                    ngbDropdownToggle
+                    type="button"
+                    class="btn icon-btn btn-sm hide-arrow text-danger"
+                    rippleEffect
+                  >
+                    <span
+                      [data-feather]="'more-vertical'"
+                      [class]="'cursor-pointer'"
+                    ></span>
+                  </button>
+                  <div ngbDropdownMenu>
+                    <!-- Sort  -->
+                    <a
+                      ngbDropdownItem
+                      (click)="modalSortCategory(sortCategory, row.id)"
+                    >
+                      <span
+                        [data-feather]="'send'"
+                        [size]="16"
+                        [class]="'mr-50 text-success'"
+                      ></span>
+                      Sort Category</a
+                    >
+                    <!-- Details -->
+                    <a ngbDropdownItem
+                      ><span
+                        [data-feather]="'file-text'"
+                        [size]="16"
+                        [class]="'mr-50 text-info'"
+                      ></span>
+                      Details</a
+                    >
+  
+                    <!-- <a
+                         ngbDropdownItem
+                         (click)="modalAddSubCategory(modalAddSubCat,row.id)"
+                         ><span
+                           [data-feather]="'plus-circle'"
+                           [size]="16"
+                           [class]="'mr-50 text-warning'"
+                         ></span>
+                         Add SubCategory</a> -->
+  
+                    <!-- Update -->
+                    <a
+                      (click)="
+                        modalUpdateCategory(
+                          updateCategoryModel,
+                          row.id,
+                          row.name_ar,
+                          row.name_en
+                        )
+                      "
+                      ngbDropdownItem
+                      ><span
+                        [data-feather]="'edit-2'"
+                        [size]="16"
+                        [class]="'mr-50 text-warning'"
+                      ></span>
+                      Update
+                    </a>
+  
+                    <!-- Delete -->
+                    <a (click)="DeleteCategory(row.id, row.name)" ngbDropdownItem>
+                      <span
+                        [data-feather]="'trash-2'"
+                        [size]="16"
+                        [class]="'mr-50 text-danger'"
+                      ></span>
+                      Delete
+                    </a>
+                  </div>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </section>
+    </div>
+  </div>
+  
+
+  
+ 
+  

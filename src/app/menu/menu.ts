@@ -184,12 +184,12 @@ export const VirticalMenu: CoreMenu[] = [
         icon: "bar-chart-2",
         children: [
           {
-            id: "all-reviews",
-            title: "All Reviews",
-            type: "item",
-            icon: "package",
-            url: "view-all-reviews",
-          },
+            id: 'all-reviews',
+            title: 'All Reviews',
+            type: 'item',
+            icon: 'package',
+            url: 'all-reviews', // Matches the route path
+          }
         ],
       },
     ]

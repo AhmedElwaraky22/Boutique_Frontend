@@ -1,20 +1,21 @@
 import { Component, OnDestroy, OnInit, HostBinding, HostListener, ViewEncapsulation } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
-
 import * as _ from 'lodash';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
-
 import { AuthenticationService } from 'app/auth/service';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 import { CoreConfigService } from '@core/services/config.service';
 import { CoreMediaService } from '@core/services/media.service';
-
 import { User } from 'app/auth/models';
-
 import { coreConfig } from 'app/app-config';
 import { Router } from '@angular/router';
+import { HomeService } from 'app/components/home/home.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-navbar',
@@ -35,6 +36,20 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public languageOptions: any;
   public navigation: any;
   public selectedLanguage: any;
+
+  // Create Acccount 
+  public createRoleForm: FormGroup;
+  public createRoleFormSubmitted = false;
+  public modalReference;
+  public roles;
+  public restrictions;
+  public getRoleData;
+  public isLoading = false;
+  public userRole ;
+
+
+
+
 
   @HostBinding('class.fixed-top')
   public isFixed = false;
@@ -81,7 +96,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private _coreMediaService: CoreMediaService,
     private _coreSidebarService: CoreSidebarService,
     private _mediaObserver: MediaObserver,
-    public _translateService: TranslateService
+    public _translateService: TranslateService,
+    private _homeServeice: HomeService,
+    private modalService: NgbModal,
+    private fb: FormBuilder,
+    
   ) {
     this._authenticationService.currentUser.subscribe(x => (this.currentUser = x));
 
@@ -106,6 +125,21 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     // Set the private defaults
     this._unsubscribeAll = new Subject();
+
+
+    // Create Account Form 
+    this.createRoleForm=this.fb.group({
+      firstName: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      lastName: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      email: [null, [Validators.required, Validators.email]],
+      password: [null, [Validators.required, Validators.minLength(8)]],
+      phone: [null, [Validators.pattern(/^(01[0-9]{9}|7[0-9]{7})$/)]],
+      role: ['', [Validators.required]],
+      restriction_name: [[], [Validators.required]]
+      })
+
+      this.userRole = localStorage.getItem('role')
+      console.log('the Role ', this.userRole);
   }
 
   // Public Methods
@@ -213,7 +247,115 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.selectedLanguage = _.find(this.languageOptions, {
       id: this._translateService.currentLang
     });
+
+
+    this.getRole();
+    this.getRestrictions();
+  
+    
+    
   }
+  // Get All Restirctions
+  getRestrictions(): void {
+    this._homeServeice.getAllRestrictions().subscribe({
+      next: (res: any) => {
+        this.restrictions = res.Restrictions
+        console.log('restrictions:', this.restrictions);
+      },
+      error: (error) => {
+        console.error('Error fetching restrictions:', error);
+      }
+    });
+  }
+
+  // Get Role
+  getRole(){
+    this._homeServeice.getAllRoles().subscribe({
+      next: (res: any) => {
+        this.roles = res.roles
+        console.log('Roles:', this.roles);
+      },
+      error: (error) => {
+        console.error('Error fetching restrictions:', error);
+      }
+    });
+  }
+
+  // Model Add Account
+  ModelAddRole(modelCreateRole){
+    this.createRoleFormSubmitted = false;
+    this.createRoleForm.reset();
+    this.modalReference = this.modalService.open(modelCreateRole, {
+      backdrop: false,
+      centered: true,
+    });
+  }
+  // create Role Form Method
+  createRoleFormMethod(){
+      this.isLoading = true;
+      this.createRoleFormSubmitted = true;
+  
+      if (this.createRoleForm.invalid) {
+        return;
+      }
+  
+      // Create FormData
+      const formValues = this.createRoleForm.value;    
+      const formData = new FormData();
+      formData.append('firstName', formValues.firstName);
+      formData.append('lastName', formValues.lastName);
+      formData.append('email', formValues.email);
+      formData.append('password', formValues.password);
+      formData.append('phone', formValues.phone);
+      formData.append('role', formValues.role);
+       if (formValues.restriction_name && formValues.restriction_name.length > 0) {
+        formValues.restriction_name.forEach((restriction, index) => {
+          formData.append(`restriction_name[${index}]`, restriction);
+        });
+      }
+  
+  
+      console.log('firstName', formValues.firstName);
+      console.log('lastName', formValues.lastName);
+      console.log('email', formValues.email);
+      console.log('password', formValues.password);
+      console.log('phone', formValues.phone);
+      console.log('role', formValues.role);
+      console.log('restriction_name', formValues.restriction_name);
+    
+    
+      // Example: Post formData to your backend
+      this._homeServeice.Register(formData).subscribe({
+        next: (response) => {
+          this.isLoading = false;
+          Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: 'Account created successfully',
+            confirmButtonText: 'OK'
+          }).then(() => {
+            // Close the modal
+            this.modalReference.close();
+          });
+        },
+        error: (error) => {
+          console.log(error.message);
+        
+          this.isLoading = false;
+          Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: error|| 'Failed to create account',
+            confirmButtonText: 'Try Again'
+          });
+        }
+      });
+  }
+
+
+
+
+
 
   /**
    * On destroy

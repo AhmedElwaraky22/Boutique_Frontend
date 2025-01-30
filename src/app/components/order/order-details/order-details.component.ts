@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 export class OrderDetailsComponent implements OnInit {
   public orderDetails: any;
   public isLoading: boolean = false; 
-  public orderId: string = ''; 
+  // public orderId: string = ''; 
   public change_id ;
   public shipment_id ;
   
@@ -21,16 +21,15 @@ export class OrderDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.orderId = this.route.snapshot.paramMap.get('id')!;
-    this.getOrderDetails(this.orderId);  
+    this.shipment_id = this.route.snapshot.paramMap.get('id')!;
+    this.getOrderDetails();  
     // this.cancelOrder()
   }
 
-  getOrderDetails(id): void {  
-    this.shipment_id = id
+  getOrderDetails(): void {  
     this.isLoading = true; 
-    console.log(this.shipment_id);  
-    this._orderServices.GetOrderById(id).subscribe(
+    // console.log(this.shipment_id);  
+    this._orderServices.GetOrderById(this.shipment_id).subscribe(
       (response) => {
         this.orderDetails = response[0]; 
         this.isLoading = false;

@@ -71,23 +71,23 @@ export class OrderListComponent implements OnInit {
   // public rows = [];
   // public selectedStatus: string = this.newOrderStatus[0]?.value || '';
 
-  public selectedStatus = 'All Orders'; // Default active status
+  public selectedStatus = 'Pending'; // Default active status
   public newOrderStatus = [
-    { name: 'All Orders', value: 'All Orders' },
-    { name: 'On the way', value: 'On the way' },
+    { name: 'Pending', value: 'Pending' },
+    // { name: 'On the way', value: 'On the way' },
     { name: 'Delivered', value: 'Delivered' },
-    { name: 'To Ware House', value: 'To Ware House' },
+    // { name: 'To Ware House', value: 'To Ware House' },
   ];
 
 
  // New ///////////////////////////////////////////////////
   public OrderStatuss: any = [
-    { name: "New", value: 6 },
     { name: "Preparing", value: 1 },
     { name: "On the way", value: 2},
     { name: "Delivered", value: 3 },
     { name: "Not Delivered", value:  4},
     { name: "Canceled by User", value: 5 },
+    { name: "New", value: 6 },
     { name: "Canceled by Store", value: 7},
   ];
 
@@ -128,21 +128,23 @@ export class OrderListComponent implements OnInit {
 
   onStatusChange(status: string): void {
     this.selectedStatus = status; // Update the selected status
+    console.log(this.selectedStatus);
+
     this.isLoading = true;
 
     switch (status) {
-      case "All Orders":
-        this.getAllOrders();
+      case "Pending":
+        this.getPendingData();
         break;
-      case "On the way":
-        this.getAllOnTheWayOrders();
-        break;
+      // case "On the way":
+      //   this.getAllOnTheWayOrders();
+      //   break;
       case "Delivered":
         this.getAllDeliveredOrders();
         break;
-      case "To Ware House":
-        this.getAlltoWareHouse();
-        break;
+      // case "To Ware House":
+      //   this.getAlltoWareHouse();
+      //   break;
       default:
         this.isLoading = false;
         console.log("Unknown status:", status);
@@ -220,8 +222,21 @@ export class OrderListComponent implements OnInit {
 
   getAllOnTheWayOrders(){}
 
-
-
+  getPendingData(){
+    this.loaders = true;
+    this._orderServices.GetOrdersPending().subscribe( 
+      (res: any) => {
+        this.loaders = false;
+        console.log(res)
+        this.rows = res.data;
+        this.tempData = res;
+        console.log( this.rows );
+      },
+      (er: any) => {
+        console.log(er);
+      }
+    )
+  }
 
 
   getCanceled(){

@@ -149,14 +149,6 @@ export class CategoryListComponent implements OnInit {
   ngOnInit(): void {
     this.getAllCategory();
     this.getAllSubCategory();
-
-
-
-
-    const restrictions = this.sharedService.getRestrictions();
-    const role = this.sharedService.getRole();
-    console.log('Restrictions:', restrictions);
-    console.log('Role:', role);
   }
 
   // Navigate and send row id
@@ -338,7 +330,6 @@ export class CategoryListComponent implements OnInit {
   }
 
 
-
   //  Updata Category Modal
   modalUpdateCategory(modal, id, name_ar, name_en) {
     this.UpdateCategoryFormSubmitted = false;
@@ -363,7 +354,6 @@ export class CategoryListComponent implements OnInit {
       console.error("لم يتم تحديد أي ملف");
     }
   }
-
 
 
   //Update Category Method
@@ -558,7 +548,6 @@ export class CategoryListComponent implements OnInit {
       });
     }
   }
-
 
 
 }

@@ -1,4 +1,3 @@
-import { map, filter } from 'rxjs/operators';
 import { Categoryinterface } from './../../main/sample/modules/categoryinterface';
 import { Product } from './../../main/sample/modules/store-profile';
 import { UserData } from './../../main/sample/modules/user-data';

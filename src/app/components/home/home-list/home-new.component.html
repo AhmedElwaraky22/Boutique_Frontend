@@ -142,7 +142,8 @@
       </div>
     </section>
 
-    <section class="pb-1">
+    <!-- Create Account -->
+    <!-- <section class="pb-1">
       <div class="btn-group" data-toggle="buttons">
         <button
           type="button"
@@ -153,7 +154,7 @@
           Create Account
         </button>
       </div>
-    </section>
+    </section> -->
 
     <!-- Charts  -->
     <section id="apex-radar-and-donut-charts">
@@ -253,6 +254,8 @@
   </div>
 </div>
 
+
+<!-- Model Create Account  -->
 <ng-template #modelCreateRole let-modal>
   <div class="modal-header">
     <h5 class="modal-title" id="exampleModalCenterTitle">New Account</h5>
@@ -485,7 +488,9 @@
             "
             class="invalid-feedback"
           >
-            <div *ngIf="createRoleForm.get('restriction_name')?.errors?.required">
+            <div
+              *ngIf="createRoleForm.get('restriction_name')?.errors?.required"
+            >
               restriction is required.
             </div>
           </div>
@@ -527,7 +532,7 @@
         type="submit"
         class="btn btn-primary btn-block"
         (click)="createRoleFormMethod()"
-        [disabled]="isLoading || createRoleForm.invalid "
+        [disabled]="isLoading || createRoleForm.invalid"
         rippleEffect
       >
         <ng-container *ngIf="!isLoading"> Create Account </ng-container>

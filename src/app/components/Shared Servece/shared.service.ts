@@ -4,31 +4,32 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
+
 export class SharedService {
-  // Use BehaviorSubject to store the current ID value
+  
   private idSource = new BehaviorSubject<number | null>(null);
+  public currentId$ = this.idSource.asObservable();
+  private userRole: string | null = null;
 
-  // Observable for other components to subscribe to
-  currentId$ = this.idSource.asObservable();
 
-  constructor() {}
+  constructor()
+  {
+    this.userRole = localStorage.getItem('role')
+  }
 
-  // Method to change the ID
+
   changeId(id: number) {
     this.idSource.next(id);
   }
 
-  // Method to get restrictions from localStorage
-  getRestrictions(): any | null {
-    const restrictions = localStorage.getItem('restrictions');
-    console.log(restrictions);
-    return restrictions;
+  getRole(): string | null {
+    return this.userRole;
   }
 
-  // Method to get the role from localStorage
-  getRole(): any | null {
-    const userRole = localStorage.getItem('role');
-    console.log(userRole);
-    return userRole;
+  // Setter for userRole (optional, if you need to update it)
+  setRole(role: string): void {
+    this.userRole = role;
+    localStorage.setItem('role', role);
   }
+
 }

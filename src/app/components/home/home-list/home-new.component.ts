@@ -3,7 +3,6 @@ import { ApexChartInterFace } from '../../../main/sample/modules/apex-chart';
 import { Component, NgModule, OnInit, ViewEncapsulation } from '@angular/core';
 import { HomeService } from 'app/components/home/home.service';
 
-
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -28,6 +27,7 @@ import { CommonModule } from '@angular/common';
 import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
+import { SharedService } from 'app/components/Shared Servece/shared.service';
 
 export interface ChartOptions2 {
   // Apex-non-axis-chart-series
@@ -73,13 +73,14 @@ export class HomeNewComponent implements OnInit {
 
 
 // Create Role 
-  public createRoleForm: FormGroup;
-  public createRoleFormSubmitted = false;
-  public modalReference;
-  public roles;
-  public restrictions;
-  public getRoleData;
-  public isLoading = false;
+  // public createRoleForm: FormGroup;
+  // public createRoleFormSubmitted = false;
+  // public modalReference;
+  // public roles;
+  // public restrictions;
+  // public getRoleData;
+  // public isLoading = false;
+  // public userRole ;
 
 
 
@@ -146,26 +147,28 @@ export class HomeNewComponent implements OnInit {
   };
 
   constructor(
-     private fb: FormBuilder,
+      private fb: FormBuilder,
       private modalService: NgbModal,
-      private _homeServeice: HomeService
+      private _homeServeice: HomeService,
   ){ 
-    this.createRoleForm=this.fb.group({
-      firstName: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      lastName: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required, Validators.minLength(8)]],
-      phone: [null, [Validators.pattern(/^(01[0-9]{9}|7[0-9]{7})$/)]],
-      role: ['', [Validators.required]],
-      restriction_name: [[], [Validators.required]]
-      })
+    // createRoleForm
+    // this.createRoleForm=this.fb.group({
+    //   firstName: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+    //   lastName: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+    //   email: [null, [Validators.required, Validators.email]],
+    //   password: [null, [Validators.required, Validators.minLength(8)]],
+    //   phone: [null, [Validators.pattern(/^(01[0-9]{9}|7[0-9]{7})$/)]],
+    //   role: ['', [Validators.required]],
+    //   restriction_name: [[], [Validators.required]]
+    //   })
   }
 
   ngOnInit() {
+
     
     this.get_data();
-    this.getRole();
-    this.getRestrictions();
+    // this.getRole();
+    // this.getRestrictions();
 
     this.contentHeader = {
       headerTitle: 'Home',
@@ -359,101 +362,101 @@ export class HomeNewComponent implements OnInit {
 
 
   // Get All Restirctions
-  getRestrictions(): void {
-    this._homeServeice.getAllRestrictions().subscribe({
-      next: (res: any) => {
-        this.restrictions = res.Restrictions
-        console.log('restrictions:', this.restrictions);
-      },
-      error: (error) => {
-        console.error('Error fetching restrictions:', error);
-      }
-    });
-  }
+  // getRestrictions(): void {
+  //   this._homeServeice.getAllRestrictions().subscribe({
+  //     next: (res: any) => {
+  //       this.restrictions = res.Restrictions
+  //       console.log('restrictions:', this.restrictions);
+  //     },
+  //     error: (error) => {
+  //       console.error('Error fetching restrictions:', error);
+  //     }
+  //   });
+  // }
 
   // Get Role
-  getRole(){
-    this._homeServeice.getAllRoles().subscribe({
-      next: (res: any) => {
-        this.roles = res.roles
-        console.log('Roles:', this.roles);
-      },
-      error: (error) => {
-        console.error('Error fetching restrictions:', error);
-      }
-    });
-  }
+  // getRole(){
+  //   this._homeServeice.getAllRoles().subscribe({
+  //     next: (res: any) => {
+  //       this.roles = res.roles
+  //       console.log('Roles:', this.roles);
+  //     },
+  //     error: (error) => {
+  //       console.error('Error fetching restrictions:', error);
+  //     }
+  //   });
+  // }
 
   // Model Add Account
   ModelAddRole(modelCreateRole){
-    this.createRoleFormSubmitted = false;
-    this.createRoleForm.reset();
-    this.modalReference = this.modalService.open(modelCreateRole, {
-      backdrop: false,
-      centered: true,
-    });
+    // this.createRoleFormSubmitted = false;
+    // this.createRoleForm.reset();
+    // this.modalReference = this.modalService.open(modelCreateRole, {
+    //   backdrop: false,
+    //   centered: true,
+    // });
   }
 
   // create Role Form Method
   createRoleFormMethod(){
-    this.isLoading = true;
-    this.createRoleFormSubmitted = true;
+    // this.isLoading = true;
+    // this.createRoleFormSubmitted = true;
 
-    if (this.createRoleForm.invalid) {
-      return;
-    }
+    // if (this.createRoleForm.invalid) {
+    //   return;
+    // }
 
-    // Create FormData
-    const formValues = this.createRoleForm.value;    
-    const formData = new FormData();
-    formData.append('firstName', formValues.firstName);
-    formData.append('lastName', formValues.lastName);
-    formData.append('email', formValues.email);
-    formData.append('password', formValues.password);
-    formData.append('phone', formValues.phone);
-    formData.append('role', formValues.role);
-     if (formValues.restriction_name && formValues.restriction_name.length > 0) {
-      formValues.restriction_name.forEach((restriction, index) => {
-        formData.append(`restriction_name[${index}]`, restriction);
-      });
-    }
+    // // Create FormData
+    // const formValues = this.createRoleForm.value;    
+    // const formData = new FormData();
+    // formData.append('firstName', formValues.firstName);
+    // formData.append('lastName', formValues.lastName);
+    // formData.append('email', formValues.email);
+    // formData.append('password', formValues.password);
+    // formData.append('phone', formValues.phone);
+    // formData.append('role', formValues.role);
+    //  if (formValues.restriction_name && formValues.restriction_name.length > 0) {
+    //   formValues.restriction_name.forEach((restriction, index) => {
+    //     formData.append(`restriction_name[${index}]`, restriction);
+    //   });
+    // }
 
 
-    console.log('firstName', formValues.firstName);
-    console.log('lastName', formValues.lastName);
-    console.log('email', formValues.email);
-    console.log('password', formValues.password);
-    console.log('phone', formValues.phone);
-    console.log('role', formValues.role);
-    console.log('restriction_name', formValues.restriction_name);
+    // console.log('firstName', formValues.firstName);
+    // console.log('lastName', formValues.lastName);
+    // console.log('email', formValues.email);
+    // console.log('password', formValues.password);
+    // console.log('phone', formValues.phone);
+    // console.log('role', formValues.role);
+    // console.log('restriction_name', formValues.restriction_name);
   
   
-    // Example: Post formData to your backend
-    this._homeServeice.Register(formData).subscribe({
-      next: (response) => {
-        this.isLoading = false;
-        Swal.fire({
-          icon: 'success',
-          title: 'Success!',
-          text: 'Account created successfully',
-          confirmButtonText: 'OK'
-        }).then(() => {
-          // Close the modal
-          this.modalReference.close();
-        });
-      },
-      error: (error) => {
-        console.log(error.message);
+    // // Example: Post formData to your backend
+    // this._homeServeice.Register(formData).subscribe({
+    //   next: (response) => {
+    //     this.isLoading = false;
+    //     Swal.fire({
+    //       icon: 'success',
+    //       title: 'Success!',
+    //       text: 'Account created successfully',
+    //       confirmButtonText: 'OK'
+    //     }).then(() => {
+    //       // Close the modal
+    //       this.modalReference.close();
+    //     });
+    //   },
+    //   error: (error) => {
+    //     console.log(error.message);
       
-        this.isLoading = false;
-        Swal.fire({
-          icon: 'error',
-          title: 'Error!',
-          text: error|| 'Failed to create account',
-          confirmButtonText: 'Try Again'
-        });
-      }
-    });
+    //     this.isLoading = false;
+    //     Swal.fire({
+    //       icon: 'error',
+    //       title: 'Error!',
+    //       text: error|| 'Failed to create account',
+    //       confirmButtonText: 'Try Again'
+    //     });
+    //   }
+    // });
   }
 
 }
